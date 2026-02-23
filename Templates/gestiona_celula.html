@@ -1,0 +1,552 @@
+<!doctype html>
+<html>
+
+<head>
+  <base target="_top" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/css/uikit.min.css" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&&family=Google+Sans+Flex:opsz,wght@6;144;1;1000&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+
+  <link rel="stylesheet" href="/@fortawesome/fontawesome-free/css/all.min.css" />
+
+</head>
+
+<body>
+  <div id="loadingOverlay" class="spinner-overlay">
+    <div uk-spinner="ratio: 3" class="uk-text-primary"></div>
+    <p class="uk-text-bold uk-text-primary">Procesando...</p>
+  </div>
+
+
+
+  <div class="main-wrapper">
+
+    <div id="contenedorPrincipal" class="uk-card">
+
+      <div class="card-header-image uk-cover-container">
+        <div class="uk-overlay uk-overlay-primary uk-position-cover uk-flex uk-flex-center uk-flex-middle">
+          <h3 class="uk-text-bold uk-margin-remove" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+            Registrar Asistencia
+          </h3>
+        </div>
+      </div>
+
+      <div class="uk-card-body">
+
+        <div class="uk-margin sugerencias-container">
+          <label class="uk-form-label uk-text-secondary uk-text-bold">1. Busca tu nombre (Líder):</label>
+          <div class="uk-form-controls uk-margin-small-top">
+            <input type="text" class="uk-input uk-form-large uk-border-rounded" id="liderInput"
+              placeholder="Escribe tu nombre..." oninput="filtrarLideres()" autocomplete="off" />
+          </div>
+          <div id="listaSugerencias" class="lista-sugerencias"></div>
+          <div id="statusBuscador" class="uk-text-meta uk-margin-small-top">
+            <span uk-spinner="ratio: 0.5"></span> Conectando...
+          </div>
+        </div>
+
+        <div id="seccionCelula" class="uk-margin" style="display: none">
+          <label class="uk-form-label uk-text-secondary uk-text-bold">2. Selecciona la célula:</label>
+          <select id="celulaSelect" class="uk-select uk-form-large uk-margin-bottom uk-border-rounded"
+            onchange="detectarNuevaCelula()"></select>
+
+          <div id="wrapperRealizo" class="uk-padding-small uk-border-rounded uk-background-muted uk-margin"
+            style="display: none">
+            <label class="uk-form-label">¿Se realizó la célula hoy?</label>
+            <select id="realizoCelula" class="uk-select uk-border-rounded" onchange="toggleListaAsistencia()">
+              <option value="Yes">Sí, se realizó</option>
+              <option value="No">No se realizó</option>
+            </select>
+          </div>
+
+          <div id="camposNuevaCelula" class="uk-margin-top uk-padding-small uk-border-rounded uk-background-muted"
+            style="display: none">
+            <p class="uk-text-primary uk-text-bold uk-text-small">✨ CONFIGURACIÓN NUEVA</p>
+            <input type="text" id="nuevaDireccion" class="uk-input uk-margin-small-bottom"
+              placeholder="Dirección/Nombre" />
+            <select id="nuevaRed" class="uk-select">
+              <option value="">-- Selecciona la Red --</option>
+              <option>Jóvenes</option>
+              <option>Hombres</option>
+              <option>Mujeres</option>
+            </select>
+          </div>
+          <div id="infoRed" class="uk-margin-small uk-text-right"></div>
+        </div>
+
+        <div id="listaAsistentes"></div>
+
+        <div id="controles" style="display: none" class="uk-margin-top">
+          <button id="btnNuevo"
+            class="uk-button uk-button-default uk-width-1-1 uk-margin-bottom uk-text-bold uk-border-rounded"
+            style="color: #e29500; border-color: #e29500" onclick="agregarNuevo()">
+            + AGREGAR PERSONA
+          </button>
+          <button id="btnGuardar"
+            class="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-text-capitalize uk-border-rounded shadow-primary"
+            onclick="enviarDatos()">
+            Enviar Reporte
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="pantallaExito"
+      class="uk-card uk-card-default uk-card-body uk-border-rounded uk-text-center uk-width-large@s"
+      style="display: none">
+      <div class="uk-text-success uk-margin-bottom" style="font-size: 80px">✔</div>
+      <h2 class="uk-text-bold uk-text-success">¡Reporte Enviado!</h2>
+      <button class="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-margin-top uk-border-rounded"
+        onclick="window.location.reload()">Hacer otro reporte</button>
+    </div>
+
+  </div>
+
+  </div>
+
+  <div id="pantallaExito"
+    class="container-custom uk-card uk-card-default uk-card-body uk-border-rounded uk-text-center uk-margin-large-top"
+    style="display: none">
+    <div class="uk-text-success uk-margin-bottom" style="font-size: 80px">
+      ✔
+    </div>
+    <h2 class="uk-text-bold uk-text-success">¡Guardado!</h2>
+    <button class="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-margin-top"
+      onclick="window.location.reload()">
+      Hacer otro reporte
+    </button>
+  </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit-icons.min.js"></script>
+  <script>
+    src = "/main.js";
+  </script>
+
+  <script>
+    // URL DE TU SCRIPT DE GOOGLE
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbxj_sMU20pX9PR2vHGb6PPr_L2xHBnNoufXUVuOQcz9-CI9lnT8Pvs0ZtqnvfEswIqr/exec";
+
+    let baseDatosLideres = [];
+    let nombresUnicos = [];
+
+    // Función centralizada para peticiones GET
+    async function llamarGoogle(accion, parametros = {}) {
+      const query = new URLSearchParams({
+        action: accion,
+        ...parametros,
+      }).toString();
+      const response = await fetch(`${SCRIPT_URL}?${query}`);
+      return await response.json();
+    }
+
+    window.onload = async () => {
+      try {
+        const datos = await llamarGoogle("getLideres");
+        if (datos) {
+          baseDatosLideres = datos;
+          nombresUnicos = [...new Set(datos.map((d) => d[0]))];
+          document.getElementById("statusBuscador").innerText =
+            "✅ Listo. Busca tu nombre.";
+        }
+      } catch (e) {
+        document.getElementById("statusBuscador").innerText =
+          "❌ Error al cargar datos.";
+      }
+    };
+
+    function filtrarLideres() {
+      const input = document.getElementById("liderInput");
+      const texto = input.value.trim().toLowerCase();
+      const lista = document.getElementById("listaSugerencias");
+      if (texto.length < 2) {
+        lista.style.display = "none";
+        return;
+      }
+      const filtrados = nombresUnicos.filter(
+        (n) => n && n.toLowerCase().includes(texto),
+      );
+
+      if (filtrados.length > 0) {
+        lista.innerHTML = filtrados
+          .slice(0, 6)
+          .map(
+            (n) => `
+          <div class="sugerencia-item" onclick="seleccionarLider('${n.replace(/'/g, "\\'")}')">${n}</div>
+        `,
+          )
+          .join("");
+        lista.style.display = "block";
+      } else {
+        lista.innerHTML = `<div class="sugerencia-item uk-text-primary" onclick="seleccionarLider('${input.value.replace(/'/g, "\\'")}')">✨ Usar: "${input.value}" (Nuevo Líder)</div>`;
+        lista.style.display = "block";
+      }
+    }
+
+    function seleccionarLider(nombre) {
+      document.getElementById("liderInput").value = nombre;
+      document.getElementById("listaSugerencias").style.display = "none";
+      const select = document.getElementById("celulaSelect");
+      const coincidencias = baseDatosLideres.filter(
+        (f) => f[0].toLowerCase() === nombre.toLowerCase(),
+      );
+
+      select.innerHTML =
+        '<option value="">-- Selecciona la célula --</option>';
+      coincidencias.forEach((c) => {
+        let opt = document.createElement("option");
+        opt.value = c[2];
+        opt.text = c[2];
+        opt.setAttribute("data-mentor", c[1]);
+        opt.setAttribute("data-red", c[5]);
+        select.appendChild(opt);
+      });
+
+      let optNueva = document.createElement("option");
+      optNueva.value = "NUEVA";
+      optNueva.text = "+ REGISTRAR NUEVA CÉLULA";
+      optNueva.style.fontWeight = "bold";
+      select.appendChild(optNueva);
+
+      document.getElementById("seccionCelula").style.display = "block";
+      document.getElementById("listaAsistentes").innerHTML = "";
+      document.getElementById("controles").style.display = "none";
+      document.getElementById("wrapperRealizo").style.display = "none";
+    }
+
+    async function detectarNuevaCelula() {
+      let val = document.getElementById("celulaSelect").value;
+      let panel = document.getElementById("camposNuevaCelula");
+      let vPanel = document.getElementById("wrapperRealizo");
+      let div = document.getElementById("listaAsistentes");
+      let infoRed = document.getElementById("infoRed");
+
+      div.innerHTML = "";
+      infoRed.innerHTML = ""; // Limpiar badge de red al cambiar
+      document.getElementById("controles").style.display = "none";
+
+      if (val === "NUEVA") {
+        panel.style.display = "block";
+        vPanel.style.display = "block";
+        document.getElementById("realizoCelula").value = "Yes";
+
+        // Indicador para nueva célula
+        infoRed.innerHTML = `<span class="uk-label uk-label-warning">Configurando Nueva Célula</span>`;
+
+        div.innerHTML =
+          '<div class="uk-alert-warning uk-padding-small uk-text-center uk-border-rounded">Célula nueva: Usa el botón de abajo para agregar a los asistentes.</div>';
+
+        document.getElementById("controles").style.display = "block";
+        toggleListaAsistencia();
+      } else if (val !== "") {
+        panel.style.display = "none";
+        vPanel.style.display = "block";
+        document.getElementById("realizoCelula").value = "Yes";
+        confirmarCelula();
+      } else {
+        vPanel.style.display = "none";
+      }
+    }
+
+    async function confirmarCelula() {
+      let lider = document.getElementById("liderInput").value;
+      let select = document.getElementById("celulaSelect");
+      let option = select.options[select.selectedIndex];
+
+      // --- CORRECCIÓN DEL BADGE DE RED ---
+      let redDetectada = option.getAttribute("data-red");
+
+      document.getElementById("infoRed").innerHTML =
+        `<span class="uk-badge" style="background-color: #1e87f0; color: #fff; padding: 5px 12px;">
+      Red: ${redDetectada && redDetectada !== "undefined" ? redDetectada : "No asignada"}
+    </span>`;
+
+      let div = document.getElementById("listaAsistentes");
+      div.innerHTML =
+        '<div class="uk-text-center uk-padding"><div uk-spinner="ratio: 0.8"></div> Cargando equipo...</div>';
+
+      try {
+        const asistentes = await llamarGoogle("getAsistentes", {
+          lider: lider,
+          celula: select.value,
+        });
+        div.innerHTML = "";
+        div.innerHTML =
+          '<h5 class="uk-heading-line"><span>Asistentes registrados:</span></h5>';
+
+        if (asistentes && asistentes.length > 0) {
+          asistentes.forEach((a) => {
+            div.innerHTML += plantillaTarjetaAsistente(a);
+          });
+        } else {
+          div.innerHTML =
+            '<p class="uk-text-meta uk-text-center">No hay personas registradas aún en esta célula.</p>';
+        }
+        document.getElementById("controles").style.display = "block";
+        toggleListaAsistencia();
+      } catch (e) {
+        div.innerHTML =
+          '<div class="uk-text-danger uk-text-center">Error al conectar con la base de datos.</div>';
+      }
+    }
+
+    function plantillaTarjetaAsistente(a) {
+
+      const tempId = 'id_' + Math.random().toString(36).substr(2, 9);
+
+      return `
+  <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small card-asistente" id="${tempId}">
+    <div class="uk-grid-small uk-flex-middle" uk-grid>
+      <div class="uk-width-expand">
+        <input type="text" class="uk-input uk-form-blank uk-text-bold check-v-nombre" 
+               value="${a.nombre}" style="padding: 0; min-height: auto; background: transparent;" 
+               title="Haz clic para editar nombre"
+               data-original="${a.nombre}" 
+               onchange="confirmarEdicionNombre(this)">
+        <input type="tel" class="uk-input uk-form-blank uk-text-meta check-v-telefono" placeholder="Añadir celular..." value="${a.telefono || ''}" style="min-height: auto; padding: 0;">
+      </div>
+      <div class="uk-width-auto">
+        <div class="uk-flex uk-flex-middle">
+          <div class="uk-margin-small-right">
+              <span class="uk-label uk-label-primary" style="font-size: 10px;">¿Asistió?</span>
+              <select class="uk-select uk-form-small check-v-asistencia" style="width: 70px;">
+                  <option value="true" selected>SÍ</option>
+                  <option value="false">NO</option>
+              </select>
+          </div>
+          <div class="uk-margin-small-right">
+              <span class="uk-label uk-label-muted" style="font-size: 10px;">Estado</span>
+              <select class="uk-select uk-form-small st-v" style="width: 100px;">
+                  <option ${a.estado == "Nuevo" ? "selected" : ""}>Nuevo</option>
+                  <option ${a.estado == "Visitado" ? "selected" : ""}>Visitado</option>
+                  <option ${a.estado == "Encuentro" ? "selected" : ""}>Encuentro</option>
+                  <option ${a.estado == "Escuela Año 1" ? "selected" : ""}>Escuela Año 1</option>
+              </select>
+          </div>
+          <button class="uk-button uk-button-text uk-text-danger" type="button" 
+                  onclick="eliminarFila('${tempId}')" title="Eliminar persona">
+            <span uk-icon="icon: trash; ratio: 0.8"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    function toggleListaAsistencia() {
+      let realizo = document.getElementById("realizoCelula").value;
+      let lista = document.getElementById("listaAsistentes");
+      let btnNuevo = document.getElementById("btnNuevo");
+      if (realizo === "No") {
+        lista.style.opacity = "0.3";
+        lista.style.pointerEvents = "none";
+        btnNuevo.style.display = "none";
+      } else {
+        lista.style.opacity = "1";
+        lista.style.pointerEvents = "auto";
+        btnNuevo.style.display = "block";
+      }
+    }
+
+    function agregarNuevo() {
+      let html = `
+        <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small card-nuevo">
+          <div class="uk-grid-small uk-flex-bottom" uk-grid>
+            <div class="uk-width-1-1 uk-width-expand@m">
+              <label class="uk-form-label uk-text-bold uk-text-warning" style="font-size: 0.75rem;">Nombre del Nuevo</label>
+              <input type="text" class="uk-input uk-form-small n-nuevo" placeholder="Nombre completo">
+            </div>
+            <div class="uk-width-1-2 uk-width-auto@m">
+              <input type="tel" class="uk-input uk-form-small n-telefono" placeholder="Número de celular">
+            </div>
+            <div class="uk-width-1-2 uk-width-auto@m">
+              <label class="uk-form-label uk-text-bold uk-text-warning" style="font-size: 0.75rem;">¿Asistió?</label>
+              <select class="uk-select uk-form-small s-nuevo-asiste">
+                <option value="true" selected>SÍ</option>
+                <option value="false">NO</option>
+              </select>
+            </div>
+            <div class="uk-width-1-2 uk-width-auto@m">
+              <label class="uk-form-label uk-text-bold uk-text-warning" style="font-size: 0.75rem;">Estatus</label>
+              <select class="uk-select uk-form-small s-nuevo">
+                <option value="Nuevo" selected>Nuevo</option>
+                <option value="Visitado">Visitado</option>
+                <option value="Encuentro">Encuentro</option>
+                <option value="Escuela Año 1">Escuela Año 1</option>
+              </select>
+            </div>
+          </div>
+        </div>`;
+      document
+        .getElementById("listaAsistentes")
+        .insertAdjacentHTML("beforeend", html);
+    }
+
+    async function enviarDatos() {
+      let select = document.getElementById("celulaSelect");
+      let realizo = document.getElementById("realizoCelula").value;
+      let esNueva = select.value === "NUEVA";
+      let direccion = esNueva
+        ? document.getElementById("nuevaDireccion").value.trim()
+        : select.value;
+      let red = esNueva
+        ? document.getElementById("nuevaRed").value
+        : select.options[select.selectedIndex].getAttribute("data-red");
+      let mentor = esNueva
+        ? "Pendiente"
+        : select.options[select.selectedIndex].getAttribute("data-mentor");
+
+      if (!direccion || (esNueva && !red))
+        return alert("Faltan datos de la célula.");
+
+      let meta = {
+        lider: document.getElementById("liderInput").value,
+        celula: direccion,
+        mentor: mentor,
+        red: red,
+        realizo: realizo,
+      };
+      let datos = [];
+
+      if (realizo === "No") {
+        datos.push({
+          ...meta,
+          nombre: "REPORTE: NO SE REALIZÓ",
+          asistio: false,
+          estado: "N/A",
+        });
+      } else {
+        document.querySelectorAll(".card-asistente").forEach((c) => {
+          let nombre = c.querySelector(".check-v-nombre").value;
+          let asistio =
+            c.querySelector(".check-v-asistencia").value === "true";
+          let estado = c.querySelector(".st-v").value;
+          let telefono = c.querySelector(".check-v-telefono").value;
+          datos.push({
+            ...meta,
+            nombre: nombre,
+            asistio: asistio,
+            estado: estado,
+            telefono: telefono,
+          });
+        });
+        document.querySelectorAll(".card-nuevo").forEach((c) => {
+          let n = c.querySelector(".n-nuevo").value.trim();
+          let asisteNuevo =
+            c.querySelector(".s-nuevo-asiste").value === "true";
+          let estadoNuevo = c.querySelector(".s-nuevo").value;
+          let telNuevo = c.querySelector(".n-telefono").value;
+          if (n)
+            datos.push({
+              ...meta,
+              nombre: n,
+              asistio: asisteNuevo,
+              estado: estadoNuevo,
+              telefono: telNuevo,
+            });
+        });
+        if (datos.length === 0)
+          return alert("Agrega personas o marca que no se realizó.");
+      }
+
+      document.getElementById("loadingOverlay").style.display = "flex";
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors", // Crucial
+          headers: {
+            "Content-Type": "text/plain", // CAMBIA ESTO
+          },
+          body: JSON.stringify(datos),
+        });
+
+        // Al usar no-cors no podemos leer la respuesta, pero si no hay error, asumimos éxito
+        document.getElementById("loadingOverlay").style.display = "none";
+        document.getElementById("contenedorPrincipal").style.display = "none";
+        document.getElementById("pantallaExito").style.display = "block";
+      } catch (e) {
+        alert("Error al enviar el reporte.");
+        document.getElementById("loadingOverlay").style.display = "none";
+      }
+    }
+
+    async function eliminarFila(id) {
+      // 1. Obtenemos los datos ANTES de borrar el HTML
+      const contenedor = document.getElementById(id);
+      const nombreAEliminar = contenedor.querySelector(".check-v-nombre").value;
+      const lider = document.getElementById("liderInput").value;
+      const celula = document.getElementById("celulaSelect").value;
+
+      UIkit.modal.confirm(`¿Deseas eliminar a ${nombreAEliminar} permanentemente de esta célula?`, {
+        labels: { ok: 'SÍ, ELIMINAR', cancel: 'CANCELAR' }
+      }).then(async function () {
+
+        document.getElementById("loadingOverlay").style.display = "flex";
+
+        try {
+          // Construimos la URL con los parámetros
+          const urlEliminar = `${SCRIPT_URL}?action=eliminarAsistenteMaestro&nombre=${encodeURIComponent(nombreAEliminar)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
+
+          // Ejecutamos la petición
+          await fetch(urlEliminar, { method: 'GET', mode: 'no-cors' });
+
+          // 2. Si la petición se envió (aunque no-cors no deje leer la respuesta), borramos del HTML
+          contenedor.style.transition = "all 0.3s";
+          contenedor.style.opacity = "0";
+          setTimeout(() => contenedor.remove(), 300);
+
+          UIkit.notification({ message: 'Asistente eliminado de la lista maestra', status: 'success' });
+        } catch (error) {
+          console.error("Error al eliminar:", error);
+          alert("No se pudo eliminar de la base de datos.");
+        } finally {
+          document.getElementById("loadingOverlay").style.display = "none";
+        }
+      });
+    }
+
+    async function confirmarEdicionNombre(input) {
+      const nombreNuevo = input.value.trim();
+      const nombreOriginal = input.getAttribute("data-original");
+      const lider = document.getElementById("liderInput").value;
+      const celula = document.getElementById("celulaSelect").value;
+
+      if (nombreNuevo === nombreOriginal || nombreNuevo === "") return;
+
+      UIkit.modal.confirm(`¿Quieres cambiar el nombre de "${nombreOriginal}" a "${nombreNuevo}" permanentemente?`)
+        .then(async function () {
+          document.getElementById("loadingOverlay").style.display = "flex";
+          try {
+            const url = `${SCRIPT_URL}?action=editarAsistenteMaestro&nombreOriginal=${encodeURIComponent(nombreOriginal)}&nombreNuevo=${encodeURIComponent(nombreNuevo)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
+
+            await fetch(url, { method: 'GET', mode: 'no-cors' });
+
+            // Actualizamos el "original" para futuras ediciones sin recargar
+            input.setAttribute("data-original", nombreNuevo);
+            UIkit.notification({ message: 'Nombre actualizado en la base maestra', status: 'success' });
+          } catch (e) {
+            alert("Error al actualizar el nombre.");
+            input.value = nombreOriginal; // Revertimos el cambio visualmente
+          } finally {
+            document.getElementById("loadingOverlay").style.display = "none";
+          }
+        }, function () {
+          input.value = nombreOriginal; // Si cancela, volvemos al nombre de antes
+        });
+    }
+
+    function volverAlInicio() {
+      location.reload(); // Recarga la página para limpiar todo fácilmente
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@fortawesome/fontawesome-free':
+        specifier: ^7.2.0
+        version: 7.2.0
+      uikit:
+        specifier: ^3.25.11
+        version: 3.25.11
+
+packages:
+
+  '@fortawesome/fontawesome-free@7.2.0':
+    resolution: {integrity: sha512-3DguDv/oUE+7vjMeTSOjCSG+KeawgVQOHrKRnvUuqYh1mfArrh7s+s8hXW3e4RerBA1+Wh+hBqf8sJNpqNrBWg==}
+    engines: {node: '>=6'}
+
+  uikit@3.25.11:
+    resolution: {integrity: sha512-qTkQxeHvhkYsNl3j9mFJamLI71+csDPJlEQZZuVXuzQtzcZOmIba/cvBwK+EAk74+J3DK/Ibx5lmo5F2TB00Tg==}
+
+snapshots:
+
+  '@fortawesome/fontawesome-free@7.2.0': {}
+
+  uikit@3.25.11: {}
