@@ -49,17 +49,27 @@
           </div>
         </div>
 
+        <div id="seccionMentor" class="uk-margin" style="display: none">
+          <label class="uk-form-label uk-text-secondary uk-text-bold">Tu Líder de 12 (Mentor):</label>
+          <div class="uk-form-controls">
+            <select id="mentorSelect" class="uk-select uk-form-large uk-border-rounded">
+              <option value="">-- Selecciona tu Líder de 12 --</option>
+            </select>
+          </div>
+          <p id="msgMentor" class="uk-text-meta" style="display:none">✨ Mentor asignado automáticamente</p>
+        </div>
+
         <div id="seccionCelula" class="uk-margin" style="display: none">
           <label class="uk-form-label uk-text-secondary uk-text-bold">2. Selecciona la célula:</label>
           <select id="celulaSelect" class="uk-select uk-form-large uk-margin-bottom uk-border-rounded"
             onchange="detectarNuevaCelula()"></select>
 
-            <div class="uk-margin">
-              <label class="uk-form-label uk-text-secondary uk-text-bold">Fecha de la Célula:</label>
-              <div class="uk-form-controls">
-                <input type="date" id="fechaAsistencia" class="uk-input uk-form-large uk-border-rounded">
-              </div>
+          <div class="uk-margin">
+            <label class="uk-form-label uk-text-secondary uk-text-bold">Fecha de la Célula:</label>
+            <div class="uk-form-controls">
+              <input type="date" id="fechaAsistencia" class="uk-input uk-form-large uk-border-rounded">
             </div>
+          </div>
 
           <div id="wrapperRealizo" class="uk-padding-small uk-border-rounded uk-background-muted uk-margin"
             style="display: none">
@@ -139,10 +149,11 @@
   <script>
     // URL DE TU SCRIPT DE GOOGLE
     const SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbwh1LkjrS30A1GpYujYcOX_nBOjP1U5ZdWg8B4c-3DAuyBjUe47naDP7AqbVyZhgVE/exec";
+      "https://script.google.com/macros/s/AKfycbxqEugH10L6x8i6lVUXNxqP1EKupYbVCBwqGjCgrCl0_qnrO5xs7t7QxEGhCWpJyLSH/exec";
 
     let baseDatosLideres = [];
     let nombresUnicos = [];
+    let listaMentoresGlobal = [];
 
     // Función centralizada para peticiones GET
     async function llamarGoogle(accion, parametros = {}) {
@@ -156,16 +167,45 @@
 
     window.onload = async () => {
       try {
-        const datos = await llamarGoogle("getLideres");
-        if (datos) {
-          baseDatosLideres = datos;
-          nombresUnicos = [...new Set(datos.map((d) => d[0]))];
-          document.getElementById("statusBuscador").innerText =
-            "✅ Listo. Busca tu nombre.";
+        // 1. Ejecutamos ambas peticiones en paralelo para mayor velocidad
+        const [datosLideres, datosMentores] = await Promise.all([
+          llamarGoogle("getLideres"),
+          llamarGoogle("getMentores")
+        ]);
+
+        // 2. Procesar datos de Líderes
+        if (datosLideres) {
+          baseDatosLideres = datosLideres;
+          nombresUnicos = [...new Set(datosLideres.map((d) => d[0]))];
         }
+
+        // 3. Procesar datos de Mentores y llenar el select
+        if (datosMentores) {
+          const mSelect = document.getElementById("mentorSelect");
+          if (mSelect) {
+            // Limpiamos opciones previas si las hubiera
+            mSelect.innerHTML = '<option value="">-- Selecciona tu Líder de 12 --</option>';
+            datosMentores.forEach(m => {
+              let opt = document.createElement("option");
+              opt.value = m;
+              opt.text = m;
+              mSelect.appendChild(opt);
+            });
+          }
+        }
+
+        // 4. Inicializar la fecha de hoy
+        const fechaInput = document.getElementById("fechaAsistencia");
+        if (fechaInput) {
+          fechaInput.valueAsDate = new Date();
+        }
+
+        // 5. Mensaje de éxito
+        document.getElementById("statusBuscador").innerText = "✅ Listo. Busca tu nombre.";
+
       } catch (e) {
-        document.getElementById("statusBuscador").innerText =
-          "❌ Error al cargar datos.";
+        console.error("Error al cargar:", e);
+        document.getElementById("statusBuscador").innerText = "❌ Error al cargar datos. Recarga la página.";
       }
     };
 
@@ -200,10 +240,32 @@
     function seleccionarLider(nombre) {
       document.getElementById("liderInput").value = nombre;
       document.getElementById("listaSugerencias").style.display = "none";
+      const selectMentor = document.getElementById("mentorSelect");
+      const msgMentor = document.getElementById("msgMentor");
+      const seccionMentor = document.getElementById("seccionMentor");
       const select = document.getElementById("celulaSelect");
+      
       const coincidencias = baseDatosLideres.filter(
         (f) => f[0].toLowerCase() === nombre.toLowerCase(),
       );
+
+      // 2. MOSTRAR LA SECCIÓN DEL MENTOR
+    seccionMentor.style.display = "block";
+
+    if (coincidencias.length > 0) {
+        // LIDER EXISTENTE:
+        // Tomamos el mentor del primer registro encontrado (columna index 1)
+        const mentorAsignado = coincidencias[0][1]; 
+        
+        selectMentor.value = mentorAsignado;
+        selectMentor.disabled = true; // Bloqueamos para evitar errores
+        msgMentor.style.display = "block"; // Mostramos el aviso de "Auto-asignado"
+    } else {
+        // LIDER NUEVO:
+        selectMentor.value = "";
+        selectMentor.disabled = false; // Permitimos que elija
+        msgMentor.style.display = "none";
+    }
 
       select.innerHTML =
         '<option value="">-- Selecciona la célula --</option>';
@@ -399,6 +461,9 @@
     async function enviarDatos() {
       let select = document.getElementById("celulaSelect");
       let fechaSeleccionada = document.getElementById("fechaAsistencia").value;
+      let mentore = document.getElementById("mentorSelect").value;
+
+      if (!mentore) return alert("Por favor, selecciona a tu Líder de 12.");
 
       if (!fechaSeleccionada) return alert("Por favor, selecciona una fecha.");
 
@@ -420,7 +485,7 @@
       let meta = {
         lider: document.getElementById("liderInput").value,
         celula: direccion,
-        mentor: mentor,
+        mentor: mentore,
         red: red,
         realizo: realizo,
         fechaManual: fechaSeleccionada,
