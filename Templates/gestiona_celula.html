@@ -30,7 +30,7 @@
       <div class="card-header-image uk-cover-container">
         <div class="uk-overlay uk-overlay-primary uk-position-cover uk-flex uk-flex-center uk-flex-middle">
           <h3 class="uk-text-bold uk-margin-remove" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-            Registrar Asistencia
+            Registrar Asistencia a Célula
           </h3>
         </div>
       </div>
@@ -53,6 +53,13 @@
           <label class="uk-form-label uk-text-secondary uk-text-bold">2. Selecciona la célula:</label>
           <select id="celulaSelect" class="uk-select uk-form-large uk-margin-bottom uk-border-rounded"
             onchange="detectarNuevaCelula()"></select>
+
+            <div class="uk-margin">
+              <label class="uk-form-label uk-text-secondary uk-text-bold">Fecha de la Célula:</label>
+              <div class="uk-form-controls">
+                <input type="date" id="fechaAsistencia" class="uk-input uk-form-large uk-border-rounded">
+              </div>
+            </div>
 
           <div id="wrapperRealizo" class="uk-padding-small uk-border-rounded uk-background-muted uk-margin"
             style="display: none">
@@ -132,7 +139,7 @@
   <script>
     // URL DE TU SCRIPT DE GOOGLE
     const SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbxj_sMU20pX9PR2vHGb6PPr_L2xHBnNoufXUVuOQcz9-CI9lnT8Pvs0ZtqnvfEswIqr/exec";
+      "https://script.google.com/macros/s/AKfycbwh1LkjrS30A1GpYujYcOX_nBOjP1U5ZdWg8B4c-3DAuyBjUe47naDP7AqbVyZhgVE/exec";
 
     let baseDatosLideres = [];
     let nombresUnicos = [];
@@ -391,6 +398,10 @@
 
     async function enviarDatos() {
       let select = document.getElementById("celulaSelect");
+      let fechaSeleccionada = document.getElementById("fechaAsistencia").value;
+
+      if (!fechaSeleccionada) return alert("Por favor, selecciona una fecha.");
+
       let realizo = document.getElementById("realizoCelula").value;
       let esNueva = select.value === "NUEVA";
       let direccion = esNueva
@@ -412,6 +423,7 @@
         mentor: mentor,
         red: red,
         realizo: realizo,
+        fechaManual: fechaSeleccionada,
       };
       let datos = [];
 
@@ -546,6 +558,8 @@
     function volverAlInicio() {
       location.reload(); // Recarga la página para limpiar todo fácilmente
     }
+
+    document.getElementById('fechaAsistencia').valueAsDate = new Date();
   </script>
 </body>
 

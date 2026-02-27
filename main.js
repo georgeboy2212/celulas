@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxj_sMU20pX9PR2vHGb6PPr_L2xHBnNoufXUVuOQcz9-CI9lnT8Pvs0ZtqnvfEswIqr/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwh1LkjrS30A1GpYujYcOX_nBOjP1U5ZdWg8B4c-3DAuyBjUe47naDP7AqbVyZhgVE/exec";
 
 async function llamarGoogle(accion, parametros = {}) {
   // Construimos la URL con los parámetros (para GET)
