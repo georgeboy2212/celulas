@@ -71,6 +71,14 @@
             </div>
           </div>
 
+          <div class="uk-margin">
+            <label class="uk-form-label uk-text-secondary uk-text-bold">Nombre del Mensaje:</label>
+            <div class="uk-form-controls">
+              <input type="text" id="nombreMensaje" class="uk-input uk-form-large uk-border-rounded"
+                placeholder="Ej: La importancia de la fe">
+            </div>
+          </div>
+
           <div id="wrapperRealizo" class="uk-padding-small uk-border-rounded uk-background-muted uk-margin"
             style="display: none">
             <label class="uk-form-label">¿Se realizó la célula hoy?</label>
@@ -154,7 +162,7 @@
   <script>
     // URL DE TU SCRIPT DE GOOGLE
     const SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbxqEugH10L6x8i6lVUXNxqP1EKupYbVCBwqGjCgrCl0_qnrO5xs7t7QxEGhCWpJyLSH/exec";
+      "https://script.google.com/macros/s/AKfycbzHOi8NT69ms4AaRx7esFHP5ot69fbFe1QEy5hv3aKpM7ljrbyxHJxdvH8giGfjtVvU/exec";
 
     let baseDatosLideres = [];
     let nombresUnicos = [];
@@ -249,28 +257,28 @@
       const msgMentor = document.getElementById("msgMentor");
       const seccionMentor = document.getElementById("seccionMentor");
       const select = document.getElementById("celulaSelect");
-      
+
       const coincidencias = baseDatosLideres.filter(
         (f) => f[0].toLowerCase() === nombre.toLowerCase(),
       );
 
       // 2. MOSTRAR LA SECCIÓN DEL MENTOR
-    seccionMentor.style.display = "block";
+      seccionMentor.style.display = "block";
 
-    if (coincidencias.length > 0) {
+      if (coincidencias.length > 0) {
         // LIDER EXISTENTE:
         // Tomamos el mentor del primer registro encontrado (columna index 1)
-        const mentorAsignado = coincidencias[0][1]; 
-        
+        const mentorAsignado = coincidencias[0][1];
+
         selectMentor.value = mentorAsignado;
         selectMentor.disabled = true; // Bloqueamos para evitar errores
         msgMentor.style.display = "block"; // Mostramos el aviso de "Auto-asignado"
-    } else {
+      } else {
         // LIDER NUEVO:
         selectMentor.value = "";
         selectMentor.disabled = false; // Permitimos que elija
         msgMentor.style.display = "none";
-    }
+      }
 
       select.innerHTML =
         '<option value="">-- Selecciona la célula --</option>';
@@ -467,6 +475,7 @@
       let select = document.getElementById("celulaSelect");
       let fechaSeleccionada = document.getElementById("fechaAsistencia").value;
       let mentore = document.getElementById("mentorSelect").value;
+      let mensajeCélula = document.getElementById("nombreMensaje").value.trim();
 
       if (!mentore) return alert("Por favor, selecciona a tu Líder de 12.");
 
@@ -494,6 +503,7 @@
         red: red,
         realizo: realizo,
         fechaManual: fechaSeleccionada,
+        mensajeNombre: mensajeCélula,
       };
       let datos = [];
 
