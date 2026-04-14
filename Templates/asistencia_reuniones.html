@@ -486,6 +486,47 @@
             </div>
           </div>
         </div>
+        <!-- Section 06: Kids -->
+          <div
+            class="uk-margin-large-bottom"
+            style="margin-bottom: 96px !important"
+          >
+            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+              <span class="section-number">06</span>
+              <h3
+                class="uk-margin-remove uk-text-uppercase"
+                style="font-size: 32px; letter-spacing: -0.02em"
+              >
+                Kids
+              </h3>
+            </div>
+            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+              <div>
+                <label class="custom-label">Total Asistentes</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="kids_asis"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+              <div>
+                <label class="custom-label">Primera Vez</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="kids_nue"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Submit Section -->
         <div
           class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap"
@@ -622,6 +663,12 @@
                     nombre: "Teens",
                     asis: getVal("teens_asis"),
                     nue: getVal("teens_nue"),
+                  },
+
+                  {
+                    nombre: "Kids",
+                    asis: getVal("kids_asis"),
+                    nue: getVal("kids_nue"),
                   },
                 ],
               };
