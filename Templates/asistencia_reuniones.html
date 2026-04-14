@@ -1,0 +1,656 @@
+<!doctype html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Registro Asistencia</title>
+    <!-- UIkit CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/css/uikit.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;700;800;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #010101;
+        --background: #fbfaef;
+        --secondary: #5e5f57;
+        --surface-low: #f5f4ea;
+        --outline-variant: #c4c7c7;
+      }
+
+      body {
+        background-color: var(--background);
+        font-family: "Inter", sans-serif;
+        color: var(--primary);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .font-epilogue {
+        font-family: "Epilogue", sans-serif;
+      }
+      .font-inter {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Typography Overrides */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Epilogue", sans-serif;
+        color: var(--primary);
+        font-weight: 700;
+      }
+      .uk-h1,
+      .uk-h2,
+      .uk-h3 {
+        font-family: "Epilogue", sans-serif;
+      }
+
+      /* Layout & Spacing */
+      .container-custom {
+        max-width: 1024px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+      .header-container {
+        max-width: 1536px;
+        margin: 0 auto;
+        padding: 24px 32px;
+      }
+
+      /* Navigation */
+      .nav-link {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--secondary);
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .nav-link:hover {
+        color: var(--primary);
+      }
+      .nav-link.active {
+        color: var(--primary);
+        border-bottom: 2px solid var(--primary);
+      }
+
+      /* Form Elements */
+      .custom-input {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(196, 199, 199, 0.4) !important;
+        border-radius: 0 !important;
+        padding: 16px 0 !important;
+        font-family: "Epilogue", sans-serif;
+        color: var(--primary) !important;
+        transition: border-color 0.3s;
+      }
+      .custom-input:focus {
+        border-bottom-color: var(--primary) !important;
+        outline: none;
+      }
+      .custom-input::placeholder {
+        color: var(--outline-variant);
+      }
+
+      .custom-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--secondary);
+        margin-bottom: 16px;
+        display: block;
+      }
+
+      .section-number {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--outline-variant);
+        margin-right: 16px;
+      }
+
+      /* Buttons */
+      .btn-submit {
+        background: var(--primary);
+        color: #ffffff;
+        border: none;
+        padding: 24px 64px;
+        font-family: "Epilogue", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .btn-submit:hover {
+        opacity: 0.9;
+      }
+      .btn-submit:active {
+        transform: scale(0.98);
+      }
+
+      /* Decoration */
+      .editorial-sidebar {
+        position: fixed;
+        right: 32px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 48px;
+      }
+      .v-line {
+        width: 1px;
+        height: 96px;
+        background: rgba(196, 199, 199, 0.2);
+      }
+      .side-text {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.4em;
+        writing-mode: vertical-rl;
+        color: var(--outline-variant);
+        white-space: nowrap;
+      }
+
+      /* Responsive Fixes */
+      @media (max-width: 960px) {
+        .editorial-sidebar {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TopAppBar -->
+    <header
+      class="uk-position-fixed uk-width-1-1 uk-position-z-index"
+      style="background: var(--background)"
+    >
+      <div class="header-container uk-flex uk-flex-between uk-flex-middle">
+        <h1
+          class="uk-margin-remove"
+          style="font-size: 20px; letter-spacing: -0.05em"
+        >
+          Ps Joshua & Michelle de Boer
+        </h1>
+        <div class="uk-flex uk-flex-middle">
+          <nav class="uk-visible@m uk-margin-large-right">
+            <ul class="uk-subnav uk-margin-remove" style="gap: 32px">
+              <li><a class="nav-link active" href="#">Asistencia</a></li>
+              <li><a class="nav-link" href="https://datastudio.google.com/reporting/432389d2-b9ac-4794-aaba-f8181f5d36d4" target="_blank">Reporte</a></li>
+            </ul>
+          </nav>
+          <span class="material-symbols-outlined" style="cursor: pointer"
+            >folded_hands</span
+          >
+        </div>
+      </div>
+    </header>
+    <main
+      class="container-custom"
+      style="padding-top: 128px; padding-bottom: 96px"
+    >
+      <!-- Hero Title Section -->
+      <div class="uk-margin-xlarge-bottom">
+        <span
+          class="font-inter"
+          style="
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 16px;
+          "
+          >Reuniones Sábado por red</span
+        >
+        <h2
+          class="uk-margin-remove"
+          style="
+            font-size: clamp(48px, 10vw, 96px);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+          "
+        >
+          Registro<br />de Asistencia
+        </h2>
+      </div>
+      <form id="attendanceForm">
+        <!-- Header section: Fecha and Líder Principal -->
+        <div
+          class="uk-grid uk-grid-collapse uk-child-width-1-2@m uk-margin-xlarge-bottom"
+          style="background: var(--surface-low); padding: 48px"
+        >
+          <div class="uk-padding-small">
+            <label class="custom-label">Fecha</label>
+            <input
+              class="uk-input custom-input"
+              id="fecha"
+              name="fecha"
+              style="font-size: 20px; height: 62px"
+              type="date"
+              required
+            />
+          </div>
+          <div class="uk-padding-small">
+            <label class="custom-label">Líder Principal</label>
+            <select
+              class="uk-select custom-input"
+              id="lider"
+              name="lider"
+              style="
+                font-size: 20px;
+                height: 62px;
+                background-image: url(&quot;data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E&quot;);
+                background-repeat: no-repeat;
+                background-position: right center;
+                padding-right: 32px;
+                appearance: none;
+                -webkit-appearance: none;
+                display: flex;
+                align-items: center;
+              "
+              required
+            >
+              <option value="">Seleccionar Líder</option>
+              <option value="Ps Julio y Adriana">Ps Julio y Adriana</option>
+              <option value="Ps Jose y Sandra">Ps Jose y Sandra</option>
+              <option value="Ps Luis Felipe y Mallerly">
+                Ps Luis Felipe y Mallerly
+              </option>
+              <option value="Ps Jorge y Eliana">Ps Jorge y Eliana</option>
+              <option value="Ps Julian y Carol">Ps Julian y Carol</option>
+              <option value="Francisco y Damariz">Francisco y Damariz</option>
+              <option value="Jorge y Paola">Jorge y Paola</option>
+              <option value="Felipe y Maye">Felipe y Maye</option>
+              <option value="Roveiro y Mary">Roveiro y Mary</option>
+              <option value="Pedro y Erika">Pedro y Erika</option>
+              <option value="Leonardo e Isned">Leonardo e Isned</option>
+              <option value="Nelson y Marbeluz">Nelson y Marbeluz</option>
+              <option value="Alcira Martinez">Alcira Martinez</option>
+            </select>
+          </div>
+        </div>
+        <!-- Attendance Sections -->
+        <div class="uk-margin-xlarge-bottom">
+          <!-- Section 01: Hombres -->
+          <div
+            class="uk-margin-large-bottom"
+            style="margin-bottom: 96px !important"
+          >
+            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+              <span class="section-number">01</span>
+              <h3
+                class="uk-margin-remove uk-text-uppercase"
+                style="font-size: 32px; letter-spacing: -0.02em"
+              >
+                Hombres
+              </h3>
+            </div>
+            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+              <div>
+                <label class="custom-label">Total Asistentes</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="hombres_asis"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+              <div>
+                <label class="custom-label">Primera Vez</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="hombres_nue"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Section 02: Mujeres -->
+          <div
+            class="uk-margin-large-bottom"
+            style="margin-bottom: 96px !important"
+          >
+            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+              <span class="section-number">02</span>
+              <h3
+                class="uk-margin-remove uk-text-uppercase"
+                style="font-size: 32px; letter-spacing: -0.02em"
+              >
+                Mujeres
+              </h3>
+            </div>
+            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+              <div>
+                <label class="custom-label">Total Asistentes</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="mujeres_asis"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+              <div>
+                <label class="custom-label">Primera Vez</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="mujeres_nue"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Section 03: Jóvenes -->
+          <div
+            class="uk-margin-large-bottom"
+            style="margin-bottom: 96px !important"
+          >
+            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+              <span class="section-number">03</span>
+              <h3
+                class="uk-margin-remove uk-text-uppercase"
+                style="font-size: 32px; letter-spacing: -0.02em"
+              >
+                Jóvenes
+              </h3>
+            </div>
+            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+              <div>
+                <label class="custom-label">Total Asistentes</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="jovenes_asis"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+              <div>
+                <label class="custom-label">Primera Vez</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="jovenes_nue"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Section 04: Rocas -->
+          <div
+            class="uk-margin-large-bottom"
+            style="margin-bottom: 96px !important"
+          >
+            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+              <span class="section-number">04</span>
+              <h3
+                class="uk-margin-remove uk-text-uppercase"
+                style="font-size: 32px; letter-spacing: -0.02em"
+              >
+                Rocas
+              </h3>
+            </div>
+            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+              <div>
+                <label class="custom-label">Total Asistentes</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="rocas_asis"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+              <div>
+                <label class="custom-label">Primera Vez</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="rocas_nue"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Section 05: Teens -->
+          <div
+            class="uk-margin-large-bottom"
+            style="margin-bottom: 96px !important"
+          >
+            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+              <span class="section-number">05</span>
+              <h3
+                class="uk-margin-remove uk-text-uppercase"
+                style="font-size: 32px; letter-spacing: -0.02em"
+              >
+                Teens
+              </h3>
+            </div>
+            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+              <div>
+                <label class="custom-label">Total Asistentes</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="teens_asis"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+              <div>
+                <label class="custom-label">Primera Vez</label>
+                <input
+                  class="uk-input custom-input"
+                  placeholder="0"
+                  name="teens_nue"
+                  style="font-size: 32px"
+                  type="number"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Submit Section -->
+        <div
+          class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap"
+          style="gap: 32px; margin-top: 64px; padding-top: 64px"
+        >
+          <div
+            class="uk-flex uk-flex-middle"
+            style="gap: 16px; color: var(--secondary)"
+          >
+            <span
+              class="font-inter"
+              style="
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.2em;
+              "
+              >Amor por las almas</span
+            >
+            <span class="material-symbols-outlined" style="font-size: 16px"
+              >verified_user</span
+            >
+            <span
+              class="font-inter"
+              style="
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.2em;
+              "
+              >Bendiciones</span
+            >
+          </div>
+          <button
+            class="btn-submit uk-width-1-1 uk-width-auto@m"
+            type="submit"
+            id="submitBtn"
+          >
+            Enviar Registro →
+          </button>
+        </div>
+      </form>
+    </main>
+    <!-- Side Decoration -->
+    <aside class="editorial-sidebar">
+      <div class="v-line"></div>
+      <span class="side-text">Registro • Asistencia • 2026</span>
+      <div class="v-line"></div>
+    </aside>
+    <!-- Footer -->
+    <footer
+      class="uk-section uk-section-small"
+      style="
+        background: var(--background);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+      "
+    >
+      <div
+        class="header-container uk-flex uk-flex-between uk-flex-middle uk-flex-wrap"
+      >
+        <span
+          class="font-inter"
+          style="
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--secondary);
+          "
+          >© 2026 Cuiden como pastores el rebaño de Dios que está a su cargo, no
+          por obligación ni por ambición de dinero, sino con deseo de servir,
+          como Dios quiere.</span
+        >
+      </div>
+    </footer>
+    <!-- Background Decorative Image -->
+    <div
+      class="uk-position-fixed uk-position-bottom-left uk-width-medium uk-visible@m"
+      style="opacity: 0.05; pointer-events: none; z-index: -1"
+    >
+      <img
+        alt="Editorial Backdrop"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4X1H_QEMX6PgBRa8gAVJTTlzol1fS_fmQzmfQUr8lHFd5QA7gJB9rh_iAQBg6wwbvds1zaXW8FPIt_Y4TMQrln7JsPySqHvSFkWx-fiX5UcCmag-HrRFlN-VTKZq94bdPxCV1EQVnb7E3DBCeF2vXVPvZyLZkjLaSVczop-478ahIahT5DwgDxKMjxvt3YspZVCxQbTaLNtMYKrTzxypa7pgKtyr-B5H5THjx3wE-cKB71kWgssmUB410TA01LvLgl-E3EdzRa9q3"
+        style="filter: grayscale(100%)"
+      />
+    </div>
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"></script>
+
+    <script>
+          const URL_WEB_APP =
+            "https://script.google.com/macros/s/AKfycbwNVPx5Rkx1_BdbS39fhfVWkSb89wE4hwNbGFSjmJTUK6noT8o24uR7yPX_6imD2jWr/exec";
+
+          document
+            .getElementById("attendanceForm")
+            .addEventListener("submit", async (e) => {
+              e.preventDefault();
+
+              const btn = document.getElementById("submitBtn");
+              btn.disabled = true;
+              btn.innerText = "ENVIANDO...";
+
+              // Obtener valores de forma segura
+              const getVal = (name) => {
+                const el = document.getElementsByName(name)[0];
+                const val = el ? el.value : "";
+                return (val === "") ? 0 : val;
+              };
+
+              const datos = {
+                // Usamos .value para obtener el texto del option seleccionado (si ya cambiaste los values)
+                fecha: document.getElementById("fecha").value,
+                lider: document.getElementById("lider").value,
+                redes: [
+                  {
+                    nombre: "Hombres",
+                    asis: getVal("hombres_asis"),
+                    nue: getVal("hombres_nue"),
+                  },
+                  {
+                    nombre: "Mujeres",
+                    asis: getVal("mujeres_asis"),
+                    nue: getVal("mujeres_nue"),
+                  },
+                  {
+                    nombre: "Jóvenes",
+                    asis: getVal("jovenes_asis"),
+                    nue: getVal("jovenes_nue"),
+                  },
+                  {
+                    nombre: "Rocas",
+                    asis: getVal("rocas_asis"),
+                    nue: getVal("rocas_nue"),
+                  },
+                  {
+                    nombre: "Teens",
+                    asis: getVal("teens_asis"),
+                    nue: getVal("teens_nue"),
+                  },
+                ],
+              };
+
+              try {
+                await fetch(URL_WEB_APP, {
+                  method: "POST",
+                  mode: "no-cors",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(datos),
+                });
+
+                // Con no-cors no podemos ver la respuesta, pero si no hay error en el catch, se envió.
+                UIkit.notification({
+                  message: "¡Registro enviado con éxito!",
+                  status: "success",
+                });
+                e.target.reset();
+              } catch (error) {
+                console.error("Error de envío:", error);
+                UIkit.notification({
+                  message: "Error al conectar con el servidor",
+                  status: "danger",
+                });
+              } finally {
+                btn.disabled = false;
+                btn.innerText = "Enviar Registro →";
+              }
+            });
+    </script>
+  </body>
+</html>
