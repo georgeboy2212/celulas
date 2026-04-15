@@ -257,12 +257,8 @@
         </h2>
       </div>
       <form id="attendanceForm">
-        <!-- Header section: Fecha and Líder Principal -->
-        <div
-          class="uk-grid uk-grid-collapse uk-child-width-1-2@m uk-margin-xlarge-bottom"
-          style="background: var(--surface-low); padding: 48px"
-        >
-          <div class="uk-padding-small">
+
+        <div class="uk-padding-small uk-width-1-2@s uk-margin-large-bottom">
             <label class="custom-label">Fecha</label>
             <input
               class="uk-input custom-input"
@@ -273,44 +269,50 @@
               required
             />
           </div>
-          <div class="uk-padding-small">
-            <label class="custom-label">Líder Principal</label>
-            <select
-              class="uk-select custom-input"
-              id="lider"
-              name="lider"
-              style="
-                font-size: 20px;
-                height: 62px;
-                background-image: url(&quot;data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E&quot;);
-                background-repeat: no-repeat;
-                background-position: right center;
-                padding-right: 32px;
-                appearance: none;
-                -webkit-appearance: none;
-                display: flex;
-                align-items: center;
-              "
-              required
-            >
-              <option value="">Seleccionar Líder</option>
-              <option value="Ps Julio y Adriana">Ps Julio y Adriana</option>
-              <option value="Ps Jose y Sandra">Ps Jose y Sandra</option>
-              <option value="Ps Luis Felipe y Mallerly">
-                Ps Luis Felipe y Mallerly
-              </option>
-              <option value="Ps Jorge y Eliana">Ps Jorge y Eliana</option>
-              <option value="Ps Julian y Carol">Ps Julian y Carol</option>
-              <option value="Francisco y Damariz">Francisco y Damariz</option>
-              <option value="Jorge y Paola">Jorge y Paola</option>
-              <option value="Felipe y Maye">Felipe y Maye</option>
-              <option value="Roveiro y Mary">Roveiro y Mary</option>
-              <option value="Pedro y Erika">Pedro y Erika</option>
-              <option value="Leonardo e Isned">Leonardo e Isned</option>
-              <option value="Nelson y Marbeluz">Nelson y Marbeluz</option>
-              <option value="Alcira Martinez">Alcira Martinez</option>
-            </select>
+
+        <section class="uk-margin-large-bottom">
+          <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+            <span class="section-number uk-margin-small-right">00</span>
+            <h2 class="uk-h2 uk-text-bold uk-margin-remove uk-text-uppercase" style="letter-spacing: -0.05em">Reportado por</h2>
           </div>
+
+          
+
+          <div class="" style="background: var(--surface-low); padding: 48px">
+            
+            <div class="uk-margin uk-position-relative">
+              <label class="uk-form-label uk-text-uppercase"
+                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">nombre del líder</label>
+              <input autocomplete="off" class="custom-input uk-input uk-form-large" id="liderInput" oninput="filtrarLideres()"
+                placeholder="Busca tu nombre..." type="text" />
+              <div class="lista-sugerencias uk-card uk-card-default" id="listaSugerencias"></div>
+              <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
+                style="opacity: 0.3">search</span>
+              <div class="uk-text-meta uk-margin-small-top" id="statusBuscador">
+                <span uk-spinner="ratio: 0.5"></span> Conectando...
+              </div>
+            </div>
+            <div class="uk-margin-large" id="seccionMentor" style="display: none">
+              <label class="custom-label uk-text-uppercase"
+                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Líder de 12</label>
+              <div class="uk-position-relative">
+                <select class="custom-input uk-select uk-form-large" id="mentorSelect">
+                  <option disabled="" selected="" value="">Selecciona a tuLíder de 12...</option>
+                </select>
+                <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
+                  style="pointer-events: none">expand_more</span>
+              </div>
+              <p class="uk-text-meta uk-margin-small-top" id="msgMentor" style="display:none">✨ Mentor asignado
+                automáticamente</p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Header section: Fecha and Líder Principal -->
+        <div
+          class="uk-grid uk-grid-collapse uk-child-width-1-2@m uk-margin-medium-bottom"
+        >
+          
         </div>
         <!-- Attendance Sections -->
         <div class="uk-margin-xlarge-bottom">
@@ -503,7 +505,7 @@
         <!-- Section 06: Kids -->
           <div
             class="uk-margin-large-bottom"
-            style="margin-bottom: 96px !important"
+            style="margin-bottom: 40px !important"
           >
             <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
               <span class="section-number">06</span>
@@ -533,7 +535,7 @@
         <!-- Submit Section -->
         <div
           class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap"
-          style="gap: 32px; margin-top: 64px; padding-top: 64px"
+          style="gap: 32px; padding-top: 40px"
         >
           <div
             class="uk-flex uk-flex-middle"
@@ -644,91 +646,149 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"></script>
 
     <script>
-          const URL_WEB_APP =
-            "https://script.google.com/macros/s/AKfycbwNVPx5Rkx1_BdbS39fhfVWkSb89wE4hwNbGFSjmJTUK6noT8o24uR7yPX_6imD2jWr/exec";
+      const URL_WEB_APP =
+        "https://script.google.com/macros/s/AKfycbxetCN9eIMpOuNAXKclai7mGIpKFYNPUiRFqi1pe5tEwMRwZDeK7Ib3PrSk1UdHvbOE/exec";
 
-          
-          document.getElementById("fecha").valueAsDate = new Date();
+        let listaLideresBase = [];
+       
 
-          document
-            .getElementById("attendanceForm")
-            .addEventListener("submit", async (e) => {
-              e.preventDefault();
+// Cargar datos al iniciar
+  window.addEventListener('load', async () => {
+    document.getElementById("fecha").valueAsDate = new Date();
+    await inicializarDatos();
+  });
 
-              const btn = document.getElementById("submitBtn");
-              btn.disabled = true;
-              btn.innerText = "ENVIANDO...";
+  async function inicializarDatos() {
+  const status = document.getElementById("statusBuscador");
+  try {
+    const response = await fetch(URL_WEB_APP);
+    listaLideresBase = await response.json();
+    
+    // Opcional: Llenar el select de mentores con todos los mentores únicos disponibles
+    poblarSelectMentores();
+    
+    status.innerHTML = "✅ Conectado";
+    setTimeout(() => status.style.display = 'none', 3000);
+  } catch (e) {
+    status.innerHTML = "❌ Error de conexión";
+  }
+}
 
-              const overlay = document.getElementById("loadingOverlay");
+function filtrarLideres() {
+  const input = document.getElementById("liderInput").value.toLowerCase();
+  const sugerenciasDiv = document.getElementById("listaSugerencias");
+  sugerenciasDiv.innerHTML = "";
 
-              // 1. Bloqueamos botón y mostramos el spinner
-              btn.disabled = true;
-              btn.innerText = "ENVIANDO...";
-              overlay.style.display = "flex";
+  if (input.length < 2) {
+    sugerenciasDiv.style.display = "none";
+    return;
+  }
 
-              // Obtener valores de forma segura
-              const getVal = (name) => {
-                const el = document.getElementsByName(name)[0];
-                const val = el ? el.value : "";
-                return (val === "") ? 0 : val;
-              };
+  // Filtramos por el campo .nombre del objeto
+  const filtrados = listaLideresBase.filter(item => 
+    item.nombre.toLowerCase().includes(input)
+  );
 
-              const datos = {
-                // Usamos .value para obtener el texto del option seleccionado (si ya cambiaste los values)
-                fecha: document.getElementById("fecha").value,
-                lider: document.getElementById("lider").value,
-                redes: [
-                  {
-                    nombre: "Hombres",
-                    asis: getVal("hombres_asis"),
-                    nue: getVal("hombres_nue"),
-                  },
-                  {
-                    nombre: "Mujeres",
-                    asis: getVal("mujeres_asis"),
-                    nue: getVal("mujeres_nue"),
-                  },
-                  {
-                    nombre: "Jóvenes",
-                    asis: getVal("jovenes_asis"),
-                    nue: getVal("jovenes_nue"),
-                  },
-                  {
-                    nombre: "Rocas",
-                    asis: getVal("rocas_asis"),
-                    nue: getVal("rocas_nue"),
-                  },
-                  {
-                    nombre: "Teens",
-                    asis: getVal("teens_asis"),
-                    nue: getVal("teens_nue"),
-                  },
+  if (filtrados.length > 0) {
+    sugerenciasDiv.style.display = "block";
+    filtrados.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "uk-padding-small uk-text-small";
+      div.style.cursor = "pointer";
+      div.innerText = item.nombre;
+      // Al hacer clic, pasamos el objeto completo
+      div.onclick = () => seleccionarLider(item);
+      sugerenciasDiv.appendChild(div);
+    });
+  }
+}
 
-                  {
-                    nombre: "Kids",
-                    asis: getVal("kids_asis"),
-                    nue: getVal("kids_nue"),
-                  },
-                ],
-              };
-              
-              try {
-                await fetch(URL_WEB_APP, {
-                  method: "POST",
-                  mode: "no-cors",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(datos),
-                });
+function seleccionarLider(item) {
+  // 1. Ponemos el nombre en el input
+  document.getElementById("liderInput").value = item.nombre;
+  
+  // 2. Buscamos el Líder de 12 en el select de mentores
+  const mentorSelect = document.getElementById("mentorSelect");
+  const seccionMentor = document.getElementById("seccionMentor");
+  const msgMentor = document.getElementById("msgMentor");
 
-                // Con no-cors no podemos ver la respuesta, pero si no hay error en el catch, se envió.
-                 document.getElementById("loadingOverlay").style.display = "none";
-                 UIkit.modal('#pantallaExito').show();
-                
-                } catch (e) {
-                alert("Error sending report.");
-                document.getElementById("loadingOverlay").style.display = "none";
-              } 
-            });
+  if (item.mentor) {
+    // Si el mentor no existe en las opciones del select, lo agregamos para poder seleccionarlo
+    let existe = Array.from(mentorSelect.options).some(opt => opt.value === item.mentor);
+    if (!existe) {
+      const newOpt = new Option(item.mentor, item.mentor);
+      mentorSelect.add(newOpt);
+    }
+    
+    mentorSelect.value = item.mentor;
+    seccionMentor.style.display = "block";
+    msgMentor.style.display = "block"; // Mostrar aviso de "Asignado automáticamente"
+  } else {
+    seccionMentor.style.display = "block";
+    mentorSelect.value = ""; // Si no tiene mentor, dejamos que elija manualmente
+    msgMentor.style.display = "none";
+  }
+
+  document.getElementById("listaSugerencias").style.display = "none";
+}
+
+function poblarSelectMentores() {
+  const mentorSelect = document.getElementById("mentorSelect");
+  // Extraer mentores únicos de la lista base
+  const mentoresUnicos = [...new Set(listaLideresBase.map(i => i.mentor))].filter(m => m).sort();
+  
+  mentoresUnicos.forEach(m => {
+    const opt = new Option(m, m);
+    mentorSelect.add(opt);
+  });
+}
+
+  // --- Lógica de envío de formulario ---
+  document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("submitBtn");
+    const overlay = document.getElementById("loadingOverlay");
+
+    btn.disabled = true;
+    btn.innerText = "ENVIANDO...";
+    overlay.style.display = "flex";
+
+    const getVal = (name) => {
+      const el = document.getElementsByName(name)[0];
+      // Si no hay elemento o el valor está vacío, devolvemos 0
+      if (!el || el.value === "") return 0;
+      return parseInt(el.value);
+};
+
+    const datos = {
+  fecha: document.getElementById("fecha").value,
+  lider: document.getElementById("liderInput").value, // El que reporta
+  mentor: document.getElementById("mentorSelect").value, // El Líder de 12
+  redes: [
+    { nombre: "Hombres", asis: getVal("hombres_asis"), nue: getVal("hombres_nue") },
+    { nombre: "Mujeres", asis: getVal("mujeres_asis"), nue: getVal("mujeres_nue") },
+    { nombre: "Jóvenes", asis: getVal("jovenes_asis"), nue: getVal("jovenes_nue") },
+    { nombre: "Rocas", asis: getVal("rocas_asis"), nue: getVal("rocas_nue") },
+    { nombre: "Teens", asis: getVal("teens_asis"), nue: 0 }, // Si no hay campo "nuevos", enviamos 0
+    { nombre: "Kids", asis: getVal("kids_asis"), nue: 0 }
+  ]
+};
+
+    try {
+      await fetch(URL_WEB_APP, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(datos)
+      });
+      overlay.style.display = "none";
+      UIkit.modal('#pantallaExito').show();
+    } catch (error) {
+      alert("Error al enviar: " + error);
+      overlay.style.display = "none";
+      btn.disabled = false;
+      btn.innerText = "Enviar Registro →";
+    }
+  });
 
     </script>
   </body>
