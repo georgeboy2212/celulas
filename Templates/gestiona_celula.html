@@ -1,99 +1,315 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+
+<html class="light" lang="es">
 
 <head>
-  <base target="_top" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/css/uikit.min.css" />
-
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Registro Asistencia Células</title>
+  <!-- UIkit CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/css/uikit.min.css" rel="stylesheet" />
+  <!-- Fonts -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&&family=Google+Sans+Flex:opsz,wght@6;144;1;1000&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    :root {
+      --primary: #000000;
+      --surface: #fbfaef;
+      --surface-container: #efeee4;
+      --surface-container-high: #e9e9df;
+      --surface-container-highest: #e4e3d9;
+      --surface-container-low: #f5f4ea;
+      --on-surface: #1b1c16;
+      --on-surface-variant: #4c4546;
+      --outline: #7e7576;
+      --surface-dim: #dbdad1;
+    }
 
-  <link rel="stylesheet" href="/@fortawesome/fontawesome-free/css/all.min.css" />
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--surface);
+      color: var(--on-surface);
+      margin: 0;
+    }
 
+    h1,
+    h2,
+    h3,
+    h4,
+    .brand-font,
+    .uk-h1,
+    .uk-h2,
+    .uk-h3 {
+      font-family: 'Epilogue', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    /* Digital Sanctuary Theme Overrides for UIkit */
+    .uk-input,
+    .uk-select,
+    .uk-textarea {
+      background: transparent !important;
+      border: none !important;
+      border-bottom: 1px solid rgba(126, 117, 118, 0.3) !important;
+      border-radius: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      color: var(--on-surface) !important;
+      transition: border-color 0.5s ease-in-out;
+    }
+
+    .uk-input:focus,
+    .uk-select:focus,
+    .uk-textarea:focus {
+      border-bottom-color: var(--primary) !important;
+    }
+
+    .uk-button-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-radius: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 15px 40px;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .uk-button-primary:hover {
+      background-color: #1b1b1b;
+      color: #ffffff;
+    }
+
+    .uk-button-text {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .custom-nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-container);
+    }
+
+    .step-number {
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--surface-container-highest);
+      line-height: 1;
+    }
+
+    .participant-card {
+      background: var(--surface-container-low);
+      padding: 2rem;
+      transition: background 0.5s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .participant-card:hover {
+      background: var(--surface-container);
+    }
+
+    .attendance-toggle .active {
+      background: var(--primary) !important;
+      color: #fff !important;
+    }
+
+    .attendance-toggle button {
+      background: transparent;
+      border: 1px solid rgba(126, 117, 118, 0.2);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    .spinner-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(251, 250, 239, 0.9);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lista-sugerencias {
+      position: absolute;
+      background: var(--surface-container-lowest);
+      width: 100%;
+      z-index: 10;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      display: none;
+      background-color: #ffffff;
+    }
+
+    .sugerencia-item {
+      padding: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--surface-container);
+      font-size: 0.875rem;
+    }
+
+    .sugerencia-item:hover {
+      background: var(--surface-container-low);
+    }
+
+    @media (max-width: 640px) {
+      .mobile-bottom-nav {
+        background: rgba(251, 250, 239, 0.8);
+        backdrop-filter: blur(20px);
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 100;
+        border-top: 1px solid var(--surface-container);
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div id="loadingOverlay" class="spinner-overlay">
-    <div uk-spinner="ratio: 3" class="uk-text-primary"></div>
-    <p class="uk-text-bold uk-text-primary">Procesando...</p>
+  <div class="spinner-overlay" id="loadingOverlay">
+    <div uk-spinner="ratio: 3"></div>
+    <p class="uk-text-bold uk-margin-top" style="color: var(--primary)">Procesando...</p>
   </div>
-
-
-
-  <div class="main-wrapper">
-
-    <div id="contenedorPrincipal" class="uk-card">
-
-      <div class="card-header-image uk-cover-container">
-        <div class="uk-overlay uk-overlay-primary uk-position-cover uk-flex uk-flex-center uk-flex-middle">
-          <h3 class="uk-text-bold uk-margin-remove" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-            Registrar Asistencia a Célula
-          </h3>
+  <!-- Header -->
+  <header class="custom-nav uk-navbar-container uk-navbar-transparent" uk-sticky="">
+    <div class="uk-container uk-container-xlarge">
+      <nav class="uk-navbar" uk-navbar="">
+        <div class="uk-navbar-left">
+          <a class="uk-navbar-item uk-logo brand-font uk-text-bold uk-text-emphasis" href="/"
+            style="font-size: 1.5rem; letter-spacing: -0.05em;">
+            Ps Joshua & Michelle de Boer
+          </a>
         </div>
+        <div class="uk-navbar-right">
+          <ul class="uk-navbar-nav uk-visible@m">
+            <li class="uk-active"><a class="brand-font" href="/Templates/gestiona_celula.html" target="_blank"
+                style="border-bottom: 1px solid var(--primary)">Celugrama</a></li>
+            <li><a class="brand-font"
+                href="https://datastudio.google.com/reporting/46fcda6a-fd84-4d0a-b640-5d9ab107124a" target="_blank"
+                style="color: var(--on-surface-variant)">Reporte Células</a></li>
+
+          </ul>
+          <div class="uk-navbar-item">
+            <a href="/" target="_blank" style="text-decoration: none; color:#000;">
+            <span class="material-symbols-outlined" style="cursor: pointer"
+              >folded_hands</span
+            >
+          </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main class="uk-section uk-section-large">
+    <div class="uk-container uk-container-small">
+      <!-- Header Section -->
+      <div class="uk-margin-large-bottom uk-text-center uk-text-left@m">
+        <p class="uk-text-uppercase uk-text-meta" style="letter-spacing: 0.3em; font-weight: 500; font-size: 10px;">
+          Asistencia</p>
+        <h1 class="uk-heading-medium uk-text-bold uk-margin-small-top"
+          style="font-size: 4rem; @media(min-width: 960px){font-size: 5rem;}">Células</h1>
+        <p class="uk-text-muted uk-width-large@m uk-text-lead" style="font-weight: 300; font-size: 1.125rem;">Cuiden
+          como pastores el rebaño de Dios que está a su cargo, no por obligación ni por ambición de dinero, sino con
+          deseo de servir, como Dios quiere.</p>
       </div>
-
-      <div class="uk-card-body">
-
-        <div class="uk-margin sugerencias-container">
-          <label class="uk-form-label uk-text-secondary uk-text-bold">1. Busca tu nombre (Líder):</label>
-          <div class="uk-form-controls uk-margin-small-top">
-            <input type="text" class="uk-input uk-form-large uk-border-rounded" id="liderInput"
-              placeholder="Escribe tu nombre..." oninput="filtrarLideres()" autocomplete="off" />
+      <form class="uk-form-stacked" id="attendanceForm">
+        <!-- Step 1: Identification -->
+        <section class="uk-margin-xlarge-bottom">
+          <div class="uk-flex uk-flex-bottom uk-margin-large-bottom">
+            <span class="step-number uk-margin-small-right">01</span>
+            <h2 class="uk-h2 uk-text-bold uk-margin-remove">Selecciona al Líder</h2>
           </div>
-          <div id="listaSugerencias" class="lista-sugerencias"></div>
-          <div id="statusBuscador" class="uk-text-meta uk-margin-small-top">
-            <span uk-spinner="ratio: 0.5"></span> Conectando...
-          </div>
-        </div>
-
-        <div id="seccionMentor" class="uk-margin" style="display: none">
-          <label class="uk-form-label uk-text-secondary uk-text-bold">Tu Líder de 12 (Mentor):</label>
-          <div class="uk-form-controls">
-            <select id="mentorSelect" class="uk-select uk-form-large uk-border-rounded">
-              <option value="">-- Selecciona tu Líder de 12 --</option>
-            </select>
-          </div>
-          <p id="msgMentor" class="uk-text-meta" style="display:none">✨ Mentor asignado automáticamente</p>
-        </div>
-
-        <div id="seccionCelula" class="uk-margin" style="display: none">
-          <label class="uk-form-label uk-text-secondary uk-text-bold">2. Selecciona la célula:</label>
-          <select id="celulaSelect" class="uk-select uk-form-large uk-margin-bottom uk-border-rounded"
-            onchange="detectarNuevaCelula()"></select>
-
-          <div class="uk-margin">
-            <label class="uk-form-label uk-text-secondary uk-text-bold">Fecha de la Célula:</label>
-            <div class="uk-form-controls">
-              <input type="date" id="fechaAsistencia" class="uk-input uk-form-large uk-border-rounded">
+          <div class="uk-margin-large">
+            <div class="uk-margin uk-position-relative">
+              <label class="uk-form-label uk-text-uppercase"
+                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Nombre del
+                Líder</label>
+              <input autocomplete="off" class="uk-input uk-form-large" id="liderInput" oninput="filtrarLideres()"
+                placeholder="Busca tu nombre..." type="text" />
+              <div class="lista-sugerencias uk-card uk-card-default" id="listaSugerencias"></div>
+              <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
+                style="opacity: 0.3">search</span>
+              <div class="uk-text-meta uk-margin-small-top" id="statusBuscador">
+                <span uk-spinner="ratio: 0.5"></span> Conectando...
+              </div>
+            </div>
+            <div class="uk-margin-large" id="seccionMentor" style="display: none">
+              <label class="uk-form-label uk-text-uppercase"
+                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Líder de 12</label>
+              <div class="uk-position-relative">
+                <select class="uk-select uk-form-large" id="mentorSelect">
+                  <option disabled="" selected="" value="">Selecciona a tuLíder de 12...</option>
+                </select>
+                <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
+                  style="pointer-events: none">expand_more</span>
+              </div>
+              <p class="uk-text-meta uk-margin-small-top" id="msgMentor" style="display:none">✨ Mentor asignado
+                automáticamente</p>
             </div>
           </div>
-
-          <div class="uk-margin">
-            <label class="uk-form-label uk-text-secondary uk-text-bold">Nombre del Mensaje:</label>
-            <div class="uk-form-controls">
-              <input type="text" id="nombreMensaje" class="uk-input uk-form-large uk-border-rounded"
-                placeholder="Ej: La importancia de la fe">
+        </section>
+        <!-- Step 2: Cell Context -->
+        <section class="uk-margin-xlarge-bottom" id="seccionCelula" style="display: none">
+          <div class="uk-flex uk-flex-bottom uk-margin-large-bottom">
+            <span class="step-number uk-margin-small-right">02</span>
+            <h2 class="uk-h2 uk-text-bold uk-margin-remove">Información de la Célula</h2>
+          </div>
+          <div class="uk-grid-large uk-child-width-1-2@m" uk-grid="">
+            <div>
+              <label class="uk-form-label uk-text-uppercase"
+                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Célula</label>
+              <div class="uk-position-relative">
+                <select class="uk-select uk-form-large" id="celulaSelect" onchange="detectarNuevaCelula()">
+                  <option disabled="" selected="" value="">Selecciona tu Célula...</option>
+                </select>
+                <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
+                  style="pointer-events: none">expand_more</span>
+              </div>
+            </div>
+            <div>
+              <label class="uk-form-label uk-text-uppercase"
+                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Fecha de la
+                Célula</label>
+              <input class="uk-input uk-form-large" id="fechaAsistencia" type="date" />
+            </div>
+            <div class="uk-width-1-1">
+              <label class="uk-form-label uk-text-uppercase"
+                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Tema del
+                Mensaje</label>
+              <input class="uk-input uk-form-large" id="nombreMensaje" placeholder="Ingresa el mensaje de la célula..."
+                type="text" />
             </div>
           </div>
-
-          <div id="wrapperRealizo" class="uk-padding-small uk-border-rounded uk-background-muted uk-margin"
-            style="display: none">
-            <label class="uk-form-label">¿Se realizó la célula hoy?</label>
-            <select id="realizoCelula" class="uk-select uk-border-rounded" onchange="toggleListaAsistencia()">
+          <div class="uk-margin-large-top uk-padding-small" id="wrapperRealizo"
+            style="background: var(--surface-container-low); display: none">
+            <label class="uk-form-label uk-text-bold">¿Se realizó la célula hoy?</label>
+            <select class="uk-select" id="realizoCelula" onchange="toggleListaAsistencia()">
               <option value="Yes">Sí, se realizó</option>
               <option value="No">No se realizó</option>
             </select>
           </div>
-
-          <div id="camposNuevaCelula" class="uk-margin-top uk-padding-small uk-border-rounded uk-background-muted"
-            style="display: none">
-            <p class="uk-text-primary uk-text-bold uk-text-small">✨ CONFIGURACIÓN NUEVA</p>
-            <input type="text" id="nuevaDireccion" class="uk-input uk-margin-small-bottom"
-              placeholder="Dirección/Nombre" />
-            <select id="nuevaRed" class="uk-select">
+          <div class="uk-margin-top uk-padding" id="camposNuevaCelula"
+            style="background: var(--surface-container-highest); display: none">
+            <p class="uk-text-bold uk-text-small" style="color: var(--primary)">✨ CONFIGURACIÓN NUEVA</p>
+            <input class="uk-input uk-margin-bottom" id="nuevaDireccion" placeholder="Dirección/Nombre" type="text" />
+            <select class="uk-select" id="nuevaRed">
               <option value="">-- Selecciona la Red --</option>
               <option>Jóvenes</option>
               <option>Hombres</option>
@@ -105,70 +321,101 @@
               <option>Discipulado</option>
             </select>
           </div>
-          <div id="infoRed" class="uk-margin-small uk-text-right"></div>
-        </div>
+          <div class="uk-margin-small-top uk-text-right" id="infoRed"></div>
+        </section>
+        <!-- Step 3: Participants -->
+        <section class="uk-margin-xlarge-bottom" id="step3">
+          <div class="uk-flex uk-flex-between uk-flex-bottom uk-margin-large-bottom">
+            <div class="uk-flex uk-flex-bottom">
+              <span class="step-number uk-margin-small-right">03</span>
+              <h2 class="uk-h2 uk-text-bold uk-margin-remove">Registro de Asistentes</h2>
+            </div>
+            <button class="uk-button uk-button-text" id="btnNuevo" onclick="agregarNuevo()" style="display: none"
+              type="button">
+              <span class="material-symbols-outlined" style="font-size: 14px">add</span> Agregar Persona
+            </button>
+          </div>
+          <div class="uk-margin" id="listaAsistentes">
+            <!-- Dynamic content here -->
+          </div>
+          <div class="uk-margin-xlarge-top uk-text-center opacity-20">
+            <img alt="Group gathering" class="uk-width-1-1"
+              src="https://images.pexels.com/photos/3131634/pexels-photo-3131634.jpeg"
+              style="height: 200px; object-fit: cover; filter: grayscale(100%);" />
+            <p class="uk-text-uppercase uk-margin-small-top" style="font-size: 10px; letter-spacing: 0.2em;">Apacienta
+              mis ovejas</p>
 
-        <div id="listaAsistentes"></div>
+             
+          </div>
+        </section>
 
-        <div id="controles" style="display: none" class="uk-margin-top">
-          <button id="btnNuevo"
-            class="uk-button uk-button-default uk-width-1-1 uk-margin-bottom uk-text-bold uk-border-rounded"
-            style="color: #e29500; border-color: #e29500" onclick="agregarNuevo()">
-            + AGREGAR PERSONA
-          </button>
-          <button id="btnGuardar"
-            class="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-text-capitalize uk-border-rounded shadow-primary"
-            onclick="enviarDatos()">
+        <div class="uk-text-center">
+            <a class="uk-button uk-button-default uk-width-1-1 uk-width-auto@m"
+            href = '/'>
+            Volver al Inicio →
+          </a>
+          </div>
+
+        <!-- Submit Action -->
+        <div class="uk-margin-xlarge-top uk-padding-large uk-text-center" id="controles" style="display: none">
+          <button class="uk-button uk-button-primary uk-width-1-1 uk-width-auto@m" id="btnGuardar"
+            onclick="enviarDatos()" type="button">
             Enviar Reporte
           </button>
+          
+          
+
+          <p class="uk-margin-top uk-text-meta uk-text-italic" style="font-size: 10px;">Al dar clic sobre el botón
+            "Enviar Reporte" aceptas el tratamiento de datos personales</p>
         </div>
-
+      </form>
+    </div>
+  </main>
+  <!-- Success Screen Modal -->
+  <div class="uk-flex-top" id="pantallaExito" uk-modal="bg-close: false; stack: true">
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center"
+      style="background: var(--surface)">
+      <div class="uk-margin-large-bottom uk-inline">
+        <div
+          style="width: 96px; height: 96px; background: var(--primary); display: flex; align-items: center; justify-content: center;">
+          <span class="material-symbols-outlined" style="color: white; font-size: 48px;">check_circle</span>
+        </div>
       </div>
+      <h2 class="uk-h2 uk-text-bold uk-margin-remove-top">Reporte Enviado</h2>
+      <p class="uk-text-muted uk-margin-large-bottom" style="font-weight: 300;">Muchas gracias por engrandecer el reino
+        de Dios</p>
+      <button class="uk-button uk-button-default uk-text-bold uk-text-uppercase" onclick="window.location.reload()"
+        style="letter-spacing: 0.2em; font-size: 10px; padding: 15px 30px; background: var(--surface-container-highest);">
+        Volver al Inicio
+      </button>
     </div>
+  </div>
+  <!-- Bottom Navigation for Mobile -->
+  <nav class="mobile-bottom-nav uk-hidden@m">
+    <div class="uk-flex uk-flex-around uk-padding-small">
+      <a class="uk-flex uk-flex-column uk-flex-middle"
+        href="https://datastudio.google.com/reporting/46fcda6a-fd84-4d0a-b640-5d9ab107124a" target="_blank"
+        style="opacity: 0.5; color:#000;">
+        <span class="material-symbols-outlined">
+          contract_edit</span>
+        <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em;">Reporte
+          Células</span>
+      </a>
 
-    <div id="pantallaExito"
-      class="uk-card uk-card-default uk-card-body uk-border-rounded uk-text-center uk-width-large@s"
-      style="display: none">
-      <div class="uk-text-success uk-margin-bottom" style="font-size: 80px">✔</div>
-      <h2 class="uk-text-bold uk-text-success">¡Reporte Enviado!</h2>
-      <button class="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-margin-top uk-border-rounded"
-        onclick="window.location.reload()">Hacer otro reporte</button>
     </div>
+  </nav>
 
-  </div>
 
-  </div>
 
-  <div id="pantallaExito"
-    class="container-custom uk-card uk-card-default uk-card-body uk-border-rounded uk-text-center uk-margin-large-top"
-    style="display: none">
-    <div class="uk-text-success uk-margin-bottom" style="font-size: 80px">
-      ✔
-    </div>
-    <h2 class="uk-text-bold uk-text-success">¡Guardado!</h2>
-    <button class="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-margin-top"
-      onclick="window.location.reload()">
-      Hacer otro reporte
-    </button>
-  </div>
-  </div>
-
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit-icons.min.js"></script>
   <script>
-    src = "/main.js";
-  </script>
-
-  <script>
-    // URL DE TU SCRIPT DE GOOGLE
-    const SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbzHOi8NT69ms4AaRx7esFHP5ot69fbFe1QEy5hv3aKpM7ljrbyxHJxdvH8giGfjtVvU/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHOi8NT69ms4AaRx7esFHP5ot69fbFe1QEy5hv3aKpM7ljrbyxHJxdvH8giGfjtVvU/exec";
 
     let baseDatosLideres = [];
     let nombresUnicos = [];
-    let listaMentoresGlobal = [];
 
-    // Función centralizada para peticiones GET
     async function llamarGoogle(accion, parametros = {}) {
       const query = new URLSearchParams({
         action: accion,
@@ -180,24 +427,20 @@
 
     window.onload = async () => {
       try {
-        // 1. Ejecutamos ambas peticiones en paralelo para mayor velocidad
         const [datosLideres, datosMentores] = await Promise.all([
           llamarGoogle("getLideres"),
           llamarGoogle("getMentores")
         ]);
 
-        // 2. Procesar datos de Líderes
         if (datosLideres) {
           baseDatosLideres = datosLideres;
           nombresUnicos = [...new Set(datosLideres.map((d) => d[0]))];
         }
 
-        // 3. Procesar datos de Mentores y llenar el select
         if (datosMentores) {
           const mSelect = document.getElementById("mentorSelect");
           if (mSelect) {
-            // Limpiamos opciones previas si las hubiera
-            mSelect.innerHTML = '<option value="">-- Selecciona tu Líder de 12 --</option>';
+            mSelect.innerHTML = '<option value="" disabled selected>Selecciona a tu Líder de 12...</option>';
             datosMentores.forEach(m => {
               let opt = document.createElement("option");
               opt.value = m;
@@ -207,13 +450,7 @@
           }
         }
 
-        // 4. Inicializar la fecha de hoy
-        const fechaInput = document.getElementById("fechaAsistencia");
-        if (fechaInput) {
-          fechaInput.valueAsDate = new Date();
-        }
-
-        // 5. Mensaje de éxito
+        document.getElementById("fechaAsistencia").valueAsDate = new Date();
         document.getElementById("statusBuscador").innerText = "✅ Listo. Busca tu nombre.";
 
       } catch (e) {
@@ -230,22 +467,16 @@
         lista.style.display = "none";
         return;
       }
-      const filtrados = nombresUnicos.filter(
-        (n) => n && n.toLowerCase().includes(texto),
-      );
+      const filtrados = nombresUnicos.filter((n) => n && n.toLowerCase().includes(texto));
 
       if (filtrados.length > 0) {
         lista.innerHTML = filtrados
           .slice(0, 6)
-          .map(
-            (n) => `
-          <div class="sugerencia-item" onclick="seleccionarLider('${n.replace(/'/g, "\\'")}')">${n}</div>
-        `,
-          )
+          .map((n) => `<div class="sugerencia-item" onclick="seleccionarLider('${n.replace(/'/g, "\\'")}')">${n}</div>`)
           .join("");
         lista.style.display = "block";
       } else {
-        lista.innerHTML = `<div class="sugerencia-item uk-text-primary" onclick="seleccionarLider('${input.value.replace(/'/g, "\\'")}')">✨ Usar: "${input.value}" (Nuevo Líder)</div>`;
+        lista.innerHTML = `<div class="sugerencia-item" style="color: var(--primary)" onclick="seleccionarLider('${input.value.replace(/'/g, "\\'")}')">✨ Usar: "${input.value}" (Nuevo Líder)</div>`;
         lista.style.display = "block";
       }
     }
@@ -258,30 +489,22 @@
       const seccionMentor = document.getElementById("seccionMentor");
       const select = document.getElementById("celulaSelect");
 
-      const coincidencias = baseDatosLideres.filter(
-        (f) => f[0].toLowerCase() === nombre.toLowerCase(),
-      );
+      const coincidencias = baseDatosLideres.filter((f) => f[0].toLowerCase() === nombre.toLowerCase());
 
-      // 2. MOSTRAR LA SECCIÓN DEL MENTOR
       seccionMentor.style.display = "block";
 
       if (coincidencias.length > 0) {
-        // LIDER EXISTENTE:
-        // Tomamos el mentor del primer registro encontrado (columna index 1)
         const mentorAsignado = coincidencias[0][1];
-
         selectMentor.value = mentorAsignado;
-        selectMentor.disabled = true; // Bloqueamos para evitar errores
-        msgMentor.style.display = "block"; // Mostramos el aviso de "Auto-asignado"
+        selectMentor.disabled = true;
+        msgMentor.style.display = "block";
       } else {
-        // LIDER NUEVO:
         selectMentor.value = "";
-        selectMentor.disabled = false; // Permitimos que elija
+        selectMentor.disabled = false;
         msgMentor.style.display = "none";
       }
 
-      select.innerHTML =
-        '<option value="">-- Selecciona la célula --</option>';
+      select.innerHTML = '<option value="" disabled selected>Selecciona tu célula...</option>';
       coincidencias.forEach((c) => {
         let opt = document.createElement("option");
         opt.value = c[2];
@@ -311,20 +534,15 @@
       let infoRed = document.getElementById("infoRed");
 
       div.innerHTML = "";
-      infoRed.innerHTML = ""; // Limpiar badge de red al cambiar
+      infoRed.innerHTML = "";
       document.getElementById("controles").style.display = "none";
 
       if (val === "NUEVA") {
         panel.style.display = "block";
         vPanel.style.display = "block";
         document.getElementById("realizoCelula").value = "Yes";
-
-        // Indicador para nueva célula
         infoRed.innerHTML = `<span class="uk-label uk-label-warning">Configurando Nueva Célula</span>`;
-
-        div.innerHTML =
-          '<div class="uk-alert-warning uk-padding-small uk-text-center uk-border-rounded">Célula nueva: Usa el botón de abajo para agregar a los asistentes.</div>';
-
+        div.innerHTML = '<div class="uk-alert uk-alert-warning uk-text-center">Célula nueva: Selecciona la opción de + Agregar Persona.</div>';
         document.getElementById("controles").style.display = "block";
         toggleListaAsistencia();
       } else if (val !== "") {
@@ -341,85 +559,73 @@
       let lider = document.getElementById("liderInput").value;
       let select = document.getElementById("celulaSelect");
       let option = select.options[select.selectedIndex];
-
-      // --- CORRECCIÓN DEL BADGE DE RED ---
       let redDetectada = option.getAttribute("data-red");
 
-      document.getElementById("infoRed").innerHTML =
-        `<span class="uk-badge" style="background-color: #1e87f0; color: #fff; padding: 5px 12px;">
-      Red: ${redDetectada && redDetectada !== "undefined" ? redDetectada : "No asignada"}
-    </span>`;
+      document.getElementById("infoRed").innerHTML = `<span class="uk-badge" style="background-color: var(--primary); padding: 5px 12px;">Red: ${redDetectada && redDetectada !== "undefined" ? redDetectada : "No asignada"}</span>`;
 
       let div = document.getElementById("listaAsistentes");
-      div.innerHTML =
-        '<div class="uk-text-center uk-padding"><div uk-spinner="ratio: 0.8"></div> Cargando equipo...</div>';
+      div.innerHTML = '<div class="uk-text-center uk-padding"><div uk-spinner="ratio: 0.8"></div> Cargando equipo...</div>';
 
       try {
-        const asistentes = await llamarGoogle("getAsistentes", {
-          lider: lider,
-          celula: select.value,
-        });
+        const asistentes = await llamarGoogle("getAsistentes", { lider: lider, celula: select.value });
         div.innerHTML = "";
-        div.innerHTML =
-          '<h5 class="uk-heading-line"><span>Asistentes registrados:</span></h5>';
-
         if (asistentes && asistentes.length > 0) {
-          asistentes.forEach((a) => {
-            div.innerHTML += plantillaTarjetaAsistente(a);
-          });
+          asistentes.forEach((a) => { div.innerHTML += plantillaTarjetaAsistente(a); });
         } else {
-          div.innerHTML =
-            '<p class="uk-text-meta uk-text-center">No hay personas registradas aún en esta célula.</p>';
+          div.innerHTML = '<p class="uk-text-meta uk-text-center">No hay personas registradas aún en esta célula.</p>';
         }
         document.getElementById("controles").style.display = "block";
         toggleListaAsistencia();
       } catch (e) {
-        div.innerHTML =
-          '<div class="uk-text-danger uk-text-center">Error al conectar con la base de datos.</div>';
+        div.innerHTML = '<div class="uk-text-danger uk-text-center">Error al conectar con la base de datos.</div>';
       }
     }
 
     function plantillaTarjetaAsistente(a) {
-
       const tempId = 'id_' + Math.random().toString(36).substr(2, 9);
-
       return `
-  <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small card-asistente" id="${tempId}">
-    <div class="uk-grid-small uk-flex-middle" uk-grid>
-      <div class="uk-width-expand">
-        <input type="text" class="uk-input uk-form-blank uk-text-bold check-v-nombre" 
-               value="${a.nombre}" style="padding: 0; min-height: auto; background: transparent;" 
-               title="Haz clic para editar nombre"
-               data-original="${a.nombre}" 
-               onchange="confirmarEdicionNombre(this)">
-        <input type="tel" class="uk-input uk-form-blank uk-text-meta check-v-telefono" placeholder="Añadir celular..." value="${a.telefono || ''}" style="min-height: auto; padding: 0;">
-      </div>
-      <div class="uk-width-auto">
-        <div class="uk-flex uk-flex-middle">
-          <div class="uk-margin-small-right">
-              <span class="uk-label uk-label-primary" style="font-size: 10px;">¿Asistió?</span>
-              <select class="uk-select uk-form-small check-v-asistencia" style="width: 70px;">
-                  <option value="true" selected>SÍ</option>
-                  <option value="false">NO</option>
-              </select>
-          </div>
-          <div class="uk-margin-small-right">
-              <span class="uk-label uk-label-muted" style="font-size: 10px;">Estado</span>
-              <select class="uk-select uk-form-small st-v" style="width: 100px;">
-                  <option ${a.estado == "Nuevo" ? "selected" : ""}>Nuevo</option>
-                  <option ${a.estado == "Visitado" ? "selected" : ""}>Visitado</option>
-                  <option ${a.estado == "Encuentro" ? "selected" : ""}>Encuentro</option>
-                  <option ${a.estado == "Escuela Año 1" ? "selected" : ""}>Escuela Año 1</option>
-              </select>
-          </div>
-          <button class="uk-button uk-button-text uk-text-danger" type="button" 
-                  onclick="eliminarFila('${tempId}')" title="Eliminar persona">
-            <span uk-icon="icon: trash; ratio: 0.8"></span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>`;
+            <div class="participant-card uk-grid-small uk-flex-middle" id="${tempId}" uk-grid>
+                <div class="uk-width-expand">
+                    <h4 class="uk-h4 uk-margin-remove">
+                        <input type="text" class="uk-input uk-form-blank uk-text-bold check-v-nombre" value="${a.nombre}" style="padding:0; height:auto; font-size: 1.25rem;" data-original="${a.nombre}" onchange="confirmarEdicionNombre(this)">
+                    </h4>
+                    <input type="tel" class="uk-input uk-form-blank uk-text-meta check-v-telefono" placeholder="Phone Number" value="${a.telefono || ''}" style="padding:0; height:auto;">
+                </div>
+                <div class="uk-width-auto@m uk-flex uk-flex-middle uk-flex-wrap">
+                    <div class="uk-margin-right uk-margin-small-bottom">
+                        <span class="uk-text-uppercase" style="font-size: 10px; letter-spacing: 0.1em; color: var(--on-surface-variant)">Asistió</span>
+                        <div class="attendance-toggle uk-flex uk-margin-small-top">
+                            <button type="button" class="active" onclick="toggleBtn(this, true)">SÍ</button>
+                            <button type="button" onclick="toggleBtn(this, false)">NO</button>
+                            <input type="hidden" class="check-v-asistencia" value="true">
+                        </div>
+                    </div>
+                    <div class="uk-margin-right uk-margin-small-bottom">
+                         <div class="uk-position-relative">
+                            <select class="uk-select uk-form-small st-v" style="font-size: 12px; border:none; border-bottom:1px solid rgba(0,0,0,0.1) !important; width:130px;">
+                                <option ${a.estado == "Nuevo" ? "selected" : ""}>Nuevo</option>
+                                <option ${a.estado == "Encuentro" ? "selected" : ""}>Encuentro</option>
+                                <option ${a.estado == "PostEncuentro" ? "selected" : ""}>PostEncuentro</option>
+                                <option ${a.estado == "Capacitacion Destino" ? "selected" : ""}>Capacitacion Destino</option>
+                                <option ${a.estado == "Escuela Año 1" ? "selected" : ""}>Escuela Año 1</option>
+                                <option ${a.estado == "Líder" ? "selected" : ""}>Líder</option>
+                                <option ${a.estado == "PreLíder" ? "selected" : ""}>PreLíder</option>
+                            </select>
+                            <span class="material-symbols-outlined uk-position-center-right" style="font-size: 14px; pointer-events:none;">expand_more</span>
+                        </div>
+                    </div>
+                    <button class="uk-button uk-button-text uk-text-danger uk-margin-small-bottom" type="button" onclick="eliminarFila('${tempId}')">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+                    </button>
+                </div>
+            </div>`;
+    }
+
+    function toggleBtn(btn, val) {
+      const container = btn.parentElement;
+      container.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      container.querySelector('input').value = val;
     }
 
     function toggleListaAsistencia() {
@@ -439,166 +645,119 @@
 
     function agregarNuevo() {
       let html = `
-        <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small card-nuevo">
-          <div class="uk-grid-small uk-flex-bottom" uk-grid>
-            <div class="uk-width-1-1 uk-width-expand@m">
-              <label class="uk-form-label uk-text-bold uk-text-warning" style="font-size: 0.75rem;">Nombre del Nuevo</label>
-              <input type="text" class="uk-input uk-form-small n-nuevo" placeholder="Nombre completo">
-            </div>
-            <div class="uk-width-1-2 uk-width-auto@m">
-              <input type="tel" class="uk-input uk-form-small n-telefono" placeholder="Número de celular">
-            </div>
-            <div class="uk-width-1-2 uk-width-auto@m">
-              <label class="uk-form-label uk-text-bold uk-text-warning" style="font-size: 0.75rem;">¿Asistió?</label>
-              <select class="uk-select uk-form-small s-nuevo-asiste">
-                <option value="true" selected>SÍ</option>
-                <option value="false">NO</option>
-              </select>
-            </div>
-            <div class="uk-width-1-2 uk-width-auto@m">
-              <label class="uk-form-label uk-text-bold uk-text-warning" style="font-size: 0.75rem;">Estatus</label>
-              <select class="uk-select uk-form-small s-nuevo">
-                <option value="Nuevo" selected>Nuevo</option>
-                <option value="Visitado">Visitado</option>
-                <option value="Encuentro">Encuentro</option>
-                <option value="Escuela Año 1">Escuela Año 1</option>
-              </select>
-            </div>
-          </div>
-        </div>`;
-      document
-        .getElementById("listaAsistentes")
-        .insertAdjacentHTML("beforeend", html);
+            <div class="participant-card uk-grid-small uk-flex-middle card-nuevo" uk-grid>
+                <div class="uk-width-expand">
+                    <input type="text" class="uk-input uk-form-blank uk-text-bold n-nuevo" placeholder="Ingresa el nombre" style="padding:0; height:auto; font-size: 1.25rem;">
+                    <input type="tel" class="uk-input uk-form-blank uk-text-meta n-telefono" placeholder="Ingresa el número de celular" style="padding:0; height:auto;">
+                </div>
+                <div class="uk-width-auto@m uk-flex uk-flex-middle uk-flex-wrap">
+                    <div class="uk-margin-right">
+                        <span class="uk-text-uppercase" style="font-size: 10px; letter-spacing: 0.1em; color: var(--on-surface-variant)">Asistió</span>
+                        <div class="attendance-toggle uk-flex uk-margin-small-top">
+                            <button type="button" class="active" onclick="toggleBtn(this, true)">SÍ</button>
+                            <button type="button" onclick="toggleBtn(this, false)">NO</button>
+                            <input type="hidden" class="s-nuevo-asiste" value="true">
+                        </div>
+                    </div>
+                    <div>
+                        <select class="uk-select uk-form-small s-nuevo" style="font-size: 12px; border:none; border-bottom:1px solid rgba(0,0,0,0.1) !important; width:130px;">
+                            <option value="Nuevo" selected>Nuevo</option>
+                            <option value="Encuentro">Encuentro</option>
+                            <option value="PostEncuentro">PostEncuentro</option>
+                            <option value="Capacitacion Destino">Capacitacion Destino</option>
+                            <option value="Escuela Año 1">Escuela Año 1</option>
+                            <option value="Líder">Líder</option>
+                            <option value="PreLíder">PreLíder</option>>
+                        </select>
+                    </div>
+                </div>
+            </div>`;
+      document.getElementById("listaAsistentes").insertAdjacentHTML("beforeend", html);
     }
 
     async function enviarDatos() {
       let select = document.getElementById("celulaSelect");
       let fechaSeleccionada = document.getElementById("fechaAsistencia").value;
-      let mentore = document.getElementById("mentorSelect").value;
+      let mentor = document.getElementById("mentorSelect").value;
       let mensajeCélula = document.getElementById("nombreMensaje").value.trim();
 
-      if (!mentore) return alert("Por favor, selecciona a tu Líder de 12.");
-
-      if (!fechaSeleccionada) return alert("Por favor, selecciona una fecha.");
+      if (!mentor) return alert("Please select a mentor.");
+      if (!fechaSeleccionada) return alert("Please select a date.");
 
       let realizo = document.getElementById("realizoCelula").value;
       let esNueva = select.value === "NUEVA";
-      let direccion = esNueva
-        ? document.getElementById("nuevaDireccion").value.trim()
-        : select.value;
-      let red = esNueva
-        ? document.getElementById("nuevaRed").value
-        : select.options[select.selectedIndex].getAttribute("data-red");
-      let mentor = esNueva
-        ? "Pendiente"
-        : select.options[select.selectedIndex].getAttribute("data-mentor");
+      let direccion = esNueva ? document.getElementById("nuevaDireccion").value.trim() : select.value;
+      let red = esNueva ? document.getElementById("nuevaRed").value : select.options[select.selectedIndex].getAttribute("data-red");
 
-      if (!direccion || (esNueva && !red))
-        return alert("Faltan datos de la célula.");
+      if (!direccion || (esNueva && !red)) return alert("Missing cell information.");
 
       let meta = {
         lider: document.getElementById("liderInput").value,
         celula: direccion,
-        mentor: mentore,
+        mentor: mentor,
         red: red,
         realizo: realizo,
         fechaManual: fechaSeleccionada,
         mensajeNombre: mensajeCélula,
       };
-      let datos = [];
 
+      let datos = [];
       if (realizo === "No") {
-        datos.push({
-          ...meta,
-          nombre: "REPORTE: NO SE REALIZÓ",
-          asistio: false,
-          estado: "N/A",
-        });
+        datos.push({ ...meta, nombre: "REPORTE: NO SE REALIZÓ", asistio: false, estado: "N/A" });
       } else {
-        document.querySelectorAll(".card-asistente").forEach((c) => {
-          let nombre = c.querySelector(".check-v-nombre").value;
-          let asistio =
-            c.querySelector(".check-v-asistencia").value === "true";
-          let estado = c.querySelector(".st-v").value;
-          let telefono = c.querySelector(".check-v-telefono").value;
+        document.querySelectorAll(".participant-card:not(.card-nuevo)").forEach((c) => {
           datos.push({
             ...meta,
-            nombre: nombre,
-            asistio: asistio,
-            estado: estado,
-            telefono: telefono,
+            nombre: c.querySelector(".check-v-nombre").value,
+            asistio: c.querySelector(".check-v-asistencia").value === "true",
+            estado: c.querySelector(".st-v").value,
+            telefono: c.querySelector(".check-v-telefono").value,
           });
         });
         document.querySelectorAll(".card-nuevo").forEach((c) => {
           let n = c.querySelector(".n-nuevo").value.trim();
-          let asisteNuevo =
-            c.querySelector(".s-nuevo-asiste").value === "true";
-          let estadoNuevo = c.querySelector(".s-nuevo").value;
-          let telNuevo = c.querySelector(".n-telefono").value;
-          if (n)
-            datos.push({
-              ...meta,
-              nombre: n,
-              asistio: asisteNuevo,
-              estado: estadoNuevo,
-              telefono: telNuevo,
-            });
+          if (n) datos.push({
+            ...meta,
+            nombre: n,
+            asistio: c.querySelector(".s-nuevo-asiste").value === "true",
+            estado: c.querySelector(".s-nuevo").value,
+            telefono: c.querySelector(".n-telefono").value,
+          });
         });
-        if (datos.length === 0)
-          return alert("Agrega personas o marca que no se realizó.");
+        if (datos.length === 0) return alert("Add people or mark as not held.");
       }
 
       document.getElementById("loadingOverlay").style.display = "flex";
-
       try {
         await fetch(SCRIPT_URL, {
           method: "POST",
-          mode: "no-cors", // Crucial
-          headers: {
-            "Content-Type": "text/plain", // CAMBIA ESTO
-          },
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
           body: JSON.stringify(datos),
         });
-
-        // Al usar no-cors no podemos leer la respuesta, pero si no hay error, asumimos éxito
         document.getElementById("loadingOverlay").style.display = "none";
-        document.getElementById("contenedorPrincipal").style.display = "none";
-        document.getElementById("pantallaExito").style.display = "block";
+        UIkit.modal('#pantallaExito').show();
       } catch (e) {
-        alert("Error al enviar el reporte.");
+        alert("Error sending report.");
         document.getElementById("loadingOverlay").style.display = "none";
       }
     }
 
     async function eliminarFila(id) {
-      // 1. Obtenemos los datos ANTES de borrar el HTML
-      const contenedor = document.getElementById(id);
-      const nombreAEliminar = contenedor.querySelector(".check-v-nombre").value;
+      const container = document.getElementById(id);
+      const nombre = container.querySelector(".check-v-nombre").value;
       const lider = document.getElementById("liderInput").value;
       const celula = document.getElementById("celulaSelect").value;
 
-      UIkit.modal.confirm(`¿Deseas eliminar a ${nombreAEliminar} permanentemente de esta célula?`, {
-        labels: { ok: 'SÍ, ELIMINAR', cancel: 'CANCELAR' }
-      }).then(async function () {
-
+      UIkit.modal.confirm(`Deseas eliminar a ${nombre} permanentemente?`).then(async function () {
         document.getElementById("loadingOverlay").style.display = "flex";
-
         try {
-          // Construimos la URL con los parámetros
-          const urlEliminar = `${SCRIPT_URL}?action=eliminarAsistenteMaestro&nombre=${encodeURIComponent(nombreAEliminar)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
-
-          // Ejecutamos la petición
-          await fetch(urlEliminar, { method: 'GET', mode: 'no-cors' });
-
-          // 2. Si la petición se envió (aunque no-cors no deje leer la respuesta), borramos del HTML
-          contenedor.style.transition = "all 0.3s";
-          contenedor.style.opacity = "0";
-          setTimeout(() => contenedor.remove(), 300);
-
-          UIkit.notification({ message: 'Asistente eliminado de la lista maestra', status: 'success' });
+          const url = `${SCRIPT_URL}?action=eliminarAsistenteMaestro&nombre=${encodeURIComponent(nombre)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
+          await fetch(url, { method: 'GET', mode: 'no-cors' });
+          container.remove();
+          UIkit.notification({ message: 'Removed successfully', status: 'primary' });
         } catch (error) {
-          console.error("Error al eliminar:", error);
-          alert("No se pudo eliminar de la base de datos.");
+          alert("Error removing from database.");
         } finally {
           document.getElementById("loadingOverlay").style.display = "none";
         }
@@ -606,40 +765,27 @@
     }
 
     async function confirmarEdicionNombre(input) {
-      const nombreNuevo = input.value.trim();
-      const nombreOriginal = input.getAttribute("data-original");
+      const nuevo = input.value.trim();
+      const original = input.getAttribute("data-original");
       const lider = document.getElementById("liderInput").value;
       const celula = document.getElementById("celulaSelect").value;
 
-      if (nombreNuevo === nombreOriginal || nombreNuevo === "") return;
+      if (nuevo === original || nuevo === "") return;
 
-      UIkit.modal.confirm(`¿Quieres cambiar el nombre de "${nombreOriginal}" a "${nombreNuevo}" permanentemente?`)
-        .then(async function () {
-          document.getElementById("loadingOverlay").style.display = "flex";
-          try {
-            const url = `${SCRIPT_URL}?action=editarAsistenteMaestro&nombreOriginal=${encodeURIComponent(nombreOriginal)}&nombreNuevo=${encodeURIComponent(nombreNuevo)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
-
-            await fetch(url, { method: 'GET', mode: 'no-cors' });
-
-            // Actualizamos el "original" para futuras ediciones sin recargar
-            input.setAttribute("data-original", nombreNuevo);
-            UIkit.notification({ message: 'Nombre actualizado en la base maestra', status: 'success' });
-          } catch (e) {
-            alert("Error al actualizar el nombre.");
-            input.value = nombreOriginal; // Revertimos el cambio visualmente
-          } finally {
-            document.getElementById("loadingOverlay").style.display = "none";
-          }
-        }, function () {
-          input.value = nombreOriginal; // Si cancela, volvemos al nombre de antes
-        });
+      UIkit.modal.confirm(`Cambiar nombre de "${original}" a "${nuevo}"?`).then(async function () {
+        document.getElementById("loadingOverlay").style.display = "flex";
+        try {
+          const url = `${SCRIPT_URL}?action=editarAsistenteMaestro&nombreOriginal=${encodeURIComponent(original)}&nombreNuevo=${encodeURIComponent(nuevo)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
+          await fetch(url, { method: 'GET', mode: 'no-cors' });
+          input.setAttribute("data-original", nuevo);
+          UIkit.notification({ message: 'Name updated', status: 'primary' });
+        } catch (e) {
+          input.value = original;
+        } finally {
+          document.getElementById("loadingOverlay").style.display = "none";
+        }
+      }, function () { input.value = original; });
     }
-
-    function volverAlInicio() {
-      location.reload(); // Recarga la página para limpiar todo fácilmente
-    }
-
-    document.getElementById('fechaAsistencia').valueAsDate = new Date();
   </script>
 </body>
 

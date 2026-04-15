@@ -167,3 +167,7 @@ body {
       max-height: 150px;
       overflow-y: auto;
     }
+
+    .uk-navbar-container:not(.uk-navbar-transparent) {
+    background: #fbfaef;
+}
