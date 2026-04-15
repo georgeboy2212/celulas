@@ -199,7 +199,7 @@
     <div class="uk-container uk-container-xlarge">
       <nav class="uk-navbar" uk-navbar="">
         <div class="uk-navbar-left">
-          <a class="uk-navbar-item uk-logo brand-font uk-text-bold uk-text-emphasis" href="/"
+          <a class="uk-navbar-item uk-logo brand-font uk-text-bold uk-text-emphasis" href="#" onclick="return false;"
             style="font-size: 1.5rem; letter-spacing: -0.05em;">
             Ps Joshua & Michelle de Boer
           </a>
@@ -216,7 +216,7 @@
 
           </ul>
           <div class="uk-navbar-item">
-            <a href="/" target="_blank" style="text-decoration: none; color:#000;">
+            <a href="#" target="_blank" style="text-decoration: none; color:#000;" onclick="return false;">
               <span class="material-symbols-outlined" style="cursor: pointer"
               >folded_hands</span
             </a>
@@ -263,7 +263,7 @@
                 style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Líder de 12</label>
               <div class="uk-position-relative">
                 <select class="uk-select uk-form-large" id="mentorSelect">
-                  <option disabled="" selected="" value="">Selecciona a tuLíder de 12...</option>
+                  <option disabled="" selected="" value="">Selecciona a tu Líder de 12...</option>
                 </select>
                 <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
                   style="pointer-events: none">expand_more</span>
@@ -729,7 +729,7 @@
             telefono: c.querySelector(".n-telefono").value,
           });
         });
-        if (datos.length === 0) return alert("Add people or mark as not held.");
+        if (datos.length === 0) return alert("Adiciona personas o marca como no realizada.");
       }
 
       document.getElementById("loadingOverlay").style.display = "flex";
