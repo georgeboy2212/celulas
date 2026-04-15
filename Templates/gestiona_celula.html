@@ -208,10 +208,8 @@
           </ul>
           <div class="uk-navbar-item">
             <a href="/" target="_blank" style="text-decoration: none; color:#000;">
-            <span class="material-symbols-outlined" style="cursor: pointer"
-              >folded_hands</span
-            >
-          </a>
+              <span class="material-symbols-outlined" style="cursor: pointer">folded_hands</span>
+            </a>
           </div>
         </div>
       </nav>
@@ -326,7 +324,7 @@
         <!-- Step 3: Participants -->
         <section class="uk-margin-xlarge-bottom" id="step3">
           <div class="uk-flex uk-flex-between uk-flex-bottom uk-margin-large-bottom">
-            <div class="uk-flex uk-flex-bottom">
+            <div class="uk-flex uk-flex-bottom" id="controles" style="display: none">
               <span class="step-number uk-margin-small-right">03</span>
               <h2 class="uk-h2 uk-text-bold uk-margin-remove">Registro de Asistentes</h2>
             </div>
@@ -338,36 +336,33 @@
           <div class="uk-margin" id="listaAsistentes">
             <!-- Dynamic content here -->
           </div>
-          <div class="uk-margin-xlarge-top uk-text-center opacity-20">
-            <img alt="Group gathering" class="uk-width-1-1"
-              src="https://images.pexels.com/photos/3131634/pexels-photo-3131634.jpeg"
-              style="height: 200px; object-fit: cover; filter: grayscale(100%);" />
-            <p class="uk-text-uppercase uk-margin-small-top" style="font-size: 10px; letter-spacing: 0.2em;">Apacienta
+          <div class="uk-margin-top uk-text-center opacity-20">
+            <p class="uk-text-uppercase" style="font-size: 10px; letter-spacing: 0.2em;">Apacienta
               mis ovejas</p>
 
-             
+            <button class="uk-button uk-button-primary uk-width-1-1 uk-width-auto@m" id="btnGuardar"
+              onclick="enviarDatos()" type="button">
+              Enviar Reporte
+            </button>
+
+
+            <p class="uk-margin-top uk-text-meta uk-text-italic" style="font-size: 10px;">Al dar clic sobre el botón
+              "Enviar Reporte" aceptas el tratamiento de datos personales</p>
           </div>
-        </section>
-
-        <div class="uk-text-center">
-            <a class="uk-button uk-button-default uk-width-1-1 uk-width-auto@m"
-            href = '/'>
-            Volver al Inicio →
-          </a>
+          <div class="uk-text-center">
+            <a class="uk-button uk-button-default uk-width-1-1 uk-width-auto@m" href='/'>
+              Volver al Inicio →
+            </a>
           </div>
 
-        <!-- Submit Action -->
-        <div class="uk-margin-xlarge-top uk-padding-large uk-text-center" id="controles" style="display: none">
-          <button class="uk-button uk-button-primary uk-width-1-1 uk-width-auto@m" id="btnGuardar"
-            onclick="enviarDatos()" type="button">
-            Enviar Reporte
-          </button>
-          
-          
+    </div>
+    </section>
 
-          <p class="uk-margin-top uk-text-meta uk-text-italic" style="font-size: 10px;">Al dar clic sobre el botón
-            "Enviar Reporte" aceptas el tratamiento de datos personales</p>
-        </div>
+
+
+    <!-- Submit Action -->
+    <div class="uk-margin-xlarge-top uk-padding-large uk-text-center" >
+
       </form>
     </div>
   </main>
@@ -542,7 +537,7 @@
         vPanel.style.display = "block";
         document.getElementById("realizoCelula").value = "Yes";
         infoRed.innerHTML = `<span class="uk-label uk-label-warning">Configurando Nueva Célula</span>`;
-        div.innerHTML = '<div class="uk-alert uk-alert-warning uk-text-center">Célula nueva: Selecciona la opción de + Agregar Persona.</div>';
+        div.innerHTML = '<div class="uk-alert uk-alert-warning uk-text-center">Célula nueva: Selecciona la opción de + Agregar Persona para agregar a tus asistentes.</div>';
         document.getElementById("controles").style.display = "block";
         toggleListaAsistencia();
       } else if (val !== "") {
