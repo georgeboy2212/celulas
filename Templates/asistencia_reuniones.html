@@ -168,6 +168,20 @@
         white-space: nowrap;
       }
 
+      .spinner-overlay {
+        display: none; /* Oculto por defecto */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(251, 250, 239, 0.8); /* Fondo semi-transparente */
+        z-index: 10000;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+}
+
       /* Responsive Fixes */
       @media (max-width: 960px) {
         .editorial-sidebar {
@@ -177,6 +191,11 @@
     </style>
   </head>
   <body>
+
+    <div class="spinner-overlay" id="loadingOverlay">
+    <div uk-spinner="ratio: 3"></div>
+    <p class="uk-text-bold uk-margin-top" style="color: var(--primary)">Procesando...</p>
+  </div>
     <!-- TopAppBar -->
     <header class="custom-nav uk-navbar-container uk-navbar-transparent" uk-sticky="">
     <div class="uk-container uk-container-xlarge">
@@ -564,6 +583,26 @@
       <span class="side-text">Registro • Asistencia • 2026</span>
       <div class="v-line"></div>
     </aside>
+
+    <!-- Success Screen Modal -->
+  <div class="uk-flex-top" id="pantallaExito" uk-modal="bg-close: false; stack: true">
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center"
+      style="background-color: #fbfaef;">
+      <div class="uk-margin-large-bottom uk-inline">
+        <div
+          style="width: 96px; height: 96px; background: var(--primary); display: flex; align-items: center; justify-content: center;">
+          <span class="material-symbols-outlined" style="color: white; font-size: 48px;">check_circle</span>
+        </div>
+      </div>
+      <h2 class="uk-h2 uk-text-bold uk-margin-remove-top">Reporte Enviado</h2>
+      <p class="uk-text-muted uk-margin-large-bottom" style="font-weight: 300;">Muchas gracias por engrandecer el reino
+        de Dios</p>
+      <button class="uk-button uk-button-default uk-text-bold uk-text-uppercase" onclick="window.location.reload()"
+        style="letter-spacing: 0.2em; font-size: 10px; padding: 15px 30px; background: var(--surface-container-highest);">
+        Volver al Inicio
+      </button>
+    </div>
+  </div>
     <!-- Footer -->
     <footer
       class="uk-section uk-section-small"
@@ -620,6 +659,13 @@
               btn.disabled = true;
               btn.innerText = "ENVIANDO...";
 
+              const overlay = document.getElementById("loadingOverlay");
+
+              // 1. Bloqueamos botón y mostramos el spinner
+              btn.disabled = true;
+              btn.innerText = "ENVIANDO...";
+              overlay.style.display = "flex";
+
               // Obtener valores de forma segura
               const getVal = (name) => {
                 const el = document.getElementsByName(name)[0];
@@ -665,7 +711,7 @@
                   },
                 ],
               };
-
+              
               try {
                 await fetch(URL_WEB_APP, {
                   method: "POST",
@@ -675,21 +721,13 @@
                 });
 
                 // Con no-cors no podemos ver la respuesta, pero si no hay error en el catch, se envió.
-                UIkit.notification({
-                  message: "¡Registro enviado con éxito!",
-                  status: "success",
-                });
-                e.target.reset();
-              } catch (error) {
-                console.error("Error de envío:", error);
-                UIkit.notification({
-                  message: "Error al conectar con el servidor",
-                  status: "danger",
-                });
-              } finally {
-                btn.disabled = false;
-                btn.innerText = "Enviar Registro →";
-              }
+                 document.getElementById("loadingOverlay").style.display = "none";
+                 UIkit.modal('#pantallaExito').show();
+                
+                } catch (e) {
+                alert("Error sending report.");
+                document.getElementById("loadingOverlay").style.display = "none";
+              } 
             });
 
     </script>
