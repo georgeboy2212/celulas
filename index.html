@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 
-<html class="light" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Ps Joshua & Michelle de Boer | Sistema Gestión Ministerial</title>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet"/>
-<!-- Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- UIkit CSS -->
-<link href="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/css/uikit.min.css" rel="stylesheet"/>
-<!-- Custom Theme Styles -->
-<style>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ps Joshua & Michelle de Boer | Sistema Gestión Ministerial</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- UIkit CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/css/uikit.min.css" rel="stylesheet" />
+    <!-- Custom Theme Styles -->
+    <style>
         :root {
             --surface: #fbfaef;
             --on-surface: #1b1c16;
@@ -28,14 +34,23 @@
             --surface-dim: #dbdad1;
         }
 
-        body { 
-            font-family: 'Inter', sans-serif; 
+        body {
+            font-family: 'Inter', sans-serif;
             background-color: var(--surface);
             color: var(--on-surface);
         }
-        
-        h1, h2, h3, h4, .uk-h1, .uk-h2, .uk-h3, .uk-h4, .headline, .font-epilogue { 
-            font-family: 'Epilogue', sans-serif; 
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .uk-h1,
+        .uk-h2,
+        .uk-h3,
+        .uk-h4,
+        .headline,
+        .font-epilogue {
+            font-family: 'Epilogue', sans-serif;
         }
 
         .material-symbols-outlined {
@@ -49,7 +64,7 @@
             backdrop-filter: blur(10px);
         }
 
-        .uk-navbar-nav > li > a {
+        .uk-navbar-nav>li>a {
             font-family: 'Epilogue', sans-serif;
             text-transform: none;
             letter-spacing: -0.02em;
@@ -57,7 +72,7 @@
             transition: 0.3s opacity;
         }
 
-        .uk-navbar-nav > li.uk-active > a {
+        .uk-navbar-nav>li.uk-active>a {
             color: var(--primary);
             border-bottom: 2px solid var(--primary);
         }
@@ -72,21 +87,22 @@
             text-transform: uppercase;
         }
 
-        .aside-nav .uk-nav-default > li > a {
+        .aside-nav .uk-nav-default>li>a {
             font-family: 'Epilogue', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             font-size: 0.75rem;
-            color: #a1a1aa; /* stone-400 */
+            color: #a1a1aa;
+            /* stone-400 */
             transition: transform 0.3s;
         }
 
-        .aside-nav .uk-nav-default > li.uk-active > a {
+        .aside-nav .uk-nav-default>li.uk-active>a {
             color: var(--primary);
             font-weight: 700;
         }
 
-        .aside-nav .uk-nav-default > li > a:hover {
+        .aside-nav .uk-nav-default>li>a:hover {
             transform: translateX(4px);
             background: transparent;
             color: var(--primary);
@@ -158,157 +174,193 @@
             border-top: 1px solid var(--surface-container-highest);
         }
 
-        .tracking-tighter { letter-spacing: -0.05em; }
-        .tracking-widest { letter-spacing: 0.2em; }
-        .tracking-ultra { letter-spacing: 0.4em; }
+        .tracking-tighter {
+            letter-spacing: -0.05em;
+        }
+
+        .tracking-widest {
+            letter-spacing: 0.2em;
+        }
+
+        .tracking-ultra {
+            letter-spacing: 0.4em;
+        }
 
         @media (min-width: 960px) {
-            .main-content { margin-left: 288px; }
-            .sidebar-fixed { width: 288px; position: fixed; top: 0; left: 0; bottom: 0; }
+            .main-content {
+                margin-left: 288px;
+            }
+
+            .sidebar-fixed {
+                width: 288px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+            }
         }
     </style>
 </head>
+
 <body>
-<!-- Header -->
-<header class="uk-navbar-container uk-sticky" uk-sticky="top: 0; cls-active: uk-navbar-sticky">
-<div class="uk-container uk-container-xlarge">
-<nav class="uk-navbar" uk-navbar="">
-<div class="uk-navbar-left">
-<a class="uk-navbar-item uk-logo uk-text-bold tracking-tighter uk-text-emphasis" href="/">Ps Joshua & Michelle de Boer</a>
-</div>
-<div class="uk-navbar-center uk-visible@m">
-<ul class="uk-navbar-nav">
-<li class="uk-active"><a href="/Templates/asistencia_reuniones.html" target="_blank">Asistencia</a></li>
-<li><a href="/Templates/gestiona_celula.html">Células</a></li>
-</ul>
-</div>
-<div class="uk-navbar-right">
-<div class="uk-navbar-item">
+    <!-- Header -->
+    <header class="uk-navbar-container uk-sticky" uk-sticky="top: 0; cls-active: uk-navbar-sticky">
+        <div class="uk-container uk-container-xlarge">
+            <nav class="uk-navbar" uk-navbar="">
+                <div class="uk-navbar-left">
+                    <a class="uk-navbar-item uk-logo uk-text-bold tracking-tighter uk-text-emphasis" href="/">Ps Joshua
+                        & Michelle de Boer</a>
+                </div>
+                <div class="uk-navbar-center uk-visible@m">
+                    <ul class="uk-navbar-nav">
+                        <li class="uk-active"><a href="/Templates/asistencia_reuniones.html"
+                                target="_blank">Asistencia</a></li>
+                        <li><a href="/Templates/gestiona_celula.html">Células</a></li>
+                    </ul>
+                </div>
+                <div class="uk-navbar-right">
+                    <div class="uk-navbar-item">
 
-</div>
-</div>
-</nav>
-</div>
-</header>
-<main class="uk-container uk-container-xlarge">
-<div class="uk-grid-collapse" uk-grid="">
-<!-- Sidebar -->
-<aside class="sidebar-fixed uk-visible@l uk-padding-large uk-flex uk-flex-column">
-<div class="uk-margin-large-top uk-margin-large-bottom">
-<h2 class="uk-h4 uk-text-bold uk-margin-remove">Dashboard</h2>
-<p class="uk-text-meta uk-text-uppercase tracking-widest uk-margin-small-top">Ministerial</p>
-</div>
-<nav class="aside-nav">
-<ul class="uk-nav uk-nav-default">
-<li class="uk-active">
-<a href="/Templates/asistencia_reuniones.html" target="_blank">
-<span class="material-symbols-outlined uk-margin-small-right" data-icon="how_to_reg">how_to_reg</span>
-                            Registrar Asistencia
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="uk-container uk-container-xlarge">
+        <div class="uk-grid-collapse" uk-grid="">
+            <!-- Sidebar -->
+            <aside class="sidebar-fixed uk-visible@l uk-padding-large uk-flex uk-flex-column">
+                <div class="uk-margin-large-top uk-margin-large-bottom">
+                    <h2 class="uk-h4 uk-text-bold uk-margin-remove">Dashboard</h2>
+                    <p class="uk-text-meta uk-text-uppercase tracking-widest uk-margin-small-top">Ministerial</p>
+                </div>
+                <nav class="aside-nav">
+                    <ul class="uk-nav uk-nav-default">
+                        <li class="uk-active">
+                            <a href="/Templates/asistencia_reuniones.html" target="_blank">
+                                <span class="material-symbols-outlined uk-margin-small-right"
+                                    data-icon="how_to_reg">how_to_reg</span>
+                                Registrar Asistencia
+                            </a>
+                        </li>
+                        <li class="uk-margin-medium-top">
+                            <a href="/Templates/gestiona_celula.html" target="_blank">
+                                <span class="material-symbols-outlined uk-margin-small-right"
+                                    data-icon="groups">groups</span>
+                                Gestiona tu Célula
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+                <div class="uk-margin-auto-top">
+                    <a class="uk-button uk-button-primary uk-width-1-1 uk-padding-small"
+                        href="/Templates/gestiona_celula.html" target="_blank">
+                        Registrar Célula
+                    </a>
+                </div>
+            </aside>
+            <!-- Content -->
+            <section class="main-content uk-width-expand uk-padding-large">
+                <div class="uk-section-small uk-margin-large-bottom uk-scrollspy-inview uk-animation-fade"
+                    uk-scrollspy="cls: uk-animation-fade; delay: 100">
+                    <h1 class="uk-heading-xlarge uk-text-bold uk-margin-bottom tracking-tighter">
+                        Este es el tiempo de creer
+                    </h1>
+                    <p class="uk-text-lead uk-text-light uk-width-2-3@m" style="color: var(--on-surface-variant)">
+                        Aquí podrás actualizar, hacer seguimiento al estado de tu ministerio.
+                    </p>
+                </div>
+                <!-- Bento Grid -->
+                <div class="uk-grid-match uk-grid-medium" uk-grid="">
+                    <!-- Card 1 -->
+                    <div class="uk-width-2-3@m">
+                        <a class="bento-card" href="/Templates/gestiona_celula.html" target="_blank">
+                            <div class="uk-position-top-left uk-padding-large">
+                                <div><span class="material-symbols-outlined uk-text-primary" data-icon="how_to_reg"
+                                        style="font-size: 2.5rem;">how_to_reg</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span
+                                    class="uk-margin-medium-top uk-text-meta uk-text-uppercase tracking-ultra uk-margin-small-bottom uk-display-block">Módulo
+                                    de Seguimiento</span>
+                                <h3 class="uk-h2 uk-text-bold uk-margin-small-bottom tracking-tight">Gestiona tu Célula
+                                </h3>
+                                <p class="uk-text-meta uk-margin-medium-bottom uk-width-medium">Supervisa el crecimiento
+                                    de tu célula, registra, actualiza a sus asistentes</p>
+                                <span class="card-link-hint">Administrar</span>
+                            </div>
+                            <span class="material-symbols-outlined bg-hint-icon"
+                                data-icon="how_to_reg">how_to_reg</span>
                         </a>
-</li>
-<li class="uk-margin-medium-top">
-<a href="/Templates/gestiona_celula.html" target="_blank">
-<span class="material-symbols-outlined uk-margin-small-right" data-icon="groups">groups</span>
-                            Gestiona tu Célula
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="uk-width-1-3@m">
+                        <a class="bento-card bento-card-dark" href="/Templates/asistencia_reuniones.html"
+                            target="_blank">
+
+                            <div>
+                                <span
+                                    class="uk-text-meta uk-text-uppercase tracking-ultra uk-margin-small-bottom uk-display-block">Asistencia</span>
+                                <h3 class="uk-h2 uk-text-bold uk-margin-small-bottom tracking-tight uk-text-white">
+                                    Registrar Asistencia</h3>
+                                <p class="uk-text-meta uk-margin-medium-bottom">Control detallado de asistencia para
+                                    reuniones del día sábado.</p>
+                                <span class="card-link-hint uk-text-white">Accede ahora</span>
+                            </div>
                         </a>
-</li>
+                    </div>
 
-</ul>
-</nav>
-<div class="uk-margin-auto-top">
-<a class="uk-button uk-button-primary uk-width-1-1 uk-padding-small" href="/Templates/gestiona_celula.html" target="_blank">
-                    Registrar Célula
-                </a>
-</div>
-</aside>
-<!-- Content -->
-<section class="main-content uk-width-expand uk-padding-large">
-<div class="uk-section-small uk-margin-large-bottom uk-scrollspy-inview uk-animation-fade" uk-scrollspy="cls: uk-animation-fade; delay: 100">
-<h1 class="uk-heading-xlarge uk-text-bold uk-margin-bottom tracking-tighter">
-                    Este es el tiempo de creer
-                </h1>
-<p class="uk-text-lead uk-text-light uk-width-2-3@m" style="color: var(--on-surface-variant)">
-                    Aquí podrás actualizar, hacer seguimiento al estado de tu ministerio.
-                </p>
-</div>
-<!-- Bento Grid -->
-<div class="uk-grid-match uk-grid-medium" uk-grid="">
-<!-- Card 1 -->
-<div class="uk-width-2-3@m">
-<a class="bento-card" href="/Templates/asistencia_reuniones.html" target="_blank">
-<div class="uk-position-top-left uk-padding-large">
-<span class="material-symbols-outlined uk-text-primary" data-icon="how_to_reg" style="font-size: 2.5rem;">how_to_reg</span>
-</div>
-<div>
-<span class="uk-text-meta uk-text-uppercase tracking-ultra uk-margin-small-bottom uk-display-block">Módulo de Seguimiento</span>
-<h3 class="uk-h2 uk-text-bold uk-margin-small-bottom tracking-tight">Registrar Asistencia</h3>
-<p class="uk-text-meta uk-margin-medium-bottom uk-width-medium">Control detallado de asistencia para reuniones del día sábado.</p>
-<span class="card-link-hint">Acceder ahora</span>
-</div>
-<span class="material-symbols-outlined bg-hint-icon" data-icon="how_to_reg">how_to_reg</span>
-</a>
-</div>
-<!-- Card 2 -->
-<div class="uk-width-1-3@m">
-<a class="bento-card bento-card-dark" href="/Templates/gestiona_celula.html" target="_blank">
+                    <div>
+                        <div class="uk-progress-bar-container uk-background-muted" style="height: 4px;">
+                            <div class="" style="width: 80%; height: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+        </div>
+        </section>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="uk-section-small uk-padding-large uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+        style="background-color: var(--surface-dim);">
+        <div class="uk-margin-bottom">
 
-<div>
-<span class="uk-text-meta uk-text-uppercase tracking-ultra uk-margin-small-bottom uk-display-block">Células</span>
-<h3 class="uk-h2 uk-text-bold uk-margin-small-bottom tracking-tight uk-text-white">Gestiona tu Célula</h3>
-<p class="uk-text-meta uk-margin-medium-bottom">Supervisa el crecimiento de tu célula, registra, actualiza a sus asistentes</p>
-<span class="card-link-hint uk-text-white">Administrar</span>
-</div>
-</a>
-</div>
+        </div>
+        <p class="uk-text-meta uk-text-uppercase tracking-widest uk-text-emphasis" style="font-size: 10px;">&copy; <span
+                id="year"></span> es el tiempo de creer.
+        </p>
+    </footer>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav uk-hidden@m uk-position-fixed uk-position-bottom uk-padding-small uk-z-index">
+        <div class="uk-grid-collapse uk-child-width-expand uk-text-center" uk-grid="">
+            <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle" href="#">
+                <span class="material-symbols-outlined uk-text-emphasis" data-icon="home"
+                    style="font-variation-settings: 'FILL' 1;">home</span>
+                <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Inicio</span>
+            </a>
+            <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted"
+                href="/Templates/asistencia_reuniones.html" target="_blank">
+                <span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+                <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Asistencia</span>
+            </a>
+            <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted"
+                href="/Templates/gestiona_celula.html" target="_blank">
+                <span class="material-symbols-outlined" data-icon="groups">groups</span>
+                <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Células</span>
+            </a>
 
-<div>
-<div class="uk-progress-bar-container uk-background-muted" style="height: 4px;">
-<div class="" style="width: 80%; height: 100%;"></div>
-</div>
-</div>
-</div>
-<div class="uk-width-2-3@m">
-<div class="uk-cover-container uk-height-medium uk-flex uk-flex-center uk-flex-middle">
-<img alt="Comunidad" class="uk-opacity-20" src="https://images.pexels.com/photos/753325/pexels-photo-753325.jpeg" uk-cover="" style="filter: grayscale(100%);"/>
-<p class="uk-h4 uk-text-italic uk-text-center uk-padding-large uk-position-relative uk-z-index" style="color: var(--on-surface-variant);"></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
-</main>
-<!-- Footer -->
-<footer class="uk-section-small uk-padding-large uk-flex uk-flex-column uk-flex-center uk-flex-middle" style="background-color: var(--surface-dim);">
-<div class="uk-margin-bottom">
+        </div>
+    </nav>
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"></script>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
 
-</div>
-<p class="uk-text-meta uk-text-uppercase tracking-widest uk-text-emphasis" style="font-size: 10px;">&copy; <span id="year"></span> es el tiempo de creer.
-    </p>
-</footer>
-<!-- Mobile Bottom Navigation -->
-<nav class="mobile-nav uk-hidden@m uk-position-fixed uk-position-bottom uk-padding-small uk-z-index">
-<div class="uk-grid-collapse uk-child-width-expand uk-text-center" uk-grid="">
-<a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle" href="#">
-<span class="material-symbols-outlined uk-text-emphasis" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Inicio</span>
-</a>
-<a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted" href="/Templates/asistencia_reuniones.html" target="_blank">
-<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
-<span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Asistencia</span>
-</a>
-<a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted" href="/Templates/gestiona_celula.html" target="_blank">
-<span class="material-symbols-outlined" data-icon="groups">groups</span>
-<span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Células</span>
-</a>
-
-</div>
-</nav>
-<!-- UIkit JS -->
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"></script>
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-</body></html>
+</html>
