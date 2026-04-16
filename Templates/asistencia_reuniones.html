@@ -14,6 +14,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
     rel="stylesheet" />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
   <style>
     :root {
       --primary: #010101;
@@ -563,10 +566,10 @@
         // Opcional: Llenar el select de mentores con todos los mentores únicos disponibles
         poblarSelectMentores();
 
-        status.innerHTML = "✅ Conectado";
+        status.innerHTML = '<i class="fa-regular fa-circle-check" style="color: #999;"></i> Listo. Busca tu nombre.';
         setTimeout(() => status.style.display = 'none', 3000);
       } catch (e) {
-        status.innerHTML = "❌ Error de conexión";
+        status.innerHTML = '<i class="fa-solid fa-xmark"></i> Error de conexión';
       }
     }
 

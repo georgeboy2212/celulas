@@ -16,6 +16,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
     rel="stylesheet" />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
     :root {
@@ -486,11 +488,11 @@
         const offset = hoy.getTimezoneOffset();
         const fechaLocal = new Date(hoy.getTime() - (offset * 60 * 1000));
         document.getElementById("fechaAsistencia").value = fechaLocal.toISOString().split('T')[0];
-        document.getElementById("statusBuscador").innerText = "✅ Listo. Busca tu nombre.";
+        document.getElementById("statusBuscador").innerHTML =  '<i class="fa-regular fa-circle-check" style="color: #999;"></i> Listo. Busca tu nombre.';
 
       } catch (e) {
         console.error("Error al cargar:", e);
-        document.getElementById("statusBuscador").innerText = "❌ Error al cargar datos. Recarga la página.";
+        document.getElementById("statusBuscador").innerHTML = '<i class="fa-solid fa-xmark"></i> Error al cargar datos. Recarga la página.';
       } finally {
         if (overlay) overlay.style.display = "none";
       }
@@ -601,7 +603,7 @@
       document.getElementById("infoRed").innerHTML = `<span class="uk-badge" style="background-color: var(--primary); padding: 5px 12px;">Red: ${redDetectada && redDetectada !== "undefined" ? redDetectada : "No asignada"}</span>`;
 
       let div = document.getElementById("listaAsistentes");
-      div.innerHTML = '<div class="uk-text-center uk-padding"><div uk-spinner="ratio: 0.8"></div> Cargando equipo...</div>';
+      div.innerHTML = '<div class="uk-text-center uk-padding"><div uk-spinner="ratio: 0.8"></div> Cargando Equipo...</div>';
 
       try {
         const asistentes = await llamarGoogle("getAsistentes", { lider: lider, celula: select.value });
