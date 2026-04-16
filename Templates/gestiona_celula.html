@@ -13,11 +13,10 @@
     href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;700;800;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
     rel="stylesheet" />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-      rel="stylesheet"
-    />
-    
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+
   <style>
     :root {
       --primary: #000000;
@@ -61,7 +60,7 @@
     .uk-input,
     .uk-select,
     .uk-textarea {
-      background: transparent !important;
+      background: rgba(255, 255, 255, 0.01) !important;
       border: none !important;
       border-bottom: 1px solid rgba(126, 117, 118, 0.3) !important;
       border-radius: 0 !important;
@@ -175,6 +174,21 @@
       background: var(--surface-container-low);
     }
 
+    #fechaAsistencia {
+      cursor: pointer !important;
+      min-height: 45px !important;
+      appearance: auto !important;
+      /* Fuerza a que aparezca el icono del calendario nativo */
+      -webkit-appearance: listbox !important;
+    }
+
+    #fechaAsistencia::-webkit-calendar-picker-indicator {
+      display: block !important;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
     @media (max-width: 640px) {
       .mobile-bottom-nav {
         background: rgba(251, 250, 239, 0.8);
@@ -206,8 +220,8 @@
         </div>
         <div class="uk-navbar-right">
           <ul class="uk-navbar-nav uk-visible@m">
-            <li class="uk-active"><a class="brand-font" href="/Templates/asistencia_reuniones.html" target="_blank"
-                style="">Asistencia a Reuniones</a></li>
+            <li class="uk-active"><a class="brand-font" href="/Templates/asistencia_reuniones.html"
+                target="_blank">Asistencia a Reuniones</a></li>
             <li class="uk-active"><a class="brand-font" href="/Templates/gestiona_celula.html" target="_blank"
                 style="border-bottom: 1px solid var(--primary)">Celugrama</a></li>
             <li><a class="brand-font"
@@ -217,22 +231,21 @@
           </ul>
           <div class="uk-navbar-item">
             <a href="#" target="_blank" style="text-decoration: none; color:#000;" onclick="return false;">
-              <span class="material-symbols-outlined" style="cursor: pointer"
-              >folded_hands</span
-            </a>
+              <span class="material-symbols-outlined" style="cursor: pointer">folded_hands</span </a>
           </div>
         </div>
       </nav>
     </div>
   </header>
-  <main class="uk-section uk-section-large">
+  <main class="uk-section uk-section-large" style="padding-top: 40px;">
     <div class="uk-container uk-container-small">
       <!-- Header Section -->
       <div class="uk-margin-large-bottom uk-text-center uk-text-left@m">
         <p class="uk-text-uppercase uk-text-meta" style="letter-spacing: 0.3em; font-weight: 500; font-size: 10px;">
           Asistencia</p>
         <h1 class="uk-heading-medium uk-text-bold uk-margin-small-top uk-h1"
-          style="font-size: clamp(48px, 10vw, 96px); font-weight: 900; font-size: 4rem; @media(min-width: 960px)">Células</h1>
+          style="font-size: clamp(48px, 10vw, 96px); font-weight: 900; font-size: 4rem; @media(min-width: 960px){}">
+          Células</h1>
         <p class="uk-text-muted uk-width-large@m uk-text-lead" style="font-weight: 300; font-size: 1.125rem;">Cuiden
           como pastores el rebaño de Dios que está a su cargo, no por obligación ni por ambición de dinero, sino con
           deseo de servir, como Dios quiere.</p>
@@ -295,7 +308,8 @@
               <label class="uk-form-label uk-text-uppercase"
                 style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Fecha de la
                 Célula</label>
-              <input class="uk-input uk-form-large" id="fechaAsistencia" type="date" />
+              <input class="uk-input uk-form-large" id="fechaAsistencia" type="date"
+                style="display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; cursor: pointer !important; background: rgba(0,0,0,0.001) !important;" />
             </div>
             <div class="uk-width-1-1">
               <label class="uk-form-label uk-text-uppercase"
@@ -371,7 +385,7 @@
 
 
     <!-- Submit Action -->
-    <div class="uk-margin-xlarge-top uk-padding-large uk-text-center" >
+    <div class="uk-margin-xlarge-top uk-padding-large uk-text-center">
 
       </form>
     </div>
@@ -431,6 +445,8 @@
     }
 
     window.onload = async () => {
+      const overlay = document.getElementById("loadingOverlay");
+
       try {
         const [datosLideres, datosMentores] = await Promise.all([
           llamarGoogle("getLideres"),
@@ -461,6 +477,8 @@
       } catch (e) {
         console.error("Error al cargar:", e);
         document.getElementById("statusBuscador").innerText = "❌ Error al cargar datos. Recarga la página.";
+      } finally {
+        if (overlay) overlay.style.display = "none";
       }
     };
 
@@ -791,6 +809,25 @@
         }
       }, function () { input.value = original; });
     }
+
+    // Forzar que el campo sea interactivo después de que cargue la página
+setTimeout(() => {
+  const inputFecha = document.getElementById("fechaAsistencia");
+  if (inputFecha) {
+    inputFecha.style.display = "block";
+    
+    // Si el usuario hace clic en el área del input, forzamos el selector
+    inputFecha.addEventListener('click', (e) => {
+      try {
+        if (typeof inputFecha.showPicker === 'function') {
+          inputFecha.showPicker();
+        }
+      } catch (err) {
+        console.log("Esperando interacción nativa");
+      }
+    });
+  }
+}, 1000);
   </script>
 </body>
 
