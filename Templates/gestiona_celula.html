@@ -352,13 +352,16 @@
               <span class="step-number uk-margin-small-right">03</span>
               <h2 class="uk-h2 uk-text-bold uk-margin-remove">Registro de Asistentes</h2>
             </div>
-            <button class="uk-button uk-button-text" id="btnNuevo" onclick="agregarNuevo()" style="display: none"
-              type="button">
-              <span class="material-symbols-outlined" style="font-size: 14px">add</span> Agregar Persona
-            </button>
+
           </div>
           <div class="uk-margin" id="listaAsistentes">
             <!-- Dynamic content here -->
+          </div>
+          <div class="uk-flex uk-flex-right">
+            <button class="uk-button uk-button-text" id="btnNuevo" onclick="agregarNuevo()" type="button"
+              style="display: none;">
+              <span class="material-symbols-outlined" style="font-size: 14px">add</span> Agregar Persona
+            </button>
           </div>
           <div class="uk-margin-top uk-text-center opacity-20">
             <p class="uk-text-uppercase" style="font-size: 10px; letter-spacing: 0.2em;">Apacienta
@@ -471,7 +474,10 @@
           }
         }
 
-        document.getElementById("fechaAsistencia").valueAsDate = new Date();
+        const hoy = new Date();
+        const offset = hoy.getTimezoneOffset();
+        const fechaLocal = new Date(hoy.getTime() - (offset * 60 * 1000));
+        document.getElementById("fechaAsistencia").value = fechaLocal.toISOString().split('T')[0];
         document.getElementById("statusBuscador").innerText = "✅ Listo. Busca tu nombre.";
 
       } catch (e) {
@@ -811,23 +817,23 @@
     }
 
     // Forzar que el campo sea interactivo después de que cargue la página
-setTimeout(() => {
-  const inputFecha = document.getElementById("fechaAsistencia");
-  if (inputFecha) {
-    inputFecha.style.display = "block";
-    
-    // Si el usuario hace clic en el área del input, forzamos el selector
-    inputFecha.addEventListener('click', (e) => {
-      try {
-        if (typeof inputFecha.showPicker === 'function') {
-          inputFecha.showPicker();
-        }
-      } catch (err) {
-        console.log("Esperando interacción nativa");
+    setTimeout(() => {
+      const inputFecha = document.getElementById("fechaAsistencia");
+      if (inputFecha) {
+        inputFecha.style.display = "block";
+
+        // Si el usuario hace clic en el área del input, forzamos el selector
+        inputFecha.addEventListener('click', (e) => {
+          try {
+            if (typeof inputFecha.showPicker === 'function') {
+              inputFecha.showPicker();
+            }
+          } catch (err) {
+            console.log("Esperando interacción nativa");
+          }
+        });
       }
-    });
-  }
-}, 1000);
+    }, 1000);
   </script>
 </body>
 
