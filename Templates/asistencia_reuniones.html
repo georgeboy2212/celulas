@@ -1,203 +1,224 @@
 <!doctype html>
 
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Registro Asistencia Reuniones</title>
-    <!-- UIkit CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/css/uikit.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;700;800;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --primary: #010101;
-        --background: #fbfaef;
-        --secondary: #5e5f57;
-        --surface-low: #f5f4ea;
-        --outline-variant: #c4c7c7;
-      }
 
-      body {
-        background-color: var(--background);
-        font-family: "Inter", sans-serif;
-        color: var(--primary);
-        -webkit-font-smoothing: antialiased;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Registro Asistencia Reuniones</title>
+  <!-- UIkit CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/css/uikit.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;700;800;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #010101;
+      --background: #fbfaef;
+      --secondary: #5e5f57;
+      --surface-low: #f5f4ea;
+      --outline-variant: #c4c7c7;
+    }
 
-      .font-epilogue {
-        font-family: "Epilogue", sans-serif;
-      }
-      .font-inter {
-        font-family: "Inter", sans-serif;
-      }
+    body {
+      background-color: var(--background);
+      font-family: "Inter", sans-serif;
+      color: var(--primary);
+      -webkit-font-smoothing: antialiased;
+    }
 
-      /* Typography Overrides */
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: "Epilogue", sans-serif;
-        color: var(--primary);
-        font-weight: 700;
-      }
-      .uk-h1,
-      .uk-h2,
-      .uk-h3 {
-        font-family: "Epilogue", sans-serif;
-      }
+    .font-epilogue {
+      font-family: "Epilogue", sans-serif;
+    }
 
-      /* Layout & Spacing */
-      .container-custom {
-        max-width: 1024px;
-        margin: 0 auto;
-        padding: 0 32px;
-      }
-      .header-container {
-        max-width: 1536px;
-        margin: 0 auto;
-        padding: 24px 32px;
-      }
+    .font-inter {
+      font-family: "Inter", sans-serif;
+    }
 
-      /* Navigation */
-      .nav-link {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        color: var(--secondary);
-        text-decoration: none;
-        transition: opacity 0.2s;
-      }
-      .nav-link:hover {
-        color: var(--primary);
-      }
-      .nav-link.active {
-        color: var(--primary);
-        border-bottom: 2px solid var(--primary);
-      }
+    /* Typography Overrides */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Epilogue", sans-serif;
+      color: var(--primary);
+      font-weight: 700;
+    }
 
-      /* Form Elements */
-      .custom-input {
-        background:  rgba(0,0,0,0.001) !important;
-        border: none !important;
-        border-bottom: 1px solid rgba(196, 199, 199, 0.4) !important;
-        border-radius: 0 !important;
-        padding: 16px 0 !important;
-        font-family: "Epilogue", sans-serif;
-        color: var(--primary) !important;
-        transition: border-color 0.3s;
-      }
-      .custom-input:focus {
-        border-bottom-color: var(--primary) !important;
-        outline: none;
-      }
-      .custom-input::placeholder {
-        color: var(--outline-variant);
-      }
+    .uk-h1,
+    .uk-h2,
+    .uk-h3 {
+      font-family: "Epilogue", sans-serif;
+    }
 
-      .custom-label {
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        color: var(--secondary);
-        margin-bottom: 16px;
-        display: block;
-      }
+    /* Layout & Spacing */
+    .container-custom {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
 
-      .section-number {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--outline-variant);
-        margin-right: 16px;
-      }
+    .header-container {
+      max-width: 1536px;
+      margin: 0 auto;
+      padding: 24px 32px;
+    }
 
-      /* Buttons */
-      .btn-submit {
-        background: var(--primary);
-        color: #ffffff;
-        border: none;
-        padding: 24px 64px;
-        font-family: "Epilogue", sans-serif;
-        font-weight: 700;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-      .btn-submit:hover {
-        opacity: 0.9;
-      }
-      .btn-submit:active {
-        transform: scale(0.98);
-      }
+    /* Navigation */
+    .nav-link {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--secondary);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
 
-      /* Decoration */
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary);
+    }
+
+    /* Form Elements */
+    .custom-input {
+      background: rgba(0, 0, 0, 0.001) !important;
+      border: none !important;
+      border-bottom: 1px solid rgba(196, 199, 199, 0.4) !important;
+      border-radius: 0 !important;
+      padding: 16px 0 !important;
+      font-family: "Epilogue", sans-serif;
+      color: var(--primary) !important;
+      transition: border-color 0.3s;
+    }
+
+    .custom-input:focus {
+      border-bottom-color: var(--primary) !important;
+      outline: none;
+    }
+
+    .custom-input::placeholder {
+      color: var(--outline-variant);
+    }
+
+    .custom-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--secondary);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .section-number {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--outline-variant);
+      margin-right: 16px;
+    }
+
+    /* Buttons */
+    .btn-submit {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 24px 64px;
+      font-family: "Epilogue", sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    /* Decoration */
+    .editorial-sidebar {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .v-line {
+      width: 1px;
+      height: 96px;
+      background: rgba(196, 199, 199, 0.2);
+    }
+
+    .side-text {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      writing-mode: vertical-rl;
+      color: var(--outline-variant);
+      white-space: nowrap;
+    }
+
+    .spinner-overlay {
+      display: none;
+      /* Oculto por defecto */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(251, 250, 239, 0.8);
+      /* Fondo semi-transparente */
+      z-index: 10000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-nav {
+      background: rgba(251, 250, 239, 0.9);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--surface-container-highest);
+    }
+
+     .uk-navbar-container:not(.uk-navbar-transparent) {
+            background: rgba(251, 250, 239, 0.8);
+            backdrop-filter: blur(10px);
+     }
+
+    /* Responsive Fixes */
+    @media (max-width: 960px) {
       .editorial-sidebar {
-        position: fixed;
-        right: 32px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 48px;
+        display: none;
       }
-      .v-line {
-        width: 1px;
-        height: 96px;
-        background: rgba(196, 199, 199, 0.2);
-      }
-      .side-text {
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.4em;
-        writing-mode: vertical-rl;
-        color: var(--outline-variant);
-        white-space: nowrap;
-      }
+    }
+  </style>
+</head>
 
-      .spinner-overlay {
-        display: none; /* Oculto por defecto */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(251, 250, 239, 0.8); /* Fondo semi-transparente */
-        z-index: 10000;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-}
+<body>
 
-      /* Responsive Fixes */
-      @media (max-width: 960px) {
-        .editorial-sidebar {
-          display: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-    <div class="spinner-overlay" id="loadingOverlay">
+  <div class="spinner-overlay" id="loadingOverlay">
     <div uk-spinner="ratio: 3"></div>
     <p class="uk-text-bold uk-margin-top" style="color: var(--primary)">Procesando...</p>
   </div>
-    <!-- TopAppBar -->
-    <header class="custom-nav uk-navbar-container uk-navbar-transparent" uk-sticky="">
+  <!-- TopAppBar -->
+  <header class="custom-nav uk-navbar-container" uk-sticky="">
     <div class="uk-container uk-container-xlarge">
       <nav class="uk-navbar" uk-navbar="">
         <div class="uk-navbar-left">
@@ -217,376 +238,238 @@
           </ul>
           <div class="uk-navbar-item">
             <a href="/" target="_blank" style="text-decoration: none; color:#000;">
-            <span class="material-symbols-outlined" style="cursor: pointer"
-              >folded_hands</span
-            >
-          </a>
+              <span class="material-symbols-outlined" style="cursor: pointer">folded_hands</span>
+            </a>
           </div>
         </div>
       </nav>
     </div>
   </header>
-    <main
-      class="container-custom"
-      style="padding-top: 128px; padding-bottom: 96px"
-    >
-      <!-- Hero Title Section -->
-      <div class="uk-margin-xlarge-bottom">
-        <span
-          class="font-inter"
-          style="
+  <main class="container-custom" style="padding-top: 128px; padding-bottom: 96px">
+    <!-- Hero Title Section -->
+    <div class="uk-margin-xlarge-bottom">
+      <span class="font-inter" style="
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.3em;
             color: var(--secondary);
             display: block;
             margin-bottom: 16px;
-          "
-          >Reuniones Sábado por red</span
-        >
-        <h2
-          class="uk-margin-remove"
-          style="
+          ">Reuniones Sábado por red</span>
+      <h2 class="uk-margin-remove" style="
             font-size: clamp(48px, 10vw, 96px);
             font-weight: 900;
             letter-spacing: -0.05em;
             line-height: 0.9;
-          "
-        >
-          Registro<br />de Asistencia
-        </h2>
+          ">
+        Registro<br />de Asistencia
+      </h2>
+    </div>
+    <form id="attendanceForm">
+
+      <div class="uk-padding-small uk-width-1-2@s uk-margin-large-bottom">
+        <label class="custom-label">Fecha</label>
+        <input class="uk-input custom-input" id="fecha" name="fecha" style="font-size: 20px; height: 62px" type="date"
+          required />
       </div>
-      <form id="attendanceForm">
 
-        <div class="uk-padding-small uk-width-1-2@s uk-margin-large-bottom">
-            <label class="custom-label">Fecha</label>
-            <input
-              class="uk-input custom-input"
-              id="fecha"
-              name="fecha"
-              style="font-size: 20px; height: 62px"
-              type="date"
-              required
-            />
+      <section class="uk-margin-large-bottom">
+        <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+          <span class="section-number uk-margin-small-right">00</span>
+          <h2 class="uk-h2 uk-text-bold uk-margin-remove uk-text-uppercase" style="letter-spacing: -0.05em">Reportado
+            por</h2>
+        </div>
+
+
+
+        <div class="" style="background: var(--surface-low); padding: 48px">
+
+          <div class="uk-margin uk-position-relative">
+            <label class="uk-form-label uk-text-uppercase"
+              style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">nombre del líder</label>
+            <input autocomplete="off" class="custom-input uk-input uk-form-large" id="liderInput"
+              oninput="filtrarLideres()" placeholder="Busca tu nombre..." type="text" />
+            <div class="lista-sugerencias uk-card uk-card-default" id="listaSugerencias"></div>
+            <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
+              style="opacity: 0.3">search</span>
+            <div class="uk-text-meta uk-margin-small-top" id="statusBuscador">
+              <span uk-spinner="ratio: 0.5"></span> Conectando...
+            </div>
           </div>
-
-        <section class="uk-margin-large-bottom">
-          <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
-            <span class="section-number uk-margin-small-right">00</span>
-            <h2 class="uk-h2 uk-text-bold uk-margin-remove uk-text-uppercase" style="letter-spacing: -0.05em">Reportado por</h2>
-          </div>
-
-          
-
-          <div class="" style="background: var(--surface-low); padding: 48px">
-            
-            <div class="uk-margin uk-position-relative">
-              <label class="uk-form-label uk-text-uppercase"
-                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">nombre del líder</label>
-              <input autocomplete="off" class="custom-input uk-input uk-form-large" id="liderInput" oninput="filtrarLideres()"
-                placeholder="Busca tu nombre..." type="text" />
-              <div class="lista-sugerencias uk-card uk-card-default" id="listaSugerencias"></div>
+          <div class="uk-margin-large" id="seccionMentor" style="display: none">
+            <label class="custom-label uk-text-uppercase"
+              style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Líder de 12</label>
+            <div class="uk-position-relative">
+              <select class="custom-input uk-select uk-form-large" id="mentorSelect">
+                <option disabled="" selected="" value="">Selecciona a tu Líder de 12...</option>
+              </select>
               <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
-                style="opacity: 0.3">search</span>
-              <div class="uk-text-meta uk-margin-small-top" id="statusBuscador">
-                <span uk-spinner="ratio: 0.5"></span> Conectando...
-              </div>
+                style="pointer-events: none">expand_more</span>
             </div>
-            <div class="uk-margin-large" id="seccionMentor" style="display: none">
-              <label class="custom-label uk-text-uppercase"
-                style="font-size: 11px; letter-spacing: 0.2em; color: var(--on-surface-variant)">Líder de 12</label>
-              <div class="uk-position-relative">
-                <select class="custom-input uk-select uk-form-large" id="mentorSelect">
-                  <option disabled="" selected="" value="">Selecciona a tu Líder de 12...</option>
-                </select>
-                <span class="material-symbols-outlined uk-position-center-right uk-margin-small-right"
-                  style="pointer-events: none">expand_more</span>
-              </div>
-              <p class="uk-text-meta uk-margin-small-top" id="msgMentor" style="display:none">✨ Mentor asignado
-                automáticamente</p>
-            </div>
-          </div>
-        </section>
-        
-        <!-- Header section: Fecha and Líder Principal -->
-        <div
-          class="uk-grid uk-grid-collapse uk-child-width-1-2@m uk-margin-medium-bottom"
-        >
-          
-        </div>
-        <!-- Attendance Sections -->
-        <div class="uk-margin-xlarge-bottom">
-          <!-- Section 01: Hombres -->
-          <div
-            class="uk-margin-large-bottom"
-            style="margin-bottom: 96px !important"
-          >
-            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
-              <span class="section-number">01</span>
-              <h3
-                class="uk-margin-remove uk-text-uppercase"
-                style="font-size: 32px; letter-spacing: -0.02em"
-              >
-                Hombres
-              </h3>
-            </div>
-            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
-              <div>
-                <label class="custom-label">Asistentes</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="hombres_asis"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-              <div>
-                <label class="custom-label">Primera Vez</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="hombres_nue"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <!-- Section 02: Mujeres -->
-          <div
-            class="uk-margin-large-bottom"
-            style="margin-bottom: 96px !important"
-          >
-            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
-              <span class="section-number">02</span>
-              <h3
-                class="uk-margin-remove uk-text-uppercase"
-                style="font-size: 32px; letter-spacing: -0.02em"
-              >
-                Mujeres
-              </h3>
-            </div>
-            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
-              <div>
-                <label class="custom-label">Asistentes</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="mujeres_asis"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-              <div>
-                <label class="custom-label">Primera Vez</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="mujeres_nue"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <!-- Section 03: Jóvenes -->
-          <div
-            class="uk-margin-large-bottom"
-            style="margin-bottom: 96px !important"
-          >
-            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
-              <span class="section-number">03</span>
-              <h3
-                class="uk-margin-remove uk-text-uppercase"
-                style="font-size: 32px; letter-spacing: -0.02em"
-              >
-                Jóvenes
-              </h3>
-            </div>
-            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
-              <div>
-                <label class="custom-label">Asistentes</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="jovenes_asis"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-              <div>
-                <label class="custom-label">Primera Vez</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="jovenes_nue"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <!-- Section 04: Rocas -->
-          <div
-            class="uk-margin-large-bottom"
-            style="margin-bottom: 96px !important"
-          >
-            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
-              <span class="section-number">04</span>
-              <h3
-                class="uk-margin-remove uk-text-uppercase"
-                style="font-size: 32px; letter-spacing: -0.02em"
-              >
-                Rocas
-              </h3>
-            </div>
-            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
-              <div>
-                <label class="custom-label">Asistentes</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="rocas_asis"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-              <div>
-                <label class="custom-label">Primera Vez</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="rocas_nue"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <!-- Section 05: Teens -->
-          <div
-            class="uk-margin-large-bottom"
-            style="margin-bottom: 96px !important"
-          >
-            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
-              <span class="section-number">05</span>
-              <h3
-                class="uk-margin-remove uk-text-uppercase"
-                style="font-size: 32px; letter-spacing: -0.02em"
-              >
-                Teens
-              </h3>
-            </div>
-            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
-              <div>
-                <label class="custom-label">Asistentes</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="teens_asis"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-              
-            </div>
+            <p class="uk-text-meta uk-margin-small-top" id="msgMentor" style="display:none">✨ Mentor asignado
+              automáticamente</p>
           </div>
         </div>
-        <!-- Section 06: Kids -->
-          <div
-            class="uk-margin-large-bottom"
-            style="margin-bottom: 40px !important"
-          >
-            <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
-              <span class="section-number">06</span>
-              <h3
-                class="uk-margin-remove uk-text-uppercase"
-                style="font-size: 32px; letter-spacing: -0.02em"
-              >
-                Kids
-              </h3>
-            </div>
-            <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
-              <div>
-                <label class="custom-label">Asistentes</label>
-                <input
-                  class="uk-input custom-input"
-                  placeholder="0"
-                  name="kids_asis"
-                  style="font-size: 32px"
-                  type="number"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+      </section>
 
-        <!-- Submit Section -->
-        <div
-          class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap"
-          style="gap: 32px; padding-top: 40px"
-        >
-          <div
-            class="uk-flex uk-flex-middle"
-            style="gap: 16px; color: var(--secondary)"
-          >
-            <span
-              class="font-inter"
-              style="
+      <!-- Header section: Fecha and Líder Principal -->
+      <div class="uk-grid uk-grid-collapse uk-child-width-1-2@m uk-margin-medium-bottom">
+
+      </div>
+      <!-- Attendance Sections -->
+      <div class="uk-margin-xlarge-bottom">
+        <!-- Section 01: Hombres -->
+        <div class="uk-margin-large-bottom" style="margin-bottom: 96px !important">
+          <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+            <span class="section-number">01</span>
+            <h3 class="uk-margin-remove uk-text-uppercase" style="font-size: 32px; letter-spacing: -0.02em">
+              Hombres
+            </h3>
+          </div>
+          <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+            <div>
+              <label class="custom-label">Asistentes</label>
+              <input class="uk-input custom-input" placeholder="0" name="hombres_asis" style="font-size: 32px"
+                type="number" required />
+            </div>
+            <div>
+              <label class="custom-label">Primera Vez</label>
+              <input class="uk-input custom-input" placeholder="0" name="hombres_nue" style="font-size: 32px"
+                type="number" required />
+            </div>
+          </div>
+        </div>
+        <!-- Section 02: Mujeres -->
+        <div class="uk-margin-large-bottom" style="margin-bottom: 96px !important">
+          <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+            <span class="section-number">02</span>
+            <h3 class="uk-margin-remove uk-text-uppercase" style="font-size: 32px; letter-spacing: -0.02em">
+              Mujeres
+            </h3>
+          </div>
+          <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+            <div>
+              <label class="custom-label">Asistentes</label>
+              <input class="uk-input custom-input" placeholder="0" name="mujeres_asis" style="font-size: 32px"
+                type="number" required />
+            </div>
+            <div>
+              <label class="custom-label">Primera Vez</label>
+              <input class="uk-input custom-input" placeholder="0" name="mujeres_nue" style="font-size: 32px"
+                type="number" required />
+            </div>
+          </div>
+        </div>
+        <!-- Section 03: Jóvenes -->
+        <div class="uk-margin-large-bottom" style="margin-bottom: 96px !important">
+          <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+            <span class="section-number">03</span>
+            <h3 class="uk-margin-remove uk-text-uppercase" style="font-size: 32px; letter-spacing: -0.02em">
+              Jóvenes
+            </h3>
+          </div>
+          <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+            <div>
+              <label class="custom-label">Asistentes</label>
+              <input class="uk-input custom-input" placeholder="0" name="jovenes_asis" style="font-size: 32px"
+                type="number" required />
+            </div>
+            <div>
+              <label class="custom-label">Primera Vez</label>
+              <input class="uk-input custom-input" placeholder="0" name="jovenes_nue" style="font-size: 32px"
+                type="number" required />
+            </div>
+          </div>
+        </div>
+        <!-- Section 04: Rocas -->
+        <div class="uk-margin-large-bottom" style="margin-bottom: 96px !important">
+          <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+            <span class="section-number">04</span>
+            <h3 class="uk-margin-remove uk-text-uppercase" style="font-size: 32px; letter-spacing: -0.02em">
+              Rocas
+            </h3>
+          </div>
+          <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+            <div>
+              <label class="custom-label">Asistentes</label>
+              <input class="uk-input custom-input" placeholder="0" name="rocas_asis" style="font-size: 32px"
+                type="number" required />
+            </div>
+            <div>
+              <label class="custom-label">Primera Vez</label>
+              <input class="uk-input custom-input" placeholder="0" name="rocas_nue" style="font-size: 32px"
+                type="number" required />
+            </div>
+          </div>
+        </div>
+        <!-- Section 05: Teens -->
+        <div class="uk-margin-large-bottom" style="margin-bottom: 96px !important">
+          <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+            <span class="section-number">05</span>
+            <h3 class="uk-margin-remove uk-text-uppercase" style="font-size: 32px; letter-spacing: -0.02em">
+              Teens
+            </h3>
+          </div>
+          <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+            <div>
+              <label class="custom-label">Asistentes</label>
+              <input class="uk-input custom-input" placeholder="0" name="teens_asis" style="font-size: 32px"
+                type="number" required />
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Section 06: Kids -->
+      <div class="uk-margin-large-bottom" style="margin-bottom: 40px !important">
+        <div class="uk-flex uk-flex-bottom uk-margin-medium-bottom">
+          <span class="section-number">06</span>
+          <h3 class="uk-margin-remove uk-text-uppercase" style="font-size: 32px; letter-spacing: -0.02em">
+            Kids
+          </h3>
+        </div>
+        <div class="uk-grid uk-child-width-1-2@m" uk-grid="">
+          <div>
+            <label class="custom-label">Asistentes</label>
+            <input class="uk-input custom-input" placeholder="0" name="kids_asis" style="font-size: 32px" type="number"
+              required />
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Submit Section -->
+      <div class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap" style="gap: 32px; padding-top: 40px">
+        <div class="uk-flex uk-flex-middle" style="gap: 16px; color: var(--secondary)">
+          <span class="font-inter" style="
                 font-size: 10px;
                 text-transform: uppercase;
                 letter-spacing: 0.2em;
-              "
-              >Amor por las almas</span
-            >
-            <span class="material-symbols-outlined" style="font-size: 16px"
-              >verified_user</span
-            >
-            <span
-              class="font-inter"
-              style="
+              ">Amor por las almas</span>
+          <span class="material-symbols-outlined" style="font-size: 16px">verified_user</span>
+          <span class="font-inter" style="
                 font-size: 10px;
                 text-transform: uppercase;
                 letter-spacing: 0.2em;
-              "
-              >Bendiciones</span
-            >
-          </div>
-          <button
-            class="btn-submit uk-width-1-1 uk-width-auto@m"
-            type="submit"
-            id="submitBtn"
-          >
-            Enviar Registro →
-          </button>
-           <button
-            class="uk-button uk-button-default uk-width-1-1 uk-width-auto@m"
-            onclick="window.location.href = '/';"
-          >
-            Volver al Inicio →
-          </button>
+              ">Bendiciones</span>
         </div>
-      </form>
-    </main>
-    <!-- Side Decoration -->
-    <aside class="editorial-sidebar">
-      <div class="v-line"></div>
-      <span class="side-text">Registro • Asistencia • 2026</span>
-      <div class="v-line"></div>
-    </aside>
+        <button class="btn-submit uk-width-1-1 uk-width-auto@m" type="submit" id="submitBtn">
+          Enviar Registro →
+        </button>
+        <button class="uk-button uk-button-default uk-width-1-1 uk-width-auto@m" onclick="window.location.href = '/';">
+          Volver al Inicio →
+        </button>
+      </div>
+    </form>
+  </main>
+  <!-- Side Decoration -->
+  <aside class="editorial-sidebar">
+    <div class="v-line"></div>
+    <span class="side-text">Registro • Asistencia • 2026</span>
+    <div class="v-line"></div>
+  </aside>
 
-    <!-- Success Screen Modal -->
+  <!-- Success Screen Modal -->
   <div class="uk-flex-top" id="pantallaExito" uk-modal="bg-close: false; stack: true">
     <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center"
       style="background-color: #fbfaef;">
@@ -605,194 +488,205 @@
       </button>
     </div>
   </div>
-    <!-- Footer -->
-    <footer
-      class="uk-section uk-section-small"
-      style="
+  <!-- Footer -->
+  <footer class="uk-section uk-section-small" style="
         background: var(--background);
         border-top: 1px solid rgba(0, 0, 0, 0.05);
-      "
-    >
-      <div
-        class="header-container uk-flex uk-flex-between uk-flex-middle uk-flex-wrap"
-      >
-        <span
-          class="font-inter"
-          style="
+      ">
+    <div class="header-container uk-flex uk-flex-between uk-flex-middle uk-flex-wrap">
+      <span class="font-inter" style="
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.2em;
             color: var(--secondary);
-          "
-          >Cuiden como pastores el rebaño de Dios que está a su cargo, no
-          por obligación ni por ambición de dinero, sino con deseo de servir,
-          como Dios quiere.</span
-        >
-      </div>
-    </footer>
-    <!-- Background Decorative Image -->
-    <div
-      class="uk-position-fixed uk-position-bottom-left uk-width-medium uk-visible@m"
-      style="opacity: 0.05; pointer-events: none; z-index: -1"
-    >
-      <img
-        alt="Editorial Backdrop"
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4X1H_QEMX6PgBRa8gAVJTTlzol1fS_fmQzmfQUr8lHFd5QA7gJB9rh_iAQBg6wwbvds1zaXW8FPIt_Y4TMQrln7JsPySqHvSFkWx-fiX5UcCmag-HrRFlN-VTKZq94bdPxCV1EQVnb7E3DBCeF2vXVPvZyLZkjLaSVczop-478ahIahT5DwgDxKMjxvt3YspZVCxQbTaLNtMYKrTzxypa7pgKtyr-B5H5THjx3wE-cKB71kWgssmUB410TA01LvLgl-E3EdzRa9q3"
-        style="filter: grayscale(100%)"
-      />
+          ">Cuiden como pastores el rebaño de Dios que está a su cargo, no
+        por obligación ni por ambición de dinero, sino con deseo de servir,
+        como Dios quiere.</span>
     </div>
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"></script>
+  </footer>
 
-    <script>
-      const URL_WEB_APP =
-        "https://script.google.com/macros/s/AKfycbzrg7GqJUayxUHrWvXkiDOKuN1FFsUZYNU6T-O2OPSO0uZ9O6J3jgOCtER5oTbb1EXE/exec";
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav uk-hidden@m uk-position-fixed uk-position-bottom uk-padding-small uk-z-index">
+    <div class="uk-grid-collapse uk-child-width-expand uk-text-center" uk-grid="">
+      <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle" href="/">
+        <span class="material-symbols-outlined uk-text-emphasis" data-icon="home"
+          style="font-variation-settings: 'FILL' 1;">home</span>
+        <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Inicio</span>
+      </a>
+      <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted"
+        href="https://datastudio.google.com/reporting/432389d2-b9ac-4794-aaba-f8181f5d36d4" target="_blank">
+        <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+        <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Reporte de Asistencia</span>
+      </a>
+      <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted"
+        href="/Templates/gestiona_celula.html">
+        <span class="material-symbols-outlined" data-icon="groups">groups</span>
+        <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Células</span>
+      </a>
 
-        let listaLideresBase = [];
-       
+    </div>
+  </nav>
 
-// Cargar datos al iniciar
-  window.addEventListener('load', async () => {
-    const hoy = new Date();
-    const offset = hoy.getTimezoneOffset();
-    const fechaLocal = new Date(hoy.getTime() - (offset * 60 * 1000));
-    document.getElementById("fecha").value = fechaLocal.toISOString().split('T')[0];
-    await inicializarDatos();
-  });
+  <!-- Background Decorative Image -->
+  <div class="uk-position-fixed uk-position-bottom-left uk-width-medium uk-visible@m"
+    style="opacity: 0.05; pointer-events: none; z-index: -1">
+    <img alt="Editorial Backdrop"
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4X1H_QEMX6PgBRa8gAVJTTlzol1fS_fmQzmfQUr8lHFd5QA7gJB9rh_iAQBg6wwbvds1zaXW8FPIt_Y4TMQrln7JsPySqHvSFkWx-fiX5UcCmag-HrRFlN-VTKZq94bdPxCV1EQVnb7E3DBCeF2vXVPvZyLZkjLaSVczop-478ahIahT5DwgDxKMjxvt3YspZVCxQbTaLNtMYKrTzxypa7pgKtyr-B5H5THjx3wE-cKB71kWgssmUB410TA01LvLgl-E3EdzRa9q3"
+      style="filter: grayscale(100%)" />
+  </div>
+  <!-- UIkit JS -->
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"></script>
 
-  async function inicializarDatos() {
-  const status = document.getElementById("statusBuscador");
-  try {
-    const response = await fetch(URL_WEB_APP);
-    listaLideresBase = await response.json();
-    
-    // Opcional: Llenar el select de mentores con todos los mentores únicos disponibles
-    poblarSelectMentores();
-    
-    status.innerHTML = "✅ Conectado";
-    setTimeout(() => status.style.display = 'none', 3000);
-  } catch (e) {
-    status.innerHTML = "❌ Error de conexión";
-  }
-}
+  <script>
+    const URL_WEB_APP =
+      "https://script.google.com/macros/s/AKfycbzrg7GqJUayxUHrWvXkiDOKuN1FFsUZYNU6T-O2OPSO0uZ9O6J3jgOCtER5oTbb1EXE/exec";
 
-function filtrarLideres() {
-  const input = document.getElementById("liderInput").value.toLowerCase();
-  const sugerenciasDiv = document.getElementById("listaSugerencias");
-  sugerenciasDiv.innerHTML = "";
+    let listaLideresBase = [];
 
-  if (input.length < 2) {
-    sugerenciasDiv.style.display = "none";
-    return;
-  }
 
-  // Filtramos por el campo .nombre del objeto
-  const filtrados = listaLideresBase.filter(item => 
-    item.nombre.toLowerCase().includes(input)
-  );
-
-  if (filtrados.length > 0) {
-    sugerenciasDiv.style.display = "block";
-    filtrados.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "uk-padding-small uk-text-small";
-      div.style.cursor = "pointer";
-      div.innerText = item.nombre;
-      // Al hacer clic, pasamos el objeto completo
-      div.onclick = () => seleccionarLider(item);
-      sugerenciasDiv.appendChild(div);
+    // Cargar datos al iniciar
+    window.addEventListener('load', async () => {
+      const hoy = new Date();
+      const offset = hoy.getTimezoneOffset();
+      const fechaLocal = new Date(hoy.getTime() - (offset * 60 * 1000));
+      document.getElementById("fecha").value = fechaLocal.toISOString().split('T')[0];
+      await inicializarDatos();
     });
-  }
-}
 
-function seleccionarLider(item) {
-  // 1. Ponemos el nombre en el input
-  document.getElementById("liderInput").value = item.nombre;
-  
-  // 2. Buscamos el Líder de 12 en el select de mentores
-  const mentorSelect = document.getElementById("mentorSelect");
-  const seccionMentor = document.getElementById("seccionMentor");
-  const msgMentor = document.getElementById("msgMentor");
+    async function inicializarDatos() {
+      const status = document.getElementById("statusBuscador");
+      try {
+        const response = await fetch(URL_WEB_APP);
+        listaLideresBase = await response.json();
 
-  if (item.mentor) {
-    // Si el mentor no existe en las opciones del select, lo agregamos para poder seleccionarlo
-    let existe = Array.from(mentorSelect.options).some(opt => opt.value === item.mentor);
-    if (!existe) {
-      const newOpt = new Option(item.mentor, item.mentor);
-      mentorSelect.add(newOpt);
+        // Opcional: Llenar el select de mentores con todos los mentores únicos disponibles
+        poblarSelectMentores();
+
+        status.innerHTML = "✅ Conectado";
+        setTimeout(() => status.style.display = 'none', 3000);
+      } catch (e) {
+        status.innerHTML = "❌ Error de conexión";
+      }
     }
-    
-    mentorSelect.value = item.mentor;
-    seccionMentor.style.display = "block";
-    msgMentor.style.display = "block"; // Mostrar aviso de "Asignado automáticamente"
-  } else {
-    seccionMentor.style.display = "block";
-    mentorSelect.value = ""; // Si no tiene mentor, dejamos que elija manualmente
-    msgMentor.style.display = "none";
-  }
 
-  document.getElementById("listaSugerencias").style.display = "none";
-}
+    function filtrarLideres() {
+      const input = document.getElementById("liderInput").value.toLowerCase();
+      const sugerenciasDiv = document.getElementById("listaSugerencias");
+      sugerenciasDiv.innerHTML = "";
 
-function poblarSelectMentores() {
-  const mentorSelect = document.getElementById("mentorSelect");
-  // Extraer mentores únicos de la lista base
-  const mentoresUnicos = [...new Set(listaLideresBase.map(i => i.mentor))].filter(m => m).sort();
-  
-  mentoresUnicos.forEach(m => {
-    const opt = new Option(m, m);
-    mentorSelect.add(opt);
-  });
-}
+      if (input.length < 2) {
+        sugerenciasDiv.style.display = "none";
+        return;
+      }
 
-  // --- Lógica de envío de formulario ---
-  document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById("submitBtn");
-    const overlay = document.getElementById("loadingOverlay");
+      // Filtramos por el campo .nombre del objeto
+      const filtrados = listaLideresBase.filter(item =>
+        item.nombre.toLowerCase().includes(input)
+      );
 
-    btn.disabled = true;
-    btn.innerText = "ENVIANDO...";
-    overlay.style.display = "flex";
+      if (filtrados.length > 0) {
+        sugerenciasDiv.style.display = "block";
+        filtrados.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "uk-padding-small uk-text-small";
+          div.style.cursor = "pointer";
+          div.innerText = item.nombre;
+          // Al hacer clic, pasamos el objeto completo
+          div.onclick = () => seleccionarLider(item);
+          sugerenciasDiv.appendChild(div);
+        });
+      }
+    }
 
-    const getVal = (name) => {
-      const el = document.getElementsByName(name)[0];
-      // Si no hay elemento o el valor está vacío, devolvemos 0
-      if (!el || el.value === "") return 0;
-      return parseInt(el.value);
-};
+    function seleccionarLider(item) {
+      // 1. Ponemos el nombre en el input
+      document.getElementById("liderInput").value = item.nombre;
 
-    const datos = {
-  fecha: document.getElementById("fecha").value,
-  lider: document.getElementById("liderInput").value, // El que reporta
-  mentor: document.getElementById("mentorSelect").value, // El Líder de 12
-  redes: [
-    { nombre: "Hombres", asis: getVal("hombres_asis"), nue: getVal("hombres_nue") },
-    { nombre: "Mujeres", asis: getVal("mujeres_asis"), nue: getVal("mujeres_nue") },
-    { nombre: "Jóvenes", asis: getVal("jovenes_asis"), nue: getVal("jovenes_nue") },
-    { nombre: "Rocas", asis: getVal("rocas_asis"), nue: getVal("rocas_nue") },
-    { nombre: "Teens", asis: getVal("teens_asis"), nue: 0 }, // Si no hay campo "nuevos", enviamos 0
-    { nombre: "Kids", asis: getVal("kids_asis"), nue: 0 }
-  ]
-};
+      // 2. Buscamos el Líder de 12 en el select de mentores
+      const mentorSelect = document.getElementById("mentorSelect");
+      const seccionMentor = document.getElementById("seccionMentor");
+      const msgMentor = document.getElementById("msgMentor");
 
-    try {
-      await fetch(URL_WEB_APP, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(datos)
+      if (item.mentor) {
+        // Si el mentor no existe en las opciones del select, lo agregamos para poder seleccionarlo
+        let existe = Array.from(mentorSelect.options).some(opt => opt.value === item.mentor);
+        if (!existe) {
+          const newOpt = new Option(item.mentor, item.mentor);
+          mentorSelect.add(newOpt);
+        }
+
+        mentorSelect.value = item.mentor;
+        seccionMentor.style.display = "block";
+        msgMentor.style.display = "block"; // Mostrar aviso de "Asignado automáticamente"
+      } else {
+        seccionMentor.style.display = "block";
+        mentorSelect.value = ""; // Si no tiene mentor, dejamos que elija manualmente
+        msgMentor.style.display = "none";
+      }
+
+      document.getElementById("listaSugerencias").style.display = "none";
+    }
+
+    function poblarSelectMentores() {
+      const mentorSelect = document.getElementById("mentorSelect");
+      // Extraer mentores únicos de la lista base
+      const mentoresUnicos = [...new Set(listaLideresBase.map(i => i.mentor))].filter(m => m).sort();
+
+      mentoresUnicos.forEach(m => {
+        const opt = new Option(m, m);
+        mentorSelect.add(opt);
       });
-      overlay.style.display = "none";
-      UIkit.modal('#pantallaExito').show();
-    } catch (error) {
-      alert("Error al enviar: " + error);
-      overlay.style.display = "none";
-      btn.disabled = false;
-      btn.innerText = "Enviar Registro →";
     }
-  });
 
-    </script>
-  </body>
+    // --- Lógica de envío de formulario ---
+    document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("submitBtn");
+      const overlay = document.getElementById("loadingOverlay");
+
+      btn.disabled = true;
+      btn.innerText = "ENVIANDO...";
+      overlay.style.display = "flex";
+
+      const getVal = (name) => {
+        const el = document.getElementsByName(name)[0];
+        // Si no hay elemento o el valor está vacío, devolvemos 0
+        if (!el || el.value === "") return 0;
+        return parseInt(el.value);
+      };
+
+      const datos = {
+        fecha: document.getElementById("fecha").value,
+        lider: document.getElementById("liderInput").value, // El que reporta
+        mentor: document.getElementById("mentorSelect").value, // El Líder de 12
+        redes: [
+          { nombre: "Hombres", asis: getVal("hombres_asis"), nue: getVal("hombres_nue") },
+          { nombre: "Mujeres", asis: getVal("mujeres_asis"), nue: getVal("mujeres_nue") },
+          { nombre: "Jóvenes", asis: getVal("jovenes_asis"), nue: getVal("jovenes_nue") },
+          { nombre: "Rocas", asis: getVal("rocas_asis"), nue: getVal("rocas_nue") },
+          { nombre: "Teens", asis: getVal("teens_asis"), nue: 0 }, // Si no hay campo "nuevos", enviamos 0
+          { nombre: "Kids", asis: getVal("kids_asis"), nue: 0 }
+        ]
+      };
+
+      try {
+        await fetch(URL_WEB_APP, {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify(datos)
+        });
+        overlay.style.display = "none";
+        UIkit.modal('#pantallaExito').show();
+      } catch (error) {
+        alert("Error al enviar: " + error);
+        overlay.style.display = "none";
+        btn.disabled = false;
+        btn.innerText = "Enviar Registro →";
+      }
+    });
+
+  </script>
+</body>
+
 </html>

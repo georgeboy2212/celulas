@@ -321,7 +321,7 @@
           </div>
           <div class="uk-margin-large-top uk-padding-small" id="wrapperRealizo"
             style="background: var(--surface-container-low); display: none">
-            <label class="uk-form-label uk-text-bold">¿Se realizó la célula hoy?</label>
+            <label class="uk-form-label uk-text-bold">¿Se realizó la célula?</label>
             <select class="uk-select" id="realizoCelula" onchange="toggleListaAsistencia()">
               <option value="Yes">Sí, se realizó</option>
               <option value="No">No se realizó</option>
@@ -415,13 +415,21 @@
   <!-- Bottom Navigation for Mobile -->
   <nav class="mobile-bottom-nav uk-hidden@m">
     <div class="uk-flex uk-flex-around uk-padding-small">
-      <a class="uk-flex uk-flex-column uk-flex-middle"
-        href="https://datastudio.google.com/reporting/46fcda6a-fd84-4d0a-b640-5d9ab107124a" target="_blank"
-        style="opacity: 0.5; color:#000;">
-        <span class="material-symbols-outlined">
-          contract_edit</span>
-        <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em;">Reporte
-          Células</span>
+     
+      <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle" href="/">
+        <span class="material-symbols-outlined uk-text-emphasis" data-icon="home"
+          style="font-variation-settings: 'FILL' 1;">home</span>
+        <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Inicio</span>
+      </a>
+      <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted"
+        href="/Templates/asistencia_reuniones.html">
+        <span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+        <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Asistencia</span>
+      </a>
+      <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle" href="https://datastudio.google.com/reporting/46fcda6a-fd84-4d0a-b640-5d9ab107124a" target="_blank">
+        <span class="material-symbols-outlined uk-text-emphasis" data-icon="home"
+          style="font-variation-settings: 'FILL' 1;">analytics</span>
+        <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Reporte Células</span>
       </a>
 
     </div>
@@ -710,15 +718,15 @@
       let mentor = document.getElementById("mentorSelect").value;
       let mensajeCélula = document.getElementById("nombreMensaje").value.trim();
 
-      if (!mentor) return alert("Please select a mentor.");
-      if (!fechaSeleccionada) return alert("Please select a date.");
+      if (!mentor) return alert("Por favor selecciona un Líder.");
+      if (!fechaSeleccionada) return alert("Por favor selecciona una fecha.");
 
       let realizo = document.getElementById("realizoCelula").value;
       let esNueva = select.value === "NUEVA";
       let direccion = esNueva ? document.getElementById("nuevaDireccion").value.trim() : select.value;
       let red = esNueva ? document.getElementById("nuevaRed").value : select.options[select.selectedIndex].getAttribute("data-red");
 
-      if (!direccion || (esNueva && !red)) return alert("Missing cell information.");
+      if (!direccion || (esNueva && !red)) return alert("Información de Célula está Incompleta.");
 
       let meta = {
         lider: document.getElementById("liderInput").value,
@@ -767,7 +775,7 @@
         document.getElementById("loadingOverlay").style.display = "none";
         UIkit.modal('#pantallaExito').show();
       } catch (e) {
-        alert("Error sending report.");
+        alert("Error al enviar reporte. Intenta nuevamente.");
         document.getElementById("loadingOverlay").style.display = "none";
       }
     }
@@ -784,9 +792,9 @@
           const url = `${SCRIPT_URL}?action=eliminarAsistenteMaestro&nombre=${encodeURIComponent(nombre)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
           await fetch(url, { method: 'GET', mode: 'no-cors' });
           container.remove();
-          UIkit.notification({ message: 'Removed successfully', status: 'primary' });
+          UIkit.notification({ message: 'Eliminación Exitosa', status: 'primary' });
         } catch (error) {
-          alert("Error removing from database.");
+          alert("Error al eliminar.");
         } finally {
           document.getElementById("loadingOverlay").style.display = "none";
         }
