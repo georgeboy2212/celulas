@@ -594,7 +594,7 @@
                     <h4 class="uk-h4 uk-margin-remove">
                         <input type="text" class="uk-input uk-form-blank uk-text-bold check-v-nombre" value="${a.nombre}" style="padding:0; height:auto; font-size: 1.25rem;" data-original="${a.nombre}" onchange="confirmarEdicionNombre(this)">
                     </h4>
-                    <input type="tel" class="uk-input uk-form-blank uk-text-meta check-v-telefono" placeholder="Phone Number" value="${a.telefono || ''}" style="padding:0; height:auto;">
+                    <input type="tel" class="uk-input uk-form-blank uk-text-meta check-v-telefono" placeholder="Phone Number" value="${a.telefono || ''}" style="padding:0; height:auto;" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
                 <div class="uk-width-auto@m uk-flex uk-flex-middle uk-flex-wrap">
                     <div class="uk-margin-right uk-margin-small-bottom">

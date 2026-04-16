@@ -244,21 +244,6 @@
                 bottom: 0;
             }
         }
-
-        @media (min-width: 960px) {
-
-            /* Corregimos el comportamiento del divider de UIkit */
-            .uk-grid-divider> :not(.uk-first-column)::before {
-                border-left: 1px solid rgba(255, 255, 255, 0.1);
-                margin-left: -15px;
-                /* Ajusta según el gap de tu grid */
-            }
-
-            /* Aseguramos que la columna del texto tenga un ancho mínimo real */
-            .uk-width-1-3@m {
-                min-width: 250px;
-            }
-        }
     </style>
 </head>
 
