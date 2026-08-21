@@ -157,23 +157,36 @@
 
     .lista-sugerencias {
       position: absolute;
-      background: var(--surface-container-lowest);
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
       width: 100%;
-      z-index: 10;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 99999 !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,.16);
       display: none;
-      background-color: #ffffff;
+      background: #ffffff !important;
+      border: 1px solid rgba(0,0,0,.12);
+      border-radius: 4px;
     }
 
     .sugerencia-item {
-      padding: 12px;
+      padding: 14px 16px;
       cursor: pointer;
-      border-bottom: 1px solid var(--surface-container);
-      font-size: 0.875rem;
+      border-bottom: 1px solid #eeeeee;
+      font-size: 0.95rem;
+      color: #222;
+      background: #fff;
     }
 
-    .sugerencia-item:hover {
-      background: var(--surface-container-low);
+    .sugerencia-item:hover,
+    .sugerencia-item:focus {
+      background: #f5f5f5;
+    }
+
+    .sugerencia-item:last-child {
+      border-bottom: 0;
     }
 
     #fechaAsistencia {
@@ -202,6 +215,69 @@
         border-top: 1px solid var(--surface-container);
       }
     }
+
+    /* ==========================================================
+       CHALLENGE JÓVENES / ROCAS
+       ========================================================== */
+    .challenge-panel {
+      background: #fff8e6;
+      border: 1px solid #ead7a1;
+      padding: 1.25rem;
+      margin: 1rem 0 1.5rem;
+      border-radius: 6px;
+    }
+    .challenge-title {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .challenge-card {
+      background: transparent;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(80px, 1fr));
+      gap: .65rem;
+      align-items: end;
+    }
+    .challenge-field label {
+      display: block;
+      font-size: 9px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #5d564c;
+      min-height: 25px;
+    }
+    .challenge-field input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #d8d0b8;
+      background: #fffdf7;
+      padding: .55rem .45rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .challenge-total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      margin-top: .75rem;
+      padding-top: .75rem;
+      border-top: 1px dashed #d8d0b8;
+      font-weight: 800;
+    }
+    .challenge-points {
+      font-size: 1.35rem;
+    }
+    @media (max-width: 700px) {
+      .challenge-grid {
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+      }
+    }
   </style>
 </head>
 
@@ -222,8 +298,7 @@
         </div>
         <div class="uk-navbar-right">
           <ul class="uk-navbar-nav uk-visible@m">
-            <li class="uk-active"><a class="brand-font" href="/Templates/asistencia_reuniones.html"
-                target="_blank">Asistencia a Reuniones</a></li>
+            
             <li class="uk-active"><a class="brand-font" href="/Templates/gestiona_celula.html" target="_blank"
                 style="border-bottom: 1px solid var(--primary)">Celugrama</a></li>
             <li><a class="brand-font"
@@ -233,7 +308,8 @@
           </ul>
           <div class="uk-navbar-item">
             <a href="#" target="_blank" style="text-decoration: none; color:#000;" onclick="return false;">
-              <span class="material-symbols-outlined" style="cursor: pointer">folded_hands</span </a>
+              <span class="material-symbols-outlined" style="cursor: pointer">folded_hands</span>
+            </a>
           </div>
         </div>
       </nav>
@@ -333,7 +409,7 @@
             style="background: var(--surface-container-highest); display: none">
             <p class="uk-text-bold uk-text-small" style="color: var(--primary)">✨ CONFIGURACIÓN NUEVA</p>
             <input class="uk-input uk-margin-bottom" id="nuevaDireccion" placeholder="Dirección/Virtual" type="text" />
-            <select class="uk-select" id="nuevaRed">
+            <select class="uk-select" id="nuevaRed" onchange="actualizarChallengeNuevaRed()">
               <option value="">-- Selecciona la Red --</option>
               <option>Jóvenes</option>
               <option>Hombres</option>
@@ -359,6 +435,28 @@
           <div class="uk-margin" id="listaAsistentes">
             <!-- Dynamic content here -->
           </div>
+
+          <div id="challengePanel" class="challenge-panel" style="display:none;">
+            <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+              <div>
+                <div class="uk-text-uppercase uk-text-meta" style="letter-spacing:.18em;">🏆 Challenge</div>
+                <h3 class="challenge-title uk-margin-small-top uk-margin-remove-bottom">Puntuación individual</h3>
+              </div>
+              <span id="challengePeriodo" class="uk-label">3 meses</span>
+            </div>
+            <p class="uk-text-meta uk-margin-small-bottom">
+              Solo aplica a las redes <strong>Jóvenes</strong> y <strong>Rocas</strong>.
+              La puntuación se guarda por semana y puede actualizarse sin duplicar registros.
+            </p>
+            <div class="uk-alert uk-alert-warning uk-margin-small-top uk-margin-small-bottom">
+              <strong>Reglas:</strong> Devocional = 1/día (máx. 7 por semana) · Reunión = 1 ·
+              Célula = 1 · Pizza = 1 mensual · Llevar a un nuevo = 3 c/u · Reto = según el reto.
+            </div>
+            <div id="challengeStatus" class="uk-text-meta uk-margin-small-bottom" style="display:none;"></div>
+            <div id="challengeLista"></div>
+          </div>
+
+          <div id="challengeSaveHint" class="uk-text-meta uk-text-center uk-margin-small-top" style="display:none;">🏆 Los puntos del Challenge se guardarán junto con este reporte.</div>
           <div class="uk-flex uk-flex-right">
             <button class="uk-button uk-button-text" id="btnNuevo" onclick="agregarNuevo()" type="button"
               style="display: none;">
@@ -430,11 +528,7 @@
         <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Reporte Células</span>
       </a>
 
-      <a class="uk-link-reset uk-flex uk-flex-column uk-flex-middle uk-text-muted"
-        href="/Templates/asistencia_reuniones.html">
-        <span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
-        <span class="uk-text-meta uk-text-uppercase" style="font-size: 8px;">Reuniones</span>
-      </a>
+      
 
     </div>
   </nav>
@@ -445,127 +539,433 @@
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit-icons.min.js"></script>
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHOi8NT69ms4AaRx7esFHP5ot69fbFe1QEy5hv3aKpM7ljrbyxHJxdvH8giGfjtVvU/exec";
 
-    let baseDatosLideres = [];
-    let nombresUnicos = [];
+    // UN SOLO ENDPOINT: el mismo Web App atiende asistencia y Challenge.
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzHOi8NT69ms4AaRx7esFHP5ot69fbFe1QEy5hv3aKpM7ljrbyxHJxdvH8giGfjtVvU/exec';
 
-    async function llamarGoogle(accion, parametros = {}) {
-      const query = new URLSearchParams({
-        action: accion,
-        ...parametros,
-      }).toString();
-      const response = await fetch(`${SCRIPT_URL}?${query}`);
-      return await response.json();
+let baseDatosLideres = [];
+let nombresUnicos = [];
+
+function llamarGoogle(action, parametros = {}) {
+
+  return new Promise((resolve, reject) => {
+
+    const callbackName =
+      'googleCallback_' +
+      Date.now() +
+      '_' +
+      Math.floor(Math.random() * 100000);
+
+    const script = document.createElement('script');
+
+    const params = new URLSearchParams();
+
+    params.set('action', action);
+    params.set('callback', callbackName);
+
+    Object.keys(parametros).forEach(key => {
+      params.set(
+        key,
+        parametros[key] ?? ''
+      );
+    });
+
+    const url =
+      API_URL + '?' + params.toString();
+
+    console.log('LLAMANDO GOOGLE:', url);
+
+    let terminado = false;
+
+    function cleanup() {
+
+      if (terminado) return;
+
+      terminado = true;
+
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+
+      delete window[callbackName];
     }
 
-    window.onload = async () => {
-      const overlay = document.getElementById("loadingOverlay");
 
-      try {
-        const [datosLideres, datosMentores] = await Promise.all([
-          llamarGoogle("getLideres"),
-          llamarGoogle("getMentores")
-        ]);
+    window[callbackName] = function(datos) {
 
-        if (datosLideres) {
-          baseDatosLideres = datosLideres;
-          nombresUnicos = [...new Set(datosLideres.map((d) => d[0]))];
-        }
+      console.log('RESPUESTA GOOGLE:', datos);
 
-        if (datosMentores) {
-          const mSelect = document.getElementById("mentorSelect");
-          if (mSelect) {
-            mSelect.innerHTML = '<option value="" disabled selected>Selecciona a tu Líder de 12...</option>';
-            datosMentores.forEach(m => {
-              let opt = document.createElement("option");
-              opt.value = m;
-              opt.text = m;
-              mSelect.appendChild(opt);
-            });
-          }
-        }
+      cleanup();
 
-        const hoy = new Date();
-        const offset = hoy.getTimezoneOffset();
-        const fechaLocal = new Date(hoy.getTime() - (offset * 60 * 1000));
-        document.getElementById("fechaAsistencia").value = fechaLocal.toISOString().split('T')[0];
-        document.getElementById("statusBuscador").innerHTML =  '<i class="fa-regular fa-circle-check" style="color: #999;"></i> Listo. Busca tu nombre.';
-
-      } catch (e) {
-        console.error("Error al cargar:", e);
-        document.getElementById("statusBuscador").innerHTML = '<i class="fa-solid fa-xmark"></i> Error al cargar datos. Recarga la página.';
-      } finally {
-        if (overlay) overlay.style.display = "none";
-      }
+      resolve(datos);
     };
 
+
+    script.onerror = function() {
+
+      cleanup();
+
+      reject(
+        new Error(
+          'No se pudo conectar con Google Apps Script'
+        )
+      );
+    };
+
+
+    script.src = url;
+
+    document.body.appendChild(script);
+
+
+    // Seguridad: evitar que quede colgada
+    setTimeout(() => {
+
+      if (!terminado) {
+
+        cleanup();
+
+        reject(
+          new Error(
+            'Tiempo de espera agotado conectando con Google Apps Script'
+          )
+        );
+      }
+
+    }, 15000);
+
+  });
+}
+
+window.onload = () => {
+
+  console.log("INICIANDO CARGA DE LIDERES...");
+
+  llamarGoogle("lideres")
+     .then(datos => {
+
+    console.log("BASE DATOS LIDERES RAW:", datos);
+
+    console.log("TIPO DATOS:", typeof datos);
+    console.log("ES ARRAY:", Array.isArray(datos));
+    console.log("CANTIDAD REGISTROS:", datos?.length);
+    console.log("PRIMER OBJETO:", datos?.[0]);
+    console.log(
+      "CLAVES PRIMER OBJETO:",
+      datos?.[0] ? Object.keys(datos[0]) : []
+    );
+
+    baseDatosLideres = Array.isArray(datos)
+      ? datos
+      : [];
+
+    nombresUnicos = [
+      ...new Set(
+        baseDatosLideres
+          .map(d => d.nombre)
+          .filter(Boolean)
+      )
+    ];
+
+    console.log("CANTIDAD DE NOMBRES:", nombresUnicos.length);
+    console.log("PRIMEROS NOMBRES:", nombresUnicos.slice(0, 20));
+
+    document.getElementById('statusBuscador').innerText =
+      "✅ Listo. Busca tu nombre.";
+
+  })
+    .catch(error => {
+
+      console.error(
+        "ERROR CARGANDO LIDERES:",
+        error
+      );
+
+      document.getElementById(
+        'statusBuscador'
+      ).innerText =
+        "❌ Error conectando con el servidor.";
+    });
+
+};
+
+    function normalizarTexto(texto) {
+      return String(texto || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toLowerCase();
+}
+
+    function escaparHtml(valor) {
+      return String(valor ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     function filtrarLideres() {
-      const input = document.getElementById("liderInput");
-      const texto = input.value.trim().toLowerCase();
-      const lista = document.getElementById("listaSugerencias");
+      const input = document.getElementById('liderInput');
+      const lista = document.getElementById('listaSugerencias');
+      if (!input || !lista) return;
+
+      const textoOriginal = input.value.trim();
+      const texto = normalizarTexto(textoOriginal);
+
       if (texto.length < 2) {
-        lista.style.display = "none";
+        lista.innerHTML = '';
+        lista.style.display = 'none';
         return;
       }
-      const filtrados = nombresUnicos.filter((n) => n && n.toLowerCase().includes(texto));
+
+      const filtrados = nombresUnicos.filter((nombre) =>
+        normalizarTexto(nombre).includes(texto)
+      ).slice(0, 8);
+
+      lista.innerHTML = '';
 
       if (filtrados.length > 0) {
-        lista.innerHTML = filtrados
-          .slice(0, 6)
-          .map((n) => `<div class="sugerencia-item" onclick="seleccionarLider('${n.replace(/'/g, "\\'")}')">${n}</div>`)
-          .join("");
-        lista.style.display = "block";
+        filtrados.forEach((nombre) => {
+          const item = document.createElement('div');
+          item.className = 'sugerencia-item';
+          item.textContent = nombre;
+          item.setAttribute('role', 'option');
+          item.addEventListener('mousedown', function(e) {
+            // mousedown ocurre antes del blur del input.
+            e.preventDefault();
+            seleccionarLider(nombre);
+          });
+          lista.appendChild(item);
+        });
       } else {
-        lista.innerHTML = `<div class="sugerencia-item" style="color: var(--primary)" onclick="seleccionarLider('${input.value.replace(/'/g, "\\'")}')">✨ Usar: "${input.value}" (Nuevo Líder)</div>`;
-        lista.style.display = "block";
+        const item = document.createElement('div');
+        item.className = 'sugerencia-item';
+        item.style.color = 'var(--primary)';
+        item.textContent = `✨ Usar: "${textoOriginal}" (Nuevo Líder)`;
+        item.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          seleccionarLider(textoOriginal);
+        });
+        lista.appendChild(item);
       }
+
+      lista.style.display = 'block';
     }
+
+    // Convierte una fila de Lideres a un formato uniforme.
+    // El backend histórico devuelve arrays [nombre, mentor, celula, ...],
+    // pero algunas versiones/deployments pueden devolver objetos.
+   function datosFilaLider(fila) {
+
+    // Los datos que vienen de localhost son OBJETOS
+    if (fila && typeof fila === 'object' && !Array.isArray(fila)) {
+      return {
+        nombre: String(fila.nombre ?? '').trim(),
+        mentor: String(fila.mentor ?? '').trim(),
+        celula: String(fila.celula ?? '').trim(),
+        localidad: String(fila.localidad ?? '').trim(),
+        telefono: String(fila.telefono ?? '').trim(),
+        red: String(fila.red ?? '').trim()
+      };
+  }
+
+  // Compatibilidad por si en algún momento llegan como arreglo
+  return {
+    nombre: String(fila?.[0] ?? '').trim(),
+    mentor: String(fila?.[1] ?? '').trim(),
+    celula: String(fila?.[2] ?? '').trim(),
+    localidad: String(fila?.[3] ?? '').trim(),
+    telefono: String(fila?.[4] ?? '').trim(),
+    red: String(fila?.[5] ?? '').trim()
+  };
+}
+
+    function diagnosticoLiderMaria() {
+      const resultados = baseDatosLideres
+    .map(datosFilaLider)
+    .filter(f => normalizarTexto(f.nombre).includes('maria jose lopez'));
+
+  console.table(resultados);
+
+  console.log('BASE DATOS COMPLETA:', baseDatosLideres);
+}
+
+    function asegurarOpcionMentor(select, mentor) {
+      const valor = String(mentor || '').trim();
+      if (!select || !valor) return;
+
+      const opciones = Array.from(select.options);
+      let encontrada = opciones.find(o => normalizarTexto(o.value) === normalizarTexto(valor));
+
+      if (!encontrada) {
+        const opt = document.createElement('option');
+        opt.value = valor;
+        opt.textContent = valor;
+        select.appendChild(opt);
+        encontrada = opt;
+      }
+
+      select.value = encontrada.value;
+    }
+
+    console.log('BASE DATOS LIDERES RAW:', baseDatosLideres);
+    console.table(baseDatosLideres);
 
     function seleccionarLider(nombre) {
-      document.getElementById("liderInput").value = nombre;
-      document.getElementById("listaSugerencias").style.display = "none";
-      const selectMentor = document.getElementById("mentorSelect");
-      const msgMentor = document.getElementById("msgMentor");
-      const seccionMentor = document.getElementById("seccionMentor");
-      const select = document.getElementById("celulaSelect");
 
-      const coincidencias = baseDatosLideres.filter((f) => f[0].toLowerCase() === nombre.toLowerCase());
+  const input = document.getElementById('liderInput');
+  const lista = document.getElementById('listaSugerencias');
+  const selectMentor = document.getElementById('mentorSelect');
+  const msgMentor = document.getElementById('msgMentor');
+  const seccionMentor = document.getElementById('seccionMentor');
+  const select = document.getElementById('celulaSelect');
 
-      seccionMentor.style.display = "block";
+  input.value = nombre;
+  lista.style.display = 'none';
 
-      if (coincidencias.length > 0) {
-        const mentorAsignado = coincidencias[0][1];
-        selectMentor.value = mentorAsignado;
-        selectMentor.disabled = true;
-        msgMentor.style.display = "block";
-      } else {
-        selectMentor.value = "";
-        selectMentor.disabled = false;
-        msgMentor.style.display = "none";
-      }
+  const nombreBuscado = normalizarTexto(nombre);
 
-      select.innerHTML = '<option value="" disabled selected>Selecciona tu célula...</option>';
-      coincidencias.forEach((c) => {
-        let opt = document.createElement("option");
-        opt.value = c[2];
-        opt.text = c[2];
-        opt.setAttribute("data-mentor", c[1]);
-        opt.setAttribute("data-red", c[5]);
-        select.appendChild(opt);
-      });
+  // =====================================================
+  // BUSCAR DIRECTAMENTE EN LOS OBJETOS RECIBIDOS DEL API
+  // =====================================================
 
-      let optNueva = document.createElement("option");
-      optNueva.value = "NUEVA";
-      optNueva.text = "+ REGISTRAR NUEVA CÉLULA";
-      optNueva.style.fontWeight = "bold";
-      select.appendChild(optNueva);
+  const coincidencias = baseDatosLideres.filter(f =>
+    normalizarTexto(f.nombre) === nombreBuscado
+  );
 
-      document.getElementById("seccionCelula").style.display = "block";
-      document.getElementById("listaAsistentes").innerHTML = "";
-      document.getElementById("controles").style.display = "none";
-      document.getElementById("wrapperRealizo").style.display = "none";
-    }
+  console.log('====================================');
+  console.log('LÍDER SELECCIONADO:', nombre);
+  console.log('NOMBRE NORMALIZADO:', nombreBuscado);
+  console.log('COINCIDENCIAS:', coincidencias);
+  console.table(coincidencias);
+
+  if (coincidencias.length > 0) {
+    console.log('DATOS DEL LÍDER:');
+    console.log('Nombre:', coincidencias[0].nombre);
+    console.log('Mentor:', coincidencias[0].mentor);
+    console.log('Célula:', coincidencias[0].celula);
+    console.log('Localidad:', coincidencias[0].localidad);
+    console.log('Teléfono:', coincidencias[0].telefono);
+    console.log('Red:', coincidencias[0].red);
+  } else {
+    console.warn('NO SE ENCONTRÓ EL LÍDER:', nombre);
+  }
+
+  seccionMentor.style.display = 'block';
+
+
+  // =====================================================
+  // LÍDER DE 12
+  // =====================================================
+
+  if (coincidencias.length > 0 && coincidencias[0].mentor) {
+
+    asegurarOpcionMentor(
+      selectMentor,
+      coincidencias[0].mentor
+    );
+
+    selectMentor.disabled = true;
+    msgMentor.style.display = 'block';
+
+  } else {
+
+    selectMentor.value = '';
+    selectMentor.disabled = false;
+    msgMentor.style.display = 'none';
+  }
+
+  console.log('===== PRUEBA MARÍA JOSÉ =====');
+console.log('OBJETO ORIGINAL:', baseDatosLideres.find(
+  f => normalizarTexto(f.nombre) === nombreBuscado
+));
+
+console.log('OBJETO TRANSFORMADO:', coincidencias[0]);
+
+if (coincidencias[0]) {
+  console.log('NOMBRE:', coincidencias[0].nombre);
+  console.log('MENTOR:', coincidencias[0].mentor);
+  console.log('CELULA:', coincidencias[0].celula);
+  console.log('LOCALIDAD:', coincidencias[0].localidad);
+  console.log('TELEFONO:', coincidencias[0].telefono);
+  console.log('RED:', coincidencias[0].red);
+}
+
+
+  // =====================================================
+  // CÉLULAS
+  // =====================================================
+
+  select.innerHTML =
+    '<option value="" disabled selected>Selecciona tu célula...</option>';
+
+  const celdasAgregadas = new Set();
+
+  coincidencias.forEach(c => {
+
+    if (!c.celula) return;
+
+    const clave = normalizarTexto(c.celula);
+
+    if (celdasAgregadas.has(clave)) return;
+
+    const opt = document.createElement('option');
+
+    opt.value = c.celula;
+    opt.textContent = c.celula;
+
+    opt.setAttribute('data-mentor', c.mentor || '');
+    opt.setAttribute('data-red', c.red || '');
+
+    select.appendChild(opt);
+
+    celdasAgregadas.add(clave);
+  });
+
+
+  // =====================================================
+  // NUEVA CÉLULA
+  // =====================================================
+
+  const optNueva = document.createElement('option');
+
+  optNueva.value = 'NUEVA';
+  optNueva.textContent = '+ REGISTRAR NUEVA CÉLULA';
+  optNueva.style.fontWeight = 'bold';
+
+  select.appendChild(optNueva);
+
+
+  // =====================================================
+  // REINICIAR CHALLENGE
+  // =====================================================
+
+  challengeActual = {
+    activo: false,
+    scores: {}
+  };
+
+  redActual = '';
+
+  document.getElementById('challengePanel').style.display = 'none';
+  document.getElementById('challengeLista').innerHTML = '';
+
+  if (document.getElementById('challengeSaveHint')) {
+    document.getElementById('challengeSaveHint').style.display = 'none';
+  }
+
+
+  // =====================================================
+  // MOSTRAR SECCIÓN CÉLULA
+  // =====================================================
+
+  document.getElementById('seccionCelula').style.display = 'block';
+  document.getElementById('listaAsistentes').innerHTML = '';
+  document.getElementById('controles').style.display = 'none';
+  document.getElementById('wrapperRealizo').style.display = 'none';
+}
 
     async function detectarNuevaCelula() {
       let val = document.getElementById("celulaSelect").value;
@@ -583,7 +983,12 @@
         vPanel.style.display = "block";
         document.getElementById("realizoCelula").value = "Yes";
         infoRed.innerHTML = `<span class="uk-label uk-label-warning">Configurando Nueva Célula</span>`;
-        div.innerHTML = '<div class="uk-alert uk-alert-warning uk-text-center">Célula nueva: Selecciona la opción de + Agregar Persona para agregar a tus asistentes.</div>';
+        challengeActual = { activo: false, scores: {} };
+        redActual = document.getElementById("nuevaRed").value || "";
+        document.getElementById("challengePanel").style.display = "none";
+        document.getElementById("challengeLista").innerHTML = "";
+         if (document.getElementById("challengeSaveHint")) document.getElementById("challengeSaveHint").style.display = "none";
+        div.innerHTML = '<div class="uk-alert uk-alert-warning uk-text-center">Célula nueva: Selecciona la Red y luego agrega a tus asistentes.</div>';
         document.getElementById("controles").style.display = "block";
         toggleListaAsistencia();
       } else if (val !== "") {
@@ -596,71 +1001,760 @@
       }
     }
 
-    async function confirmarCelula() {
-      let lider = document.getElementById("liderInput").value;
-      let select = document.getElementById("celulaSelect");
-      let option = select.options[select.selectedIndex];
-      let redDetectada = option.getAttribute("data-red");
 
-      document.getElementById("infoRed").innerHTML = `<span class="uk-badge" style="background-color: var(--primary); padding: 5px 12px;">Red: ${redDetectada && redDetectada !== "undefined" ? redDetectada : "No asignada"}</span>`;
+    async function actualizarChallengeNuevaRed() {
+      const red = document.getElementById("nuevaRed").value;
+      redActual = red || "";
 
-      let div = document.getElementById("listaAsistentes");
-      div.innerHTML = '<div class="uk-text-center uk-padding"><div uk-spinner="ratio: 0.8"></div> Cargando Equipo...</div>';
+      if (!esRedChallengeCliente(red)) {
+        challengeActual = { activo: false, scores: {} };
+        document.getElementById("challengePanel").style.display = "none";
+        document.getElementById("challengeLista").innerHTML = "";
+         if (document.getElementById("challengeSaveHint")) document.getElementById("challengeSaveHint").style.display = "none";
+        return;
+      }
 
       try {
-        const asistentes = await llamarGoogle("getAsistentes", { lider: lider, celula: select.value });
-        div.innerHTML = "";
-        if (asistentes && asistentes.length > 0) {
-          asistentes.forEach((a) => { div.innerHTML += plantillaTarjetaAsistente(a); });
-        } else {
-          div.innerHTML = '<p class="uk-text-meta uk-text-center">No hay personas registradas aún en esta célula.</p>';
-        }
-        document.getElementById("controles").style.display = "block";
-        toggleListaAsistencia();
+        const lider = document.getElementById("liderInput").value;
+        const celula = document.getElementById("nuevaDireccion").value.trim() || "NUEVA";
+        const fecha = document.getElementById("fechaAsistencia").value;
+        challengeActual = await llamarGoogle("getChallengeData", {
+          lider: lider,
+          celula: celula,
+          fecha: fecha,
+          red: red
+        });
+        renderChallenge([]);
       } catch (e) {
-        div.innerHTML = '<div class="uk-text-danger uk-text-center">Error al conectar con la base de datos.</div>';
+        console.error(e);
+        challengeActual = { activo: false, scores: {} };
+        document.getElementById("challengePanel").style.display = "none";
       }
     }
 
-    function plantillaTarjetaAsistente(a) {
-      const tempId = 'id_' + Math.random().toString(36).substr(2, 9);
-      return `
-            <div class="participant-card uk-grid-small uk-flex-middle" id="${tempId}" uk-grid>
-                <div class="uk-width-expand">
-                    <h4 class="uk-h4 uk-margin-remove">
-                        <input type="text" class="uk-input uk-form-blank uk-text-bold check-v-nombre" value="${a.nombre}" style="padding:0; height:auto; font-size: 1.25rem;" data-original="${a.nombre}" onchange="confirmarEdicionNombre(this)">
-                    </h4>
-                    <input type="tel" class="uk-input uk-form-blank uk-text-meta check-v-telefono" placeholder="Phone Number" value="${a.telefono || ''}" style="padding:0; height:auto;" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                </div>
-                <div class="uk-width-auto@m uk-flex uk-flex-middle uk-flex-wrap">
-                    <div class="uk-margin-right uk-margin-small-bottom">
-                        <span class="uk-text-uppercase" style="font-size: 10px; letter-spacing: 0.1em; color: var(--on-surface-variant)">Asistió</span>
-                        <div class="attendance-toggle uk-flex uk-margin-small-top">
-                            <button type="button" class="active" onclick="toggleBtn(this, true)">SÍ</button>
-                            <button type="button" onclick="toggleBtn(this, false)">NO</button>
-                            <input type="hidden" class="check-v-asistencia" value="true">
-                        </div>
-                    </div>
-                    <div class="uk-margin-right uk-margin-small-bottom">
-                         <div class="uk-position-relative">
-                            <select class="uk-select uk-form-small st-v" style="font-size: 12px; border:none; border-bottom:1px solid rgba(0,0,0,0.1) !important; width:130px;">
-                                <option ${a.estado == "Nuevo" ? "selected" : ""}>Nuevo</option>
-                                <option ${a.estado == "Encuentro" ? "selected" : ""}>Encuentro</option>
-                                <option ${a.estado == "PostEncuentro" ? "selected" : ""}>PostEncuentro</option>
-                                <option ${a.estado == "Capacitacion Destino" ? "selected" : ""}>Capacitacion Destino</option>
-                                <option ${a.estado == "Escuela Año 1" ? "selected" : ""}>Escuela Año 1</option>
-                                <option ${a.estado == "Líder" ? "selected" : ""}>Líder</option>
-                                <option ${a.estado == "PreLíder" ? "selected" : ""}>PreLíder</option>
-                            </select>
-                            <span class="material-symbols-outlined uk-position-center-right" style="font-size: 14px; pointer-events:none;">expand_more</span>
-                        </div>
-                    </div>
-                    <button class="uk-button uk-button-text uk-text-danger uk-margin-small-bottom" type="button" onclick="eliminarFila('${tempId}')">
-                        <span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
-                    </button>
-                </div>
-            </div>`;
+    async function confirmarCelula() {
+
+  const lider = document.getElementById("liderInput").value;
+  const select = document.getElementById("celulaSelect");
+  const option = select.options[select.selectedIndex];
+
+  const redDetectada =
+    option.getAttribute("data-red") || "";
+
+  redActual = redDetectada;
+
+  document.getElementById("infoRed").innerHTML = `
+    <span
+      class="uk-badge"
+      style="background-color: var(--primary); padding: 5px 12px;">
+      Red: ${
+        redDetectada && redDetectada !== "undefined"
+          ? redDetectada
+          : "No asignada"
+      }
+    </span>
+  `;
+
+  const div = document.getElementById("listaAsistentes");
+
+  div.innerHTML = `
+    <div class="uk-text-center uk-padding">
+      <div uk-spinner="ratio: 0.8"></div>
+      Cargando Equipo...
+    </div>
+  `;
+
+  let asistentes = [];
+
+  // =====================================================
+  // 1. CARGAR ASISTENTES
+  // =====================================================
+
+  try {
+
+    asistentes = await llamarGoogle("getAsistentes", {
+      lider: lider,
+      celula: select.value
+    });
+
+  } catch (e) {
+
+    console.error("Error cargando asistentes:", e);
+
+    div.innerHTML = `
+      <div class="uk-text-danger uk-text-center">
+        Error al conectar con la base de datos de asistentes.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // =====================================================
+  // 2. REINICIAR CHALLENGE
+  // =====================================================
+
+  challengeActual = {
+    activo: false,
+    fechaInicio: "",
+    fechaFin: "",
+    scores: {}
+  };
+
+
+  // Ocultamos el panel antiguo.
+  // Ya NO vamos a usar #challengePanel como bloque separado.
+
+  const challengePanel =
+    document.getElementById("challengePanel");
+
+  if (challengePanel) {
+    challengePanel.style.display = "none";
+  }
+
+  const challengeLista =
+    document.getElementById("challengeLista");
+
+  if (challengeLista) {
+    challengeLista.innerHTML = "";
+  }
+
+  const challengeSaveHint =
+    document.getElementById("challengeSaveHint");
+
+  if (challengeSaveHint) {
+    challengeSaveHint.style.display = "none";
+  }
+
+
+  // =====================================================
+  // 3. SI ES JÓVENES / ROCAS, CARGAR CHALLENGE
+  //    ANTES DE PINTAR LAS TARJETAS
+  // =====================================================
+
+  if (esRedChallengeCliente(redDetectada)) {
+
+    try {
+
+      const fecha =
+        document.getElementById("fechaAsistencia").value;
+
+      const challenge = await llamarGoogle(
+        "getChallengeData",
+        {
+          lider: lider,
+          celula: select.value,
+          fecha: fecha,
+          red: redDetectada
+        }
+      );
+
+      challengeActual = challenge || {
+        activo: false,
+        fechaInicio: "",
+        fechaFin: "",
+        scores: {}
+      };
+
+      console.log(
+        "CHALLENGE CARGADO:",
+        challengeActual
+      );
+
+    } catch (e) {
+
+      console.error(
+        "No se pudo cargar el Challenge:",
+        e
+      );
+
+      challengeActual = {
+        activo: false,
+        fechaInicio: "",
+        fechaFin: "",
+        scores: {}
+      };
     }
+  }
+
+
+  // =====================================================
+  // 4. AHORA SÍ PINTAMOS LOS ASISTENTES
+  // =====================================================
+
+  div.innerHTML = "";
+
+  if (asistentes && asistentes.length > 0) {
+
+    asistentes.forEach((a) => {
+
+      div.insertAdjacentHTML(
+        "beforeend",
+        plantillaTarjetaAsistente(a)
+      );
+
+    });
+
+  } else {
+
+    div.innerHTML = `
+      <p class="uk-text-meta uk-text-center">
+        No hay personas registradas aún en esta célula.
+      </p>
+    `;
+  }
+
+
+  // =====================================================
+  // 5. MOSTRAR CONTROLES
+  // =====================================================
+
+  document.getElementById("controles").style.display = "block";
+
+  toggleListaAsistencia();
+
+
+  // =====================================================
+  // 6. CALCULAR TOTALES DEL CHALLENGE
+  // =====================================================
+
+  if (
+    challengeActual.activo &&
+    esRedChallengeCliente(redActual)
+  ) {
+
+    actualizarTotalesChallenge();
+
+  }
+}
+
+    function esRedChallengeCliente(red) {
+      const r = String(red || "").trim().toLowerCase();
+      return r === "jóvenes" || r === "jovenes" || r === "rocas";
+    }
+
+    function renderChallenge(asistentes) {
+      const panel = document.getElementById("challengePanel");
+      const lista = document.getElementById("challengeLista");
+      const periodo = document.getElementById("challengePeriodo");
+
+      if (!esRedChallengeCliente(redActual)) {
+        panel.style.display = "none";
+        lista.innerHTML = "";
+        return;
+      }
+
+      // Para Jóvenes/Rocas mostramos el panel aunque esté fuera de fechas,
+      // indicando claramente el estado y sin permitir registrar puntos.
+      panel.style.display = "block";
+
+      if (!challengeActual.activo) {
+        lista.innerHTML = "";
+        const status = document.getElementById("challengeStatus");
+        status.style.display = "block";
+        status.className = "uk-alert uk-alert-warning uk-margin-small-bottom";
+        status.innerHTML = `🏆 El Challenge está fuera de su periodo activo.<br><small>${challengeActual.fechaInicio || ""} → ${challengeActual.fechaFin || ""}</small>`;
+        const saveHint = document.getElementById("challengeSaveHint");
+        if (saveHint) saveHint.style.display = "none";
+        return;
+      }
+      const saveHint = document.getElementById("challengeSaveHint");
+      if (saveHint) saveHint.style.display = "block";
+      const status = document.getElementById("challengeStatus");
+      status.style.display = "none";
+      status.innerHTML = "";
+      periodo.textContent = `${challengeActual.fechaInicio} → ${challengeActual.fechaFin}`;
+      lista.innerHTML = "";
+
+      asistentes.forEach(a => {
+  lista.insertAdjacentHTML("beforeend", plantillaChallenge(a));
+});
+
+document.querySelectorAll("#challengeLista .challenge-card").forEach(card => {
+  actualizarTotalChallengeCard(card);
+});
+
+    }
+
+   function plantillaChallenge(a) {
+  const key = String(a.nombre || "").trim().toLowerCase();
+
+  const s = challengeActual.scores && challengeActual.scores[key]
+    ? challengeActual.scores[key]
+    : {
+        devocional: 0,
+        reunion: 0,
+        celula: 0,
+        pizza: 0,
+        nuevos: 0,
+        retos: 0
+      };
+
+  const id = "ch_" + Math.random().toString(36).substr(2, 9);
+
+  return `
+    <div
+      class="challenge-card"
+      data-challenge-card="${id}"
+      data-nombre="${escapeHtml(a.nombre || "")}"
+    >
+
+      <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+        <strong>🏆 Challenge semanal</strong>
+        <span class="uk-label uk-label-primary challenge-total-badge">
+          0 pts
+        </span>
+      </div>
+
+      <div class="challenge-grid">
+
+        <div class="challenge-field">
+          <label>
+            📖 DEVOCIONAL<br>
+            <small>1 PUNTO/DÍA</small>
+          </label>
+
+          <select
+            class="ch-devocional"
+            onchange="actualizarTotalChallengeCard(this.closest('.challenge-card'))"
+          >
+            ${Array.from({length: 8}, (_, i) =>
+              `<option value="${i}" ${Number(s.devocional) === i ? "selected" : ""}>${i}</option>`
+            ).join("")}
+          </select>
+        </div>
+
+
+        <div class="challenge-field">
+          <label>
+            🙌 REUNIÓN J/R<br>
+            <small>1 PUNTO</small>
+          </label>
+
+          <select
+            class="ch-reunion"
+            onchange="actualizarTotalChallengeCard(this.closest('.challenge-card'))"
+          >
+            <option value="0" ${Number(s.reunion) === 0 ? "selected" : ""}>0</option>
+            <option value="1" ${Number(s.reunion) === 1 ? "selected" : ""}>1</option>
+          </select>
+        </div>
+
+
+        <div class="challenge-field">
+          <label>
+            🏠 CÉLULA<br>
+            <small>1 PUNTO</small>
+          </label>
+
+          <select
+            class="ch-celula"
+            onchange="actualizarTotalChallengeCard(this.closest('.challenge-card'))"
+          >
+            <option value="0" ${Number(s.celula) === 0 ? "selected" : ""}>0</option>
+            <option value="1" ${Number(s.celula) === 1 ? "selected" : ""}>1</option>
+          </select>
+        </div>
+
+
+        <div class="challenge-field">
+          <label>
+            📖 Versículo<br>
+            <small>1 PUNTO</small>
+          </label>
+
+          <select
+            class="ch-pizza"
+            onchange="actualizarTotalChallengeCard(this.closest('.challenge-card'))"
+          >
+            <option value="0" ${Number(s.pizza) === 0 ? "selected" : ""}>0</option>
+            <option value="1" ${Number(s.pizza) === 1 ? "selected" : ""}>1</option>
+          </select>
+        </div>
+
+
+        <div class="challenge-field">
+          <label>
+            👥 LLEVAR A UN NUEVO<br>
+            <small>3 PUNTOS C/U</small>
+          </label>
+
+          <select
+            class="ch-nuevos"
+            onchange="actualizarTotalChallengeCard(this.closest('.challenge-card'))"
+          >
+            ${Array.from({length: 11}, (_, i) =>
+              `<option value="${i}" ${Number(s.nuevos) === i ? "selected" : ""}>${i}</option>`
+            ).join("")}
+          </select>
+        </div>
+
+
+        <div class="challenge-field">
+          <label>
+            🎯 RETO ESPORÁDICO<br>
+            <small>PUNTOS DEL RETO</small>
+          </label>
+
+          <select
+            class="ch-retos"
+            onchange="actualizarTotalChallengeCard(this.closest('.challenge-card'))"
+          >
+            ${Array.from({length: 101}, (_, i) =>
+              `<option value="${i}" ${Number(s.retos) === i ? "selected" : ""}>${i}</option>`
+            ).join("")}
+          </select>
+        </div>
+
+      </div>
+
+
+      <div class="challenge-total">
+        <span>Total semanal</span>
+        <span class="challenge-points">0 pts</span>
+      </div>
+
+    </div>
+  `;
+}
+
+    
+function actualizarTotalChallengeCard(card) {
+  if (!card) return;
+
+  const total = calcularTotalChallengeCard(card);
+
+  const badge = card.querySelector(".challenge-total-badge");
+  const totalPoints = card.querySelector(".challenge-points");
+
+  if (badge) {
+    badge.textContent = `${total} pts`;
+  }
+
+  if (totalPoints) {
+    totalPoints.textContent = `${total} pts`;
+  }
+}
+
+function calcularTotalChallenge(s) {
+  const dev = Number(s?.devocional) || 0;
+  const reunion = Number(s?.reunion) || 0;
+  const celula = Number(s?.celula) || 0;
+  const pizza = Number(s?.pizza) || 0;
+  const nuevos = Number(s?.nuevos) || 0;
+  const retos = Number(s?.retos) || 0;
+
+  return dev + reunion + celula + pizza + (nuevos * 3) + retos;
+}
+
+
+function actualizarTotalesChallenge() {
+  document.querySelectorAll("#challengeLista .challenge-card").forEach(card => {
+    const devInput = card.querySelector(".ch-devocional");
+    const reunionInput = card.querySelector(".ch-reunion");
+    const celulaInput = card.querySelector(".ch-celula");
+    const pizzaInput = card.querySelector(".ch-pizza");
+    const nuevosInput = card.querySelector(".ch-nuevos");
+    const retosInput = card.querySelector(".ch-retos");
+
+    if (!devInput || !reunionInput || !celulaInput ||
+        !pizzaInput || !nuevosInput || !retosInput) return;
+
+    const total = calcularTotalChallenge({
+      devocional: devInput.value,
+      reunion: reunionInput.value,
+      celula: celulaInput.value,
+      pizza: pizzaInput.value,
+      nuevos: nuevosInput.value,
+      retos: retosInput.value
+    });
+
+    const badge = card.querySelector(".challenge-total-badge");
+    const points = card.querySelector(".challenge-points");
+
+    if (badge) badge.textContent = `${total} pts`;
+    if (points) points.textContent = `${total} pts`;
+  });
+}
+
+
+    function buscarChallengeCardPorNombre(nombre) {
+      const key = String(nombre || "").trim().toLowerCase();
+      return Array.from(document.querySelectorAll("#challengeLista .challenge-card"))
+        .find(card => String(card.dataset.nombre || "").trim().toLowerCase() === key) || null;
+    }
+
+    function leerChallengeCard(card) {
+
+  if (!card) return null;
+
+  return {
+    devocional: Math.max(
+      0,
+      Math.min(
+        7,
+        Number(card.querySelector(".ch-devocional")?.value) || 0
+      )
+    ),
+
+    reunion: Math.max(
+      0,
+      Math.min(
+        1,
+        Number(card.querySelector(".ch-reunion")?.value) || 0
+      )
+    ),
+
+    celula: Math.max(
+      0,
+      Math.min(
+        1,
+        Number(card.querySelector(".ch-celula")?.value) || 0
+      )
+    ),
+
+    pizza: Math.max(
+      0,
+      Math.min(
+        1,
+        Number(card.querySelector(".ch-pizza")?.value) || 0
+      )
+    ),
+
+    nuevos: Math.max(
+      0,
+      Math.min(
+        100,
+        Number(card.querySelector(".ch-nuevos")?.value) || 0
+      )
+    ),
+
+    retos: Math.max(
+      0,
+      Math.min(
+        1000,
+        Number(card.querySelector(".ch-retos")?.value) || 0
+      )
+    )
+  };
+}
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+   function plantillaTarjetaAsistente(a) {
+  const tempId = 'id_' + Math.random().toString(36).substr(2, 9);
+  const nombreKey = String(a.nombre || '').trim().toLowerCase();
+
+  const score = (
+    challengeActual &&
+    challengeActual.scores &&
+    challengeActual.scores[nombreKey]
+  )
+    ? challengeActual.scores[nombreKey]
+    : {
+        devocional: 0,
+        reunion: 0,
+        celula: 0,
+        pizza: 0,
+        nuevos: 0,
+        retos: 0
+      };
+
+  const totalInicial =
+    Number(score.devocional || 0) +
+    Number(score.reunion || 0) +
+    Number(score.celula || 0) +
+    Number(score.pizza || 0) +
+    (Number(score.nuevos || 0) * 3) +
+    Number(score.retos || 0);
+
+  const mostrarChallenge =
+    challengeActual &&
+    challengeActual.activo &&
+    esRedChallengeCliente(redActual);
+
+  return `
+    <div class="participant-card uk-grid-small uk-flex-middle"
+         id="${tempId}"
+         uk-grid>
+
+      <div class="uk-width-expand">
+        <h4 class="uk-h4 uk-margin-remove">
+          <input
+            type="text"
+            class="uk-input uk-form-blank uk-text-bold check-v-nombre"
+            value="${escapeHtml(a.nombre || '')}"
+            style="padding:0; height:auto; font-size:1.25rem;"
+            data-original="${escapeHtml(a.nombre || '')}"
+            onchange="confirmarEdicionNombre(this)"
+          >
+        </h4>
+        <input
+          type="tel"
+          class="uk-input uk-form-blank uk-text-meta check-v-telefono"
+          placeholder="Phone Number"
+          value="${escapeHtml(a.telefono || '')}"
+          style="padding:0; height:auto;"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        >
+      </div>
+
+      <div class="uk-width-auto@m uk-flex uk-flex-middle uk-flex-wrap">
+        <!-- ASISTENCIA -->
+        <div class="uk-margin-right uk-margin-small-bottom">
+          <span class="uk-text-uppercase" style="font-size:10px; letter-spacing:0.1em; color:var(--on-surface-variant)">
+            Asistió
+          </span>
+          <div class="attendance-toggle uk-flex uk-margin-small-top">
+            <button type="button" class="active" onclick="toggleBtn(this, true)">SÍ</button>
+            <button type="button" onclick="toggleBtn(this, false)">NO</button>
+            <input type="hidden" class="check-v-asistencia" value="true">
+          </div>
+        </div>
+
+        <!-- ESTADO -->
+        <div class="uk-margin-right uk-margin-small-bottom">
+          <div class="uk-position-relative">
+            <select class="uk-select uk-form-small st-v" style="font-size:12px; border:none; border-bottom:1px solid rgba(0,0,0,0.1) !important; width:130px;">
+              <option ${a.estado == "Nuevo" ? "selected" : ""}>Nuevo</option>
+              <option ${a.estado == "Encuentro" ? "selected" : ""}>Encuentro</option>
+              <option ${a.estado == "PostEncuentro" ? "selected" : ""}>PostEncuentro</option>
+              <option ${a.estado == "Capacitacion Destino" ? "selected" : ""}>Capacitacion Destino</option>
+              <option ${a.estado == "Escuela Año 1" ? "selected" : ""}>Escuela Año 1</option>
+              <option ${a.estado == "Líder" ? "selected" : ""}>Líder</option>
+              <option ${a.estado == "PreLíder" ? "selected" : ""}>PreLíder</option>
+            </select>
+            <span class="material-symbols-outlined uk-position-center-right" style="font-size:14px; pointer-events:none;">expand_more</span>
+          </div>
+        </div>
+
+        <!-- ELIMINAR -->
+        <button class="uk-button uk-button-text uk-text-danger uk-margin-small-bottom" type="button" onclick="eliminarFila('${tempId}')">
+          <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
+        </button>
+      </div>
+
+      ${mostrarChallenge ? `
+        <!-- CHALLENGE INTEGRADO -->
+        <div class="uk-width-1-1 uk-margin-small-top challenge-integrado">
+          <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+            <strong>🏆 Challenge semanal</strong>
+            <span class="uk-label uk-label-primary challenge-total-badge">${totalInicial} pts</span>
+          </div>
+
+          <div class="challenge-grid">
+            <div class="challenge-field">
+              <label>📖 Devocional<br><small>1 punto/día</small></label>
+              <select class="ch-devocional" onchange="calcularTotalChallengeCard(this)">
+                ${crearOpcionesChallenge(7, score.devocional)}
+              </select>
+            </div>
+
+            <div class="challenge-field">
+              <label>🙌 Reunión J/R<br><small>1 punto</small></label>
+              <select class="ch-reunion" onchange="calcularTotalChallengeCard(this)">
+                ${crearOpcionesChallenge(1, score.reunion)}
+              </select>
+            </div>
+
+            <div class="challenge-field">
+              <label>🏠 Célula<br><small>1 punto</small></label>
+              <select class="ch-celula" onchange="calcularTotalChallengeCard(this)">
+                ${crearOpcionesChallenge(1, score.celula)}
+              </select>
+            </div>
+
+            <div class="challenge-field">
+              <label>📖 Versículo<br><small>1 punto</small></label>
+              <select class="ch-pizza" onchange="calcularTotalChallengeCard(this)">
+                ${crearOpcionesChallenge(1, score.pizza)}
+              </select>
+            </div>
+
+            <div class="challenge-field">
+              <label>👥 Llevar a un nuevo<br><small>3 puntos c/u</small></label>
+              <select class="ch-nuevos" onchange="calcularTotalChallengeCard(this)">
+                ${crearOpcionesChallenge(20, score.nuevos)}
+              </select>
+            </div>
+
+            <div class="challenge-field">
+              <label>🎯 Reto esporádico<br><small>puntos del reto</small></label>
+              <select class="ch-retos" onchange="calcularTotalChallengeCard(this)">
+                ${crearOpcionesChallenge(100, score.retos)}
+              </select>
+            </div>
+          </div>
+
+          <div class="challenge-total uk-flex uk-flex-between uk-margin-small-top">
+            <span>Total semanal</span>
+            <span class="challenge-points">${totalInicial} pts</span>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function calcularTotalChallengeCard(elemento) {
+  let tarjetas = [];
+
+  if (elemento) {
+    if (elemento.closest) {
+      const tarjeta = elemento.closest(".challenge-integrado, .challenge-wrap");
+      if (tarjeta) tarjetas = [tarjeta];
+    }
+
+    if (tarjetas.length === 0 && elemento.classList && (elemento.classList.contains("challenge-integrado") || elemento.classList.contains("challenge-wrap"))) {
+      tarjetas = [elemento];
+    }
+  }
+
+  if (tarjetas.length === 0) {
+    tarjetas = Array.from(document.querySelectorAll(".challenge-integrado, .challenge-wrap"));
+  }
+
+  tarjetas.forEach(card => {
+    if (!card) return;
+
+    const dev = Number(card.querySelector(".ch-devocional")?.value) || 0;
+    const reunion = Number(card.querySelector(".ch-reunion")?.value) || 0;
+    const celula = Number(card.querySelector(".ch-celula")?.value) || 0;
+    const pizza = Number(card.querySelector(".ch-pizza")?.value) || 0;
+    const nuevos = Number(card.querySelector(".ch-nuevos")?.value) || 0;
+    const retos = Number(card.querySelector(".ch-retos")?.value) || 0;
+
+    const total = dev + reunion + celula + pizza + (nuevos * 3) + retos;
+
+    const badge = card.querySelector(".challenge-total-badge");
+    if (badge) badge.textContent = `${total} pts`;
+
+    const totalElement = card.querySelector(".challenge-points");
+    if (totalElement) totalElement.textContent = `${total} pts`;
+  });
+}
+
+function crearOpcionesChallenge(maximo, seleccionado) {
+  let html = '';
+
+  for (let i = 0; i <= maximo; i++) {
+    html += `
+      <option value="${i}" ${Number(seleccionado) === i ? 'selected' : ''}>
+        ${i}
+      </option>
+    `;
+  }
+
+  return html;
+}
 
     function toggleBtn(btn, val) {
       const container = btn.parentElement;
@@ -685,36 +1779,113 @@
     }
 
     function agregarNuevo() {
-      let html = `
-            <div class="participant-card uk-grid-small uk-flex-middle card-nuevo" uk-grid>
-                <div class="uk-width-expand">
-                    <input type="text" class="uk-input uk-form-blank uk-text-bold n-nuevo" placeholder="Ingresa el nombre" style="padding:0; height:auto; font-size: 1.25rem;">
-                    <input type="tel" class="uk-input uk-form-blank uk-text-meta n-telefono" placeholder="Ingresa el número de celular" style="padding:0; height:auto;">
+  let html = `
+    <div class="participant-card uk-grid-small uk-flex-middle card-nuevo" uk-grid>
+        <div class="uk-width-expand">
+            <input type="text" class="uk-input uk-form-blank uk-text-bold n-nuevo" placeholder="Ingresa el nombre" style="padding:0; height:auto; font-size: 1.25rem;">
+            <input type="tel" class="uk-input uk-form-blank uk-text-meta n-telefono" placeholder="Ingresa el número de celular" style="padding:0; height:auto;">
+        </div>
+        <div class="uk-width-auto@m uk-flex uk-flex-middle uk-flex-wrap">
+            <div class="uk-margin-right">
+                <span class="uk-text-uppercase" style="font-size: 10px; letter-spacing: 0.1em; color: var(--on-surface-variant)">Asistió</span>
+                <div class="attendance-toggle uk-flex uk-margin-small-top">
+                    <button type="button" class="active" onclick="toggleBtn(this, true)">SÍ</button>
+                    <button type="button" onclick="toggleBtn(this, false)">NO</button>
+                    <input type="hidden" class="s-nuevo-asiste" value="true">
                 </div>
-                <div class="uk-width-auto@m uk-flex uk-flex-middle uk-flex-wrap">
-                    <div class="uk-margin-right">
-                        <span class="uk-text-uppercase" style="font-size: 10px; letter-spacing: 0.1em; color: var(--on-surface-variant)">Asistió</span>
-                        <div class="attendance-toggle uk-flex uk-margin-small-top">
-                            <button type="button" class="active" onclick="toggleBtn(this, true)">SÍ</button>
-                            <button type="button" onclick="toggleBtn(this, false)">NO</button>
-                            <input type="hidden" class="s-nuevo-asiste" value="true">
-                        </div>
-                    </div>
-                    <div>
-                        <select class="uk-select uk-form-small s-nuevo" style="font-size: 12px; border:none; border-bottom:1px solid rgba(0,0,0,0.1) !important; width:130px;">
-                            <option value="Nuevo" selected>Nuevo</option>
-                            <option value="Encuentro">Encuentro</option>
-                            <option value="PostEncuentro">PostEncuentro</option>
-                            <option value="Capacitacion Destino">Capacitacion Destino</option>
-                            <option value="Escuela Año 1">Escuela Año 1</option>
-                            <option value="Líder">Líder</option>
-                            <option value="PreLíder">PreLíder</option>>
-                        </select>
-                    </div>
-                </div>
-            </div>`;
-      document.getElementById("listaAsistentes").insertAdjacentHTML("beforeend", html);
+            </div>
+            <div>
+                <select class="uk-select uk-form-small s-nuevo" style="font-size: 12px; border:none; border-bottom:1px solid rgba(0,0,0,0.1) !important; width:130px;">
+                    <option value="Nuevo" selected>Nuevo</option>
+                    <option value="Encuentro">Encuentro</option>
+                    <option value="PostEncuentro">PostEncuentro</option>
+                    <option value="Capacitacion Destino">Capacitacion Destino</option>
+                    <option value="Escuela Año 1">Escuela Año 1</option>
+                    <option value="Líder">Líder</option>
+                    <option value="PreLíder">PreLíder</option>
+                </select>
+            </div>
+        </div>
+    </div>`;
+  
+  document.getElementById("listaAsistentes").insertAdjacentHTML("beforeend", html);
+
+  if (challengeActual.activo && esRedChallengeCliente(redActual)) {
+    const nuevos = document.querySelectorAll("#listaAsistentes .card-nuevo");
+    const cardNuevo = nuevos.length ? nuevos[nuevos.length - 1] : null;
+    if (cardNuevo) {
+      const challengeWrap = document.createElement("div");
+      challengeWrap.className = "uk-width-1-1 uk-margin-small-top challenge-integrado";
+      challengeWrap.innerHTML = `
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+          <strong>🏆 Challenge semanal</strong>
+          <span class="uk-label uk-label-primary challenge-total-badge">0 pts</span>
+        </div>
+
+        <div class="challenge-grid">
+          <div class="challenge-field">
+            <label>📖 Devocional<br><small>1 punto/día</small></label>
+            <select class="ch-devocional" onchange="calcularTotalChallengeCard(this)">
+              ${opcionesChallenge(7, 0)}
+            </select>
+          </div>
+
+          <div class="challenge-field">
+            <label>🙌 Reunión J/R<br><small>1 punto</small></label>
+            <select class="ch-reunion" onchange="calcularTotalChallengeCard(this)">
+              ${opcionesChallenge(1, 0)}
+            </select>
+          </div>
+
+          <div class="challenge-field">
+            <label>🏠 Célula<br><small>1 punto</small></label>
+            <select class="ch-celula" onchange="calcularTotalChallengeCard(this)">
+              ${opcionesChallenge(1, 0)}
+            </select>
+          </div>
+
+          <div class="challenge-field">
+            <label>📖 Versículo<br><small>1 punto</small></label>
+            <select class="ch-pizza" onchange="calcularTotalChallengeCard(this)">
+              ${opcionesChallenge(1, 0)}
+            </select>
+          </div>
+
+          <div class="challenge-field">
+            <label>👥 Llevar a un nuevo<br><small>3 puntos c/u</small></label>
+            <select class="ch-nuevos" onchange="calcularTotalChallengeCard(this)">
+              ${opcionesChallenge(20, 0)}
+            </select>
+          </div>
+
+          <div class="challenge-field">
+            <label>🎯 Reto<br><small>según reto</small></label>
+            <select class="ch-retos" onchange="calcularTotalChallengeCard(this)">
+              ${opcionesChallenge(100, 0)}
+            </select>
+          </div>
+        </div>
+
+        <div class="challenge-total uk-flex uk-flex-between uk-margin-small-top">
+          <span>Total semanal</span>
+          <span class="challenge-points">0 pts</span>
+        </div>
+      `;
+      cardNuevo.appendChild(challengeWrap);
+      calcularTotalChallengeCard(challengeWrap);
     }
+  }
+}
+
+    function opcionesChallenge(max, valor = 0) {
+  let html = "";
+
+  for (let i = 0; i <= max; i++) {
+    html += `<option value="${i}" ${Number(valor) === i ? "selected" : ""}>${i}</option>`;
+  }
+
+  return html;
+}
 
     async function enviarDatos() {
       let select = document.getElementById("celulaSelect");
@@ -746,31 +1917,73 @@
       if (realizo === "No") {
         datos.push({ ...meta, nombre: "REPORTE: NO SE REALIZÓ", asistio: false, estado: "N/A" });
       } else {
-        document.querySelectorAll(".participant-card:not(.card-nuevo)").forEach((c) => {
-          datos.push({
-            ...meta,
-            nombre: c.querySelector(".check-v-nombre").value,
-            asistio: c.querySelector(".check-v-asistencia").value === "true",
-            estado: c.querySelector(".st-v").value,
-            telefono: c.querySelector(".check-v-telefono").value,
-          });
-        });
+        const participantCards = document.querySelectorAll(".participant-card:not(.card-nuevo)");
+        participantCards.forEach((c) => {
+
+  const nombre =
+    c.querySelector(".check-v-nombre").value;
+
+  // El Challenge ahora vive DENTRO de la tarjeta
+  // del propio asistente.
+  const challengeCard =
+    c.querySelector(".challenge-integrado");
+
+  datos.push({
+    ...meta,
+
+    nombre: nombre,
+
+    asistio:
+      c.querySelector(".check-v-asistencia").value === "true",
+
+    estado:
+      c.querySelector(".st-v").value,
+
+    telefono:
+      c.querySelector(".check-v-telefono").value,
+
+    challenge:
+      (
+        challengeActual.activo &&
+        esRedChallengeCliente(redActual) &&
+        challengeCard
+      )
+        ? leerChallengeCard(challengeCard)
+        : null
+  });
+
+});
+
         document.querySelectorAll(".card-nuevo").forEach((c) => {
           let n = c.querySelector(".n-nuevo").value.trim();
-          if (n) datos.push({
-            ...meta,
-            nombre: n,
-            asistio: c.querySelector(".s-nuevo-asiste").value === "true",
-            estado: c.querySelector(".s-nuevo").value,
-            telefono: c.querySelector(".n-telefono").value,
-          });
+          if (n) {
+
+            const challengeCard = c.querySelector(".challenge-integrado");
+
+            datos.push({
+              ...meta,
+              nombre: n,
+              asistio: c.querySelector(".s-nuevo-asiste").value === "true",
+              estado: c.querySelector(".s-nuevo").value,
+              telefono: c.querySelector(".n-telefono").value,
+              
+              challenge: (challengeActual.activo && esRedChallengeCliente(redActual) && challengeCard)
+                ? leerChallengeCard(challengeCard)
+                : null
+            });
+          }
         });
         if (datos.length === 0) return alert("Adiciona personas o marca como no realizada.");
       }
 
       document.getElementById("loadingOverlay").style.display = "flex";
+      console.log("========== DATOS FINALES ==========");
+console.log("Cantidad de registros:", datos.length);
+console.table(datos);
       try {
-        await fetch(SCRIPT_URL, {
+        // Siempre guardamos en el mismo endpoint. El backend decide si además
+        // corresponde guardar Challenge; la asistencia normal no depende de él.
+        await fetch(API_URL, {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "text/plain" },
@@ -785,67 +1998,179 @@
     }
 
     async function eliminarFila(id) {
-      const container = document.getElementById(id);
-      const nombre = container.querySelector(".check-v-nombre").value;
-      const lider = document.getElementById("liderInput").value;
-      const celula = document.getElementById("celulaSelect").value;
 
-      UIkit.modal.confirm(`Deseas eliminar a ${nombre} permanentemente?`).then(async function () {
-        document.getElementById("loadingOverlay").style.display = "flex";
-        try {
-          const url = `${SCRIPT_URL}?action=eliminarAsistenteMaestro&nombre=${encodeURIComponent(nombre)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
-          await fetch(url, { method: 'GET', mode: 'no-cors' });
-          container.remove();
-          UIkit.notification({ message: 'Eliminación Exitosa', status: 'primary' });
-        } catch (error) {
-          alert("Error al eliminar.");
-        } finally {
-          document.getElementById("loadingOverlay").style.display = "none";
+  const container = document.getElementById(id);
+
+  if (!container) {
+    console.error("No se encontró el contenedor:", id);
+    return;
+  }
+
+  const inputNombre = container.querySelector(".check-v-nombre");
+
+  if (!inputNombre) {
+    console.error("No se encontró el campo de nombre.");
+    return;
+  }
+
+  const nombre = inputNombre.value.trim();
+  const lider = document.getElementById("liderInput").value.trim();
+  const celula = document.getElementById("celulaSelect").value.trim();
+
+  UIkit.modal.confirm(
+    `¿Deseas eliminar a ${nombre} permanentemente?`
+  ).then(async function () {
+
+    document.getElementById("loadingOverlay").style.display = "flex";
+
+    try {
+
+      console.log("ELIMINANDO ASISTENTE:");
+      console.log("Nombre:", nombre);
+      console.log("Líder:", lider);
+      console.log("Célula:", celula);
+
+      const respuesta = await llamarGoogle(
+        "eliminarAsistenteMaestro",
+        {
+          nombre: nombre,
+          lider: lider,
+          celula: celula
         }
+      );
+
+      console.log("RESPUESTA ELIMINAR:", respuesta);
+
+      if (respuesta && respuesta.status === "ok") {
+
+        container.remove();
+
+        UIkit.notification({
+          message: "Asistente eliminado correctamente",
+          status: "primary"
+        });
+
+      } else if (
+        respuesta &&
+        respuesta.status === "no_encontrado"
+      ) {
+
+        UIkit.notification({
+          message: "No se encontró el asistente en la base de datos.",
+          status: "warning"
+        });
+
+      } else {
+
+        throw new Error(
+          respuesta?.mensaje ||
+          "El servidor no confirmó la eliminación."
+        );
+      }
+
+    } catch (error) {
+
+      console.error(
+        "ERROR ELIMINANDO ASISTENTE:",
+        error
+      );
+
+      UIkit.notification({
+        message: "No se pudo eliminar el asistente.",
+        status: "danger"
       });
+
+    } finally {
+
+      document.getElementById("loadingOverlay").style.display = "none";
     }
+
+  }).catch(function () {
+    console.log("Eliminación cancelada.");
+  });
+}
 
     async function confirmarEdicionNombre(input) {
-      const nuevo = input.value.trim();
-      const original = input.getAttribute("data-original");
-      const lider = document.getElementById("liderInput").value;
-      const celula = document.getElementById("celulaSelect").value;
 
-      if (nuevo === original || nuevo === "") return;
+  const nuevo = input.value.trim();
+  const original = input.getAttribute("data-original");
 
-      UIkit.modal.confirm(`Cambiar nombre de "${original}" a "${nuevo}"?`).then(async function () {
-        document.getElementById("loadingOverlay").style.display = "flex";
-        try {
-          const url = `${SCRIPT_URL}?action=editarAsistenteMaestro&nombreOriginal=${encodeURIComponent(original)}&nombreNuevo=${encodeURIComponent(nuevo)}&lider=${encodeURIComponent(lider)}&celula=${encodeURIComponent(celula)}`;
-          await fetch(url, { method: 'GET', mode: 'no-cors' });
-          input.setAttribute("data-original", nuevo);
-          UIkit.notification({ message: 'Name updated', status: 'primary' });
-        } catch (e) {
-          input.value = original;
-        } finally {
-          document.getElementById("loadingOverlay").style.display = "none";
-        }
-      }, function () { input.value = original; });
+  const lider = document.getElementById("liderInput").value.trim();
+  const celula = document.getElementById("celulaSelect").value.trim();
+
+  if (!nuevo || nuevo === original) {
+    return;
+  }
+
+  try {
+
+    await UIkit.modal.confirm(
+      `¿Cambiar nombre de "${original}" a "${nuevo}"?`
+    );
+
+  } catch (e) {
+
+    // Canceló la edición.
+    input.value = original;
+    return;
+  }
+
+  document.getElementById("loadingOverlay").style.display = "flex";
+
+  try {
+
+    console.log("EDITANDO ASISTENTE:");
+    console.log("Original:", original);
+    console.log("Nuevo:", nuevo);
+    console.log("Líder:", lider);
+    console.log("Célula:", celula);
+
+    const resultado = await llamarGoogle(
+      "editarAsistenteMaestro",
+      {
+        nombreOriginal: original,
+        nombreNuevo: nuevo,
+        lider: lider,
+        celula: celula
+      }
+    );
+
+    console.log("RESPUESTA EDITAR:", resultado);
+
+    if (!resultado || resultado.status !== "ok") {
+
+      throw new Error(
+        resultado?.mensaje ||
+        `No se encontró "${original}" en esa célula.`
+      );
     }
 
-    // Forzar que el campo sea interactivo después de que cargue la página
-    setTimeout(() => {
-      const inputFecha = document.getElementById("fechaAsistencia");
-      if (inputFecha) {
-        inputFecha.style.display = "block";
+    input.setAttribute("data-original", nuevo);
 
-        // Si el usuario hace clic en el área del input, forzamos el selector
-        inputFecha.addEventListener('click', (e) => {
-          try {
-            if (typeof inputFecha.showPicker === 'function') {
-              inputFecha.showPicker();
-            }
-          } catch (err) {
-            console.log("Esperando interacción nativa");
-          }
-        });
-      }
-    }, 1000);
+    UIkit.notification({
+      message: "Nombre actualizado correctamente",
+      status: "success"
+    });
+
+  } catch (error) {
+
+    console.error("ERROR EDITANDO ASISTENTE:", error);
+
+    input.value = original;
+
+    UIkit.notification({
+      message: "No se pudo actualizar el nombre.",
+      status: "danger"
+    });
+
+  } finally {
+
+    document.getElementById("loadingOverlay").style.display = "none";
+  }
+}
+
+const fechaHoy = new Date().toISOString().split('T')[0];
+    document.getElementById('fechaAsistencia').value = fechaHoy;
   </script>
 </body>
 
