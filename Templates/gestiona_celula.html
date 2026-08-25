@@ -874,14 +874,97 @@ window.onload = () => {
       coincidencias[0].mentor
     );
 
+    selectMentor.value = coincidencias[0].mentor;
     selectMentor.disabled = true;
+
+    msgMentor.textContent = '✨ Líder de 12 asignado automáticamente.';
     msgMentor.style.display = 'block';
 
   } else {
 
-    selectMentor.value = '';
-    selectMentor.disabled = false;
-    msgMentor.style.display = 'none';
+    // =====================================================
+// LÍDER DE 12
+// =====================================================
+
+if (coincidencias.length > 0 && coincidencias[0].mentor) {
+
+  // ============================================
+  // LÍDER EXISTENTE CON LÍDER DE 12
+  // ============================================
+
+  asegurarOpcionMentor(
+    selectMentor,
+    coincidencias[0].mentor
+  );
+
+  selectMentor.value = coincidencias[0].mentor;
+
+  // No permitir modificar el Líder de 12 asignado
+  selectMentor.disabled = true;
+
+  msgMentor.textContent = '✨ Líder de 12 asignado automáticamente.';
+  msgMentor.style.display = 'block';
+
+} else {
+
+  // ============================================
+  // LÍDER NUEVO O LÍDER SIN LÍDER DE 12
+  // ============================================
+
+  selectMentor.disabled = false;
+  selectMentor.value = '';
+
+  // --------------------------------------------
+  // Garantizar que existan opciones de Líderes
+  // de 12 para poder seleccionar manualmente
+  // --------------------------------------------
+
+  const mentoresExistentes = new Set();
+
+  baseDatosLideres.forEach(f => {
+
+    if (f.mentor && f.mentor.toString().trim() !== '') {
+      mentoresExistentes.add(f.mentor.toString().trim());
+    }
+
+  });
+
+  // Agregar al select los mentores que todavía
+  // no estén presentes
+  mentoresExistentes.forEach(mentor => {
+
+    const existe = Array.from(selectMentor.options)
+      .some(option =>
+        normalizarTexto(option.value) === normalizarTexto(mentor)
+      );
+
+    if (!existe) {
+      const option = document.createElement('option');
+
+      option.value = mentor;
+      option.textContent = mentor;
+
+      selectMentor.appendChild(option);
+    }
+
+  });
+
+  // Mensaje específico para líder nuevo
+  if (coincidencias.length === 0) {
+
+    msgMentor.textContent =
+      '✨ Líder nuevo: selecciona manualmente su Líder de 12.';
+
+  } else {
+
+    msgMentor.textContent =
+      '✨ Selecciona manualmente su Líder de 12.';
+
+  }
+
+  msgMentor.style.display = 'block';
+}
+
   }
 
   console.log('===== PRUEBA MARÍA JOSÉ =====');
